@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="1000" height="1000"
+style="border:0px solid #c3c3c3;">
+</canvas>
+
+<section class="tape">
+			<audio src="buzzcut.mp3" crossorigin="anonymous" type = "audio/mpeg" ></audio>
+      <button data-playing="false" class="tape-controls-play" role="switch" aria-checked="false">
+  <span>Play/Pause</span>
+</button>
+</section>
+
+
+<script type = "text/javascript">
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audioContext = new AudioContext();
+  const audioElement = document.querySelector('audio');
+  const track = audioContext.createMediaElementSource(audioElement);
+  track.connect(audioContext.destination);
+
+
+  const playButton = document.querySelector('.tape-controls-play');
+
+  playButton.addEventListener('click', function() {
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      audioElement.play();
+      let state = this.getAttribute('aria-checked') === "true" ? true : false;
+      this.setAttribute( 'aria-checked', state ? "false" : "true" );
+    }, false );
+
+
+  var elem = document.getElementById('myCanvas');
+  ctx = elem.getContext('2d');
+  circles = [];
+  lines = [];
+  selected_element = 0;
+
+  CanvasRenderingContext2D.prototype.clear =
+  CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
+    if (preserveTransform) {
+      this.save();
+      this.setTransform(1, 0, 0, 1, 0, 0);
+    }
+
+    this.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    if (preserveTransform) {
+      this.restore();
+    }
+  };
+
+  function initializeGrid() {
+    for (i= 0; i < 5; i++) {
+      for (j = 0; j < 5; j++) {
+        circles.push({
+          colour: '#FF0000',
+          x: 0 + 250 * i,
+          y: 0 + 250 * j,
+          radius: 10
+          }
+        );
+        lines.push( {
+          start_x: 0 + 250*i,
+          start_y: 0,
+          end_x: 250*i,
+          end_y: 1000,
+          }
+        );
+        lines.push( {
+          start_x: 0,
+          start_y: 0 + 250*j,
+          end_x: 1000,
+          end_y: 0 + 250*j,
+          }
+        );
+      }
+    }
+  }
+
+  function redrawCanvas() {
+    ctx.clear();
+    ctx.beginPath();
+    lines.forEach(lines =>  {
+      ctx.beginPath();
+      ctx.moveTo(lines.start_x,lines.start_y);
+      ctx.lineTo(lines.end_x,lines.end_y)
+      ctx.stroke();
+    })
+    circles.forEach(circle => {
+      ctx.beginPath();
+      ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
+      if (circle == selected_element) {
+          ctx.fillStyle = '#00FF00'
+      } else {
+        ctx.fillStyle = circle.colour;
+      }
+      ctx.fill();
+    });
+    ctx.closePath();
+  }
+
+  elem.addEventListener('click', function() {
+    if (audioContext.state === 'suspended') {
+      audioContext.resume();
+    }
+    audioElement.play();
+    let state = this.getAttribute('aria-checked') === "true" ? true : false;
+    this.setAttribute( 'aria-checked', state ? "false" : "true" );
+      var x = event.pageX,
+          y = event.pageY;
+      circles.forEach(function(element) {
+          if (y > element.y && y < element.y + element.radius * 2.5
+              && x > element.x && x < element.x + element.radius * 2.5) {
+              selected_element = element;
+              redrawCanvas();
+          }
+      });
+
+  }, false);
+
+  initializeGrid();
+  redrawCanvas();
+</script>
+</body>
+</html>
