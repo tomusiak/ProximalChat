@@ -6,55 +6,27 @@
 style="border:0px solid #c3c3c3;">
 </canvas>
 
-<section class="tape">
-			<audio src="buzzcut.mp3" crossorigin="anonymous" type = "audio/mpeg" ></audio>
-      <button data-playing="false" class="tape-controls-play" role="switch" aria-checked="false">
-  <span>Test!</span>
-</button>
-</section>
 
+
+<audio id = "audio"> <source src="buzzcut.mp3" crossorigin="anonymous" type = "audio/mpeg" ></audio>
 
 <script type = "text/javascript">
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audioContext = new AudioContext();
-  const audioElement = document.querySelector('audio');
-  const track = audioContext.createMediaElementSource(audioElement);
-  track.connect(audioContext.destination);
-
-
-  const playButton = document.querySelector('.tape-controls-play');
-
-  playButton.addEventListener('click', function() {
-      if (audioContext.state === 'suspended') {
-        audioContext.resume();
-      }
-      audioElement.play();
-      let state = this.getAttribute('aria-checked') === "true" ? true : false;
-      this.setAttribute( 'aria-checked', state ? "false" : "true" );
-    }, false );
-
-
-  var elem = document.getElementById('myCanvas');
-  ctx = elem.getContext('2d');
   circles = [];
   lines = [];
-  selected_element = 0;
+  audios = [];
+  player_circles = [];
+  var audioBuffer;
+  var hit = 0;
+  sourceList = [];
+  var objImage= null;
+  placed_player = false;
+  player_x = 0;
+  player_y = 0;
 
-  CanvasRenderingContext2D.prototype.clear =
-  CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
-    if (preserveTransform) {
-      this.save();
-      this.setTransform(1, 0, 0, 1, 0, 0);
-    }
-
-    this.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-    if (preserveTransform) {
-      this.restore();
-    }
-  };
-
-  function initializeGrid() {
+  function init(){
+    circles = [];
+    lines = [];
+    audios = [];
     for (i= 0; i < 5; i++) {
       for (j = 0; j < 5; j++) {
         circles.push({
@@ -80,11 +52,141 @@ style="border:0px solid #c3c3c3;">
         );
       }
     }
+    playerCircles = [];
+    playerCircles.push({
+      color:'00FF00',
+      x: 0,
+      y: 0,
+      radius: 10
+      }
+    );
+    objImage = playerCircles[0];
   }
+
+  function getKeyAndMove(e){
+    var key_code=e.which||e.keyCode;
+    switch(key_code){
+      case 37: //left arrow key
+        moveLeft();
+        break;
+      case 38: //Up arrow key
+        moveUp();
+        break;
+      case 39: //right arrow key
+        moveRight();
+        break;
+      case 40: //down arrow key
+        moveDown();
+        break;
+    }
+  }
+  function moveLeft(){
+    objImage.x = objImage.x - 5;
+    player_x = objImage.x;
+    redrawCanvas();
+    audios.forEach(song => {
+      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+    });
+  }
+  function moveUp(){
+    objImage.y = objImage.y - 5;
+    player_y = objImage.y;
+    audios.forEach(song => {
+      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+    });
+    redrawCanvas();
+  }
+  function moveRight(){
+    objImage.x = objImage.x + 5;
+    player_x = objImage.x;
+    audios.forEach(song => {
+      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+    });
+    redrawCanvas();
+  }
+  function moveDown(){
+    objImage.y = objImage.y + 5;
+    player_y = objImage.y;
+    audios.forEach(song => {
+      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+    });
+    redrawCanvas();
+  }
+
+  window.onload=init();
+
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+
+  var elem = document.getElementById('myCanvas');
+  ctx = elem.getContext('2d');
+
+  CanvasRenderingContext2D.prototype.clear =
+  CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
+    if (preserveTransform) {
+      this.save();
+      this.setTransform(1, 0, 0, 1, 0, 0);
+    }
+    this.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    if (preserveTransform) {
+      this.restore();
+    }
+  };
+
+	audios.push ( {
+		sound: "buzzcut.ogg",
+		x: 0,
+		y: 0,
+    context: null,
+    element: null,
+    gain: null,
+    source: null,
+	},
+		{
+			sound: "digger.ogg",
+			x: 1000,
+			y: 1000,
+      context: null,
+      element: null,
+      gain: null,
+      source: null,
+			}
+	);
+
+	function setupAudios(circleX,circleY) {
+		sourceList.forEach(source => {
+			source.stop();
+		});
+		audios.forEach(song => {
+			audioContext = new AudioContext();
+			audioElement = document.querySelector('audio');
+			gainNode = audioContext.createGain();
+			let source = audioContext.createBufferSource();
+			var myRequest = new Request(song.sound);
+			fetch(myRequest).then(function(response) {
+		    return response.arrayBuffer();
+		  }).then(function(buffer) {
+		    audioContext.decodeAudioData(buffer, function(decodedData) {
+		      source.buffer = decodedData;
+		    });
+		  });
+			if (audioContext.state === 'suspended') {
+				audioContext.resume();
+			}
+			source.start(5);
+			sourceList.push(source);
+      song.context = audioContext;
+      song.element = audioElement;
+      song.gain = gainNode;
+      song.source = source;
+      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(circleX-song.x,2)+Math.pow(circleY-song.y,2))),2) + 62500);
+      source.connect(song.gain);
+      (song.gain).connect((song.context).destination);
+			//audioElement.play();
+		});
+	}
 
   function redrawCanvas() {
     ctx.clear();
-    ctx.beginPath();
     lines.forEach(lines =>  {
       ctx.beginPath();
       ctx.moveTo(lines.start_x,lines.start_y);
@@ -94,37 +196,41 @@ style="border:0px solid #c3c3c3;">
     circles.forEach(circle => {
       ctx.beginPath();
       ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
-      if (circle == selected_element) {
-          ctx.fillStyle = '#00FF00'
-      } else {
-        ctx.fillStyle = circle.colour;
-      }
+      ctx.fillStyle = circle.colour;
       ctx.fill();
     });
-    ctx.closePath();
+    if (placed_player) {
+      playerCircles.forEach(circle => {
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
+        ctx.fillStyle = '#00FF00'
+        ctx.fill();
+      });
+    }
   }
 
   elem.addEventListener('click', function() {
-    if (audioContext.state === 'suspended') {
-      audioContext.resume();
+    var x = event.pageX,
+        y = event.pageY;
+    if (!placed_player) {
+      player_x = x;
+      player_y = y;
+      ctx.beginPath();
+      ctx.arc(x, y, 10, 0, 2 * Math.PI, false);
+      ctx.fillStyle = '#00FF00';
+      ctx.fill();
+      playerCircles[0].x = x;
+      playerCircles[0].y = y;
+      objImage = playerCircles[0];
+      placed_player = true;
+      setupAudios(x,y);
     }
-    audioElement.play();
-    let state = this.getAttribute('aria-checked') === "true" ? true : false;
-    this.setAttribute( 'aria-checked', state ? "false" : "true" );
-      var x = event.pageX,
-          y = event.pageY;
-      circles.forEach(function(element) {
-          if (y > element.y && y < element.y + element.radius * 2.5
-              && x > element.x && x < element.x + element.radius * 2.5) {
-              selected_element = element;
-              redrawCanvas();
-          }
-      });
-
   }, false);
 
-  initializeGrid();
   redrawCanvas();
 </script>
+
+<body onkeydown='getKeyAndMove(event)'>
+</body>
 </body>
 </html>
