@@ -38,6 +38,7 @@ document.addEventListener("click", function(event) {
   clickLocation.x = event.pageX;
   clickLocation.y = event.pageY;
   socket.emit('click');
+  redrawCanvas();
 });
 
 document.addEventListener('keyup', function(event) {
