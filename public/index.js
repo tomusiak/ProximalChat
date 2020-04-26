@@ -30,7 +30,7 @@ var clickLocation = {
 }
 
 document.addEventListener('keydown', function(event) {
-  if (firstClick == false) {}
+  if (firstClick == false) {
     switch (event.keyCode) {
       case 65: // A
         movement.left = true;
@@ -61,7 +61,7 @@ document.addEventListener('keydown', function(event) {
         });
         break;
     }
-  }
+  })
 });
 
 document.addEventListener("click", function(event) {
