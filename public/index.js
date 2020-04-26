@@ -29,27 +29,15 @@ document.addEventListener('keydown', function(event) {
   switch (event.keyCode) {
     case 65: // A
       movement.left = true;
-      audios.forEach(song => {
-        (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
-      });
       break;
     case 87: // W
       movement.up = true;
-      audios.forEach(song => {
-        (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
-      });
       break;
     case 68: // D
       movement.right = true;
-      audios.forEach(song => {
-        (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
-      });
       break;
     case 83: // S
       movement.down = true;
-      audios.forEach(song => {
-        (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
-      });
       break;
   }
 });
@@ -170,6 +158,11 @@ function redrawCanvas(players) {
 
 socket.on('state', function(players) {
   redrawCanvas(players);
+  if (firstClick == true) {
+    audios.forEach(song => {
+      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
+    });
+  };
 });
 
 function setupAudios(circleX,circleY) {
