@@ -21,7 +21,7 @@ var movement = {
   right: false
 }
 
-var location = {
+var player_location = {
   x: 0,
   y: 0
 }
@@ -35,34 +35,34 @@ document.addEventListener('keydown', function(event) {
   switch (event.keyCode) {
     case 65: // A
       movement.left = true;
-      location.x = location.x -5;
+      player_location.x = player_location.x -5;
       break;
     case 87: // W
       movement.up = true;
-      location.y = location.y - 5;
+      player_location.y = player_location.y - 5;
       break;
     case 68: // D
       movement.right = true;
-      location.x = location.x +5;
+      player_location.x = player_location.x +5;
       break;
     case 83: // S
       movement.down = true;
-      location.y = location.y +5;
+      player_location.y = player_location.y +5;
       break;
   }
   if (firstClick == false) {
     audios.forEach(song => {
-      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(location.x-song.x,2)+Math.pow(location.y-song.y,2))),2) + 62500);
+      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_location.x-song.x,2)+Math.pow(player_location.y-song.y,2))),2) + 62500);
     });
   };
-  console.log(location.x);
-  console.log(location.y);
+  console.log(player_location.x);
+  console.log(player_location.y);
 });
 
 document.addEventListener("click", function(event) {
   if (firstClick == false) {
-    location.x = event.pageX;
-    location.y = event.pageY-50;
+    player_location.x = event.pageX;
+    player_location.y = event.pageY-50;
     clickLocation.x = event.pageX;
     clickLocation.y = event.pageY-50;
     socket.emit('click', clickLocation);
