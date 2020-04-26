@@ -35,8 +35,8 @@ document.addEventListener('keydown', function(event) {
 });
 
 document.addEventListener("click", function(event) {
-  var clickLocation.x = event.pageX,
-      clickLocation.y = event.pageY;
+  clickLocation.x = event.pageX;
+  clickLocation.y = event.pageY;
   socket.emit('click');
 });
 
