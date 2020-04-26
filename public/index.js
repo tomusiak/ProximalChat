@@ -32,7 +32,7 @@ var clickLocation = {
 }
 
 document.addEventListener('keydown', function(event) {
-  switch (event.keyCode) {}
+  switch (event.keyCode) {
     case 65: // A
       movement.left = true;
       player.x = player.x -5;
