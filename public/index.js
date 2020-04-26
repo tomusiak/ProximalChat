@@ -127,14 +127,4 @@ socket.on('state', function(players) {
   redrawCanvas(players);
 });
 
-socket.on('click',function(players) {
-	
-});
-
-canvas.addEventListener('click', function() {
-    var x = event.pageX,
-        y = event.pageY;
-  }, false);
-
 init();
-
