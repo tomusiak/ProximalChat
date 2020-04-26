@@ -76,11 +76,7 @@ io.on('connection', function(socket) {
       x: 300,
       y: 300
     };
-  });
-
-  socket.on('click', function(data) {
-	io.emit('play', {audio:'/public/buzzcut.ogg'});
-  }
+  })
 
   socket.on('movement', function(data) {
     var player = players[socket.id] || {};
