@@ -5,6 +5,7 @@ socket.on('message', function(data) {
 socket.on('name', function(data) {
   // data is a parameter containing whatever data was sent
 });
+
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var circles = [];
@@ -19,6 +20,7 @@ var movement = {
   left: false,
   right: false
 }
+
 var player = {
   x: 0,
   y: 0
@@ -82,6 +84,11 @@ document.addEventListener('keyup', function(event) {
 
 setInterval(function() {
   socket.emit('movement', movement);
+  if (firstClick == true) {
+    audios.forEach(song => {
+      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
+    });
+  };
 }, 1000 / 60);
 
 CanvasRenderingContext2D.prototype.clear =
@@ -168,11 +175,6 @@ function redrawCanvas(players) {
 
 socket.on('state', function(players) {
   redrawCanvas(players);
-  if (firstClick == true) {
-    audios.forEach(song => {
-      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
-    });
-  };
 });
 
 function setupAudios(circleX,circleY) {
