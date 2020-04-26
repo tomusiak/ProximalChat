@@ -21,7 +21,7 @@ var movement = {
   right: false
 }
 
-var player = {
+var location = {
   x: 0,
   y: 0
 }
@@ -35,49 +35,34 @@ document.addEventListener('keydown', function(event) {
   switch (event.keyCode) {
     case 65: // A
       movement.left = true;
-      player.x = player.x -5;
-      if (firstClick == false) {
-        audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
-        });
-      };
+      location.x = location.x -5;
       break;
     case 87: // W
       movement.up = true;
-      player.y = player.y - 5;
-      if (firstClick == false) {
-        audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
-        });
-      };
+      location.y = location.y - 5;
       break;
     case 68: // D
       movement.right = true;
-      player.x = player.x +5;
-      if (firstClick == false) {
-        audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
-        });
-      };
+      location.x = location.x +5;
       break;
     case 83: // S
       movement.down = true;
-      player.y = player.y +5;
-      if (firstClick == false) {
-        audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
-        });
-      };
+      location.y = location.y +5;
       break;
   }
-  console.log(player.x);
-  console.log(player.y);
+  if (firstClick == false) {
+    audios.forEach(song => {
+      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(location.x-song.x,2)+Math.pow(location.y-song.y,2))),2) + 62500);
+    });
+  };
+  console.log(location.x);
+  console.log(location.y);
 });
 
 document.addEventListener("click", function(event) {
   if (firstClick == false) {
-    player.x = event.pageX;
-    player.y = event.pageY-50;
+    location.x = event.pageX;
+    location.y = event.pageY-50;
     clickLocation.x = event.pageX;
     clickLocation.y = event.pageY-50;
     socket.emit('click', clickLocation);
@@ -185,6 +170,8 @@ function redrawCanvas(players) {
     	var player = players[id];
     	ctx.beginPath();
     	ctx.arc(player.x, player.y, 10, 0, 2 * Math.PI);
+      console.log(player.x);
+      console.log(player.y);
     	ctx.fillStyle = '#00FF00'
     	ctx.fill();
   }
