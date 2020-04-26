@@ -11,7 +11,6 @@ var ctx = canvas.getContext('2d');
 var circles = [];
 var lines = [];
 var audios = [];
-var firstClick = false;
 var sourceList = [];
 
 var movement = {
@@ -30,7 +29,6 @@ var clickLocation = {
 }
 
 document.addEventListener('keydown', function(event) {
-  if (firstClick == false) {
     switch (event.keyCode) {
       case 65: // A
         movement.left = true;
@@ -60,8 +58,7 @@ document.addEventListener('keydown', function(event) {
           (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
         });
         break;
-    }
-  }
+      }
 });
 
 document.addEventListener("click", function(event) {
@@ -72,7 +69,6 @@ document.addEventListener("click", function(event) {
     clickLocation.y = event.pageY-50;
     socket.emit('click', clickLocation);
     redrawCanvas();
-    firstClick=true;
     setupAudios(clickLocation.x,clickLocation.y);
   }
 });
@@ -117,7 +113,7 @@ function init(){
       y: 0,
       context: null,
       element: null,
-      gain: null,
+      gain: 0,
       source: null,
     },
       {
@@ -126,7 +122,7 @@ function init(){
         y: 1000,
         context: null,
         element: null,
-        gain: null,
+        gain: 0,
         source: null,
         }
     );
