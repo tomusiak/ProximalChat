@@ -44,7 +44,7 @@ document.addEventListener('keydown', function(event) {
       break;
     case 87: // W
       movement.up = true;
-      player.y = player.y + 5;
+      player.y = player.y - 5;
       break;
     case 68: // D
       movement.right = true;
@@ -52,7 +52,7 @@ document.addEventListener('keydown', function(event) {
       break;
     case 83: // S
       movement.down = true;
-      player.y = player.y -5;
+      player.y = player.y +5;
       break;
   }
 });
