@@ -91,10 +91,10 @@ io.on('connection', function(socket) {
     delete players[socket.id];
   });
 
-  socket.on('click',function() {
+  socket.on('click',function(data) {
     players[socket.id] = {
-      x: clickLocation.x,
-      y: clickLocation.y
+      x: data.x,
+      y: data.y
     };
   });
 });

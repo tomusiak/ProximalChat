@@ -44,7 +44,7 @@ document.addEventListener("click", function(event) {
   if (firstClick == false) {
     clickLocation.x = event.pageX;
     clickLocation.y = event.pageY;
-    socket.emit('click');
+    socket.emit('click', clickLocation);
     redrawCanvas();
     firstClick=true;
   }
