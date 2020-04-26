@@ -61,7 +61,7 @@ document.addEventListener('keydown', function(event) {
         });
         break;
     }
-  })
+  }
 });
 
 document.addEventListener("click", function(event) {
