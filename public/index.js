@@ -9,7 +9,9 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var circles = [];
 var lines = [];
+var audios = [];
 var firstClick = false;
+var sourceList = [];
 
 var movement = {
   up: false,
@@ -27,15 +29,27 @@ document.addEventListener('keydown', function(event) {
   switch (event.keyCode) {
     case 65: // A
       movement.left = true;
+      audios.forEach(song => {
+        (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+      });
       break;
     case 87: // W
       movement.up = true;
+      audios.forEach(song => {
+        (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+      });
       break;
     case 68: // D
       movement.right = true;
+      audios.forEach(song => {
+        (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+      });
       break;
     case 83: // S
       movement.down = true;
+      audios.forEach(song => {
+        (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+      });
       break;
   }
 });
@@ -47,6 +61,7 @@ document.addEventListener("click", function(event) {
     socket.emit('click', clickLocation);
     redrawCanvas();
     firstClick=true;
+    setupAudios(clickLocation.x,clickLocation.y);
   }
 });
 
@@ -84,9 +99,25 @@ CanvasRenderingContext2D.prototype.clear =
 }
 
 function init(){
-    circles = [];
-    lines = [];
-    audios = [];
+    audios.push ( {
+      sound: "buzzcut.ogg",
+      x: 0,
+      y: 0,
+      context: null,
+      element: null,
+      gain: null,
+      source: null,
+    },
+      {
+        sound: "digger.ogg",
+        x: 1000,
+        y: 1000,
+        context: null,
+        element: null,
+        gain: null,
+        source: null,
+        }
+    );
     for (i= 0; i < 5; i++) {
       for (j = 0; j < 5; j++) {
         circles.push({
@@ -135,11 +166,43 @@ function redrawCanvas(players) {
     	ctx.fillStyle = '#00FF00'
     	ctx.fill();
   }
-
-  }
+}
 
 socket.on('state', function(players) {
   redrawCanvas(players);
 });
+
+function setupAudios(circleX,circleY) {
+  sourceList.forEach(source => {
+    source.stop();
+  });
+  audios.forEach(song => {
+    audioContext = new AudioContext();
+    audioElement = document.querySelector('audio');
+    gainNode = audioContext.createGain();
+    let source = audioContext.createBufferSource();
+    var myRequest = new Request(song.sound);
+    fetch(myRequest).then(function(response) {
+      return response.arrayBuffer();
+    }).then(function(buffer) {
+      audioContext.decodeAudioData(buffer, function(decodedData) {
+        source.buffer = decodedData;
+      });
+    });
+    if (audioContext.state === 'suspended') {
+      audioContext.resume();
+    }
+    source.start(5);
+    sourceList.push(source);
+    song.context = audioContext;
+    song.element = audioElement;
+    song.gain = gainNode;
+    song.source = source;
+    (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(circleX-song.x,2)+Math.pow(circleY-song.y,2))),2) + 62500);
+    source.connect(song.gain);
+    (song.gain).connect((song.context).destination);
+    //audioElement.play();
+  });
+}
 
 init();
