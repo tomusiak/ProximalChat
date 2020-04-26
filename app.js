@@ -70,14 +70,6 @@ server.listen(3000, function() {
 });
 
 var players = {};
-io.on('connection', function(socket) {
-  socket.on('new player', function() {
-    players[socket.id] = {
-      x: 300,
-      y: 300
-    };
-  })
-});
 
 socket.on('movement', function(data) {
   var player = players[socket.id] || {};
@@ -96,7 +88,14 @@ socket.on('movement', function(data) {
 });
 
 socket.on('disconnect', function() {
-delete players[socket.id];
+  delete players[socket.id];
+});
+
+socket.on('click',function() {
+  players[socket.id] = {
+    x: clickLocation.x,
+    y: clickLocation.y
+  };
 });
 
 setInterval(function() {

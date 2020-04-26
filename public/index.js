@@ -12,6 +12,11 @@ var movement = {
   right: false
 }
 
+var clickLocation = {
+  x: 0,
+  y: 0
+}
+
 document.addEventListener('keydown', function(event) {
   switch (event.keyCode) {
     case 65: // A
@@ -28,6 +33,12 @@ document.addEventListener('keydown', function(event) {
       break;
   }
 });
+
+document.addEventListener("click", function(event)) {
+  var clickLocation.x = event.pageX,
+      clickLocation.y = event.pageY;
+  socket.emit('click');
+}
 
 document.addEventListener('keyup', function(event) {
   switch (event.keyCode) {
@@ -46,7 +57,6 @@ document.addEventListener('keyup', function(event) {
   }
 });
 
-socket.emit('new player');
 setInterval(function() {
   socket.emit('movement', movement);
 }, 1000 / 60);
