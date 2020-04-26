@@ -62,15 +62,13 @@ document.addEventListener('keydown', function(event) {
 });
 
 document.addEventListener("click", function(event) {
-  if (firstClick == false) {
-    player_x = event.pageX;
-    player_y = event.pageY-50;
-    clickLocation.x = event.pageX;
-    clickLocation.y = event.pageY-50;
-    socket.emit('click', clickLocation);
-    redrawCanvas();
-    setupAudios(clickLocation.x,clickLocation.y);
-  }
+  player_x = event.pageX;
+  player_y = event.pageY-50;
+  clickLocation.x = event.pageX;
+  clickLocation.y = event.pageY-50;
+  socket.emit('click', clickLocation);
+  redrawCanvas();
+  setupAudios(clickLocation.x,clickLocation.y);
 });
 
 document.addEventListener('keyup', function(event) {
