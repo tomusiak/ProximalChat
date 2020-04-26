@@ -21,7 +21,7 @@ var movement = {
   right: false
 }
 
-var player_location = {
+var location = {
   x: 0,
   y: 0
 }
