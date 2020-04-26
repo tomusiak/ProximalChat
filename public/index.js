@@ -5,6 +5,12 @@ socket.on('message', function(data) {
 socket.on('name', function(data) {
   // data is a parameter containing whatever data was sent
 });
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+var circles = [];
+var lines = [];
+var firstClick = false;
+
 var movement = {
   up: false,
   down: false,
@@ -35,10 +41,13 @@ document.addEventListener('keydown', function(event) {
 });
 
 document.addEventListener("click", function(event) {
-  clickLocation.x = event.pageX;
-  clickLocation.y = event.pageY;
-  socket.emit('click');
-  redrawCanvas();
+  if (firstClick == false) {
+    clickLocation.x = event.pageX;
+    clickLocation.y = event.pageY;
+    socket.emit('click');
+    redrawCanvas();
+    firstClick=true;
+  }
 });
 
 document.addEventListener('keyup', function(event) {
@@ -61,11 +70,6 @@ document.addEventListener('keyup', function(event) {
 setInterval(function() {
   socket.emit('movement', movement);
 }, 1000 / 60);
-
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-var circles = [];
-var lines = [];
 
 CanvasRenderingContext2D.prototype.clear =
   CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
