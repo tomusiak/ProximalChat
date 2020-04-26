@@ -32,12 +32,13 @@ var clickLocation = {
 }
 
 document.addEventListener('keydown', function(event) {
-  if (firstClick == true) {
+  if (firstClick == false) {
     audios.forEach(song => {
       (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
     });
   };
   switch (event.keyCode) {
+
     case 65: // A
       movement.left = true;
       player.x = player.x -5;
