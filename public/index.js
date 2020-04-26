@@ -43,7 +43,7 @@ document.addEventListener('keydown', function(event) {
 document.addEventListener("click", function(event) {
   if (firstClick == false) {
     clickLocation.x = event.pageX;
-    clickLocation.y = event.pageY+100;
+    clickLocation.y = event.pageY-50;
     socket.emit('click', clickLocation);
     redrawCanvas();
     firstClick=true;
