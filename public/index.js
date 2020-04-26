@@ -19,6 +19,10 @@ var movement = {
   left: false,
   right: false
 }
+var player = {
+  x: 0,
+  y: 0
+}
 
 var clickLocation = {
   x: 0,
@@ -29,21 +33,27 @@ document.addEventListener('keydown', function(event) {
   switch (event.keyCode) {
     case 65: // A
       movement.left = true;
+      player.x = player.x -5;
       break;
     case 87: // W
       movement.up = true;
+      player.y = player.y + 5;
       break;
     case 68: // D
       movement.right = true;
+      player.x = player.x +5;
       break;
     case 83: // S
       movement.down = true;
+      player.y = player.y -5;
       break;
   }
 });
 
 document.addEventListener("click", function(event) {
   if (firstClick == false) {
+    player.x = event.pageX;
+    player.y = event.pageY-50;
     clickLocation.x = event.pageX;
     clickLocation.y = event.pageY-50;
     socket.emit('click', clickLocation);
