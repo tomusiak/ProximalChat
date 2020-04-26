@@ -32,8 +32,7 @@ var clickLocation = {
 }
 
 document.addEventListener('keydown', function(event) {
-  switch (event.keyCode) {
-
+  switch (event.keyCode) {}
     case 65: // A
       movement.left = true;
       player.x = player.x -5;
@@ -51,6 +50,13 @@ document.addEventListener('keydown', function(event) {
       player.y = player.y +5;
       break;
   }
+  if (firstClick == false) {
+    audios.forEach(song => {
+      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
+    });
+  };
+  console.log(player.x);
+  console.log(player.y);
 });
 
 document.addEventListener("click", function(event) {
@@ -167,13 +173,6 @@ function redrawCanvas(players) {
     	ctx.fillStyle = '#00FF00'
     	ctx.fill();
   }
-  if (firstClick == false) {
-    audios.forEach(song => {
-      (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player.x-song.x,2)+Math.pow(player.y-song.y,2))),2) + 62500);
-    });
-  };
-  console.log(player.x);
-  console.log(player.y);
 }
 
 socket.on('state', function(players) {
