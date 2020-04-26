@@ -32,28 +32,24 @@ document.addEventListener('keydown', function(event) {
     switch (event.keyCode) {
       case 65: // A
         movement.left = true;
-        player_x = player_x - 5;
         audios.forEach(song => {
           (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
         });
         break;
       case 87: // W
         movement.up = true;
-        player_x = player_y - 5;
         audios.forEach(song => {
           (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
         });
         break;
       case 68: // D
         movement.right = true;
-        player_x = player_x + 5;
         audios.forEach(song => {
           (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
         });
         break;
       case 83: // S
         movement.down = true;
-        player_x = player_y + 5;
         audios.forEach(song => {
           (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
         });
@@ -172,6 +168,11 @@ function redrawCanvas(players) {
     	ctx.fillStyle = '#00FF00'
     	ctx.fill();
   }
+}
+
+socket.on('hasMoved',function(player) {
+  player_x = player.x;
+  player_y = player.y;
 }
 
 socket.on('state', function(players) {

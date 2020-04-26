@@ -85,6 +85,7 @@ io.on('connection', function(socket) {
     if (data.down) {
       player.y += 5;
     }
+    socket.emit("hasMoved",player);
   });
 
   socket.on('disconnect', function() {
@@ -98,6 +99,7 @@ io.on('connection', function(socket) {
     };
   });
 });
+
 setInterval(function() {
   io.sockets.emit('state', players);
 }, 1000 / 60);
