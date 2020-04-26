@@ -173,7 +173,7 @@ function redrawCanvas(players) {
 socket.on('hasMoved',function(player) {
   player_x = player.x;
   player_y = player.y;
-)}
+});
 
 socket.on('state', function(players) {
   redrawCanvas(players);
