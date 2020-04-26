@@ -70,34 +70,34 @@ server.listen(3000, function() {
 });
 
 var players = {};
+io.on('connection', function(socket) {
+  socket.on('movement', function(data) {
+    var player = players[socket.id] || {};
+    if (data.left) {
+      player.x -= 5;
+    }
+    if (data.up) {
+      player.y -= 5;
+    }
+    if (data.right) {
+      player.x += 5;
+    }
+    if (data.down) {
+      player.y += 5;
+    }
+  });
 
-socket.on('movement', function(data) {
-  var player = players[socket.id] || {};
-  if (data.left) {
-    player.x -= 5;
-  }
-  if (data.up) {
-    player.y -= 5;
-  }
-  if (data.right) {
-    player.x += 5;
-  }
-  if (data.down) {
-    player.y += 5;
-  }
+  socket.on('disconnect', function() {
+    delete players[socket.id];
+  });
+
+  socket.on('click',function() {
+    players[socket.id] = {
+      x: clickLocation.x,
+      y: clickLocation.y
+    };
+  });
 });
-
-socket.on('disconnect', function() {
-  delete players[socket.id];
-});
-
-socket.on('click',function() {
-  players[socket.id] = {
-    x: clickLocation.x,
-    y: clickLocation.y
-  };
-});
-
 setInterval(function() {
   io.sockets.emit('state', players);
 }, 1000 / 60);
