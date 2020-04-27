@@ -29,34 +29,40 @@ var click_location = {
 }
 
 document.addEventListener('keydown', function(event) {
-  if (online_user_x > 5 && online_user_x < 745 && online_user_y < 495 && online_user_y > 5) {
     switch (event.keyCode) {
       case 65: // A
-        movement.left = true;
-        audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
-        });
-        break;
+        if (online_user_x > 0) {
+          movement.left = true;
+          audios.forEach(song => {
+            (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
+          });
+          break;
+        }
       case 87: // W
-        movement.up = true;
-        audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
-        });
-        break;
+        if (online_user_y > 5) {
+          movement.up = true;
+          audios.forEach(song => {
+            (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
+          });
+          break;
+        }
       case 68: // D
-        movement.right = true;
-        audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
-        });
-        break;
+        if (online_user_x < 750) {
+          movement.right = true;
+          audios.forEach(song => {
+            (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
+          });
+          break;
+        }
       case 83: // S
-        movement.down = true;
-        audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
-        });
-        break;
+        if (online_user_y < 500) {
+          movement.down = true;
+          audios.forEach(song => {
+            (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
+          });
+          break;
+        }
       };
-    }
 });
 
 document.addEventListener("click", function(event) {
