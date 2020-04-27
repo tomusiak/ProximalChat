@@ -211,7 +211,7 @@ function setupAudios(circle_x, circle_y) {
     (song.gain).connect((song.context).destination);
     //audio_element.play();
   });
-
+}
 socket.on("newlyConnected", function () {
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
