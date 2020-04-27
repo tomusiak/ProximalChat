@@ -9,22 +9,28 @@
   <style>
     .video_box {
       width: 333px;
-      border:0px solid #c3c3c3;
+      height: 250px;
+      border:1px solid #c3c3c3;
+    }
+
+    .chat_box {
+      width: 250px;
+      height: 500px;
+      border:1px solid #c3c3c3;
     }
 
   </style>
 
   <audio id = "audio"> <source src="buzzcut.ogg" crossorigin="anonymous" type = "audio/mpeg" ></audio>
 
-<canvas id="canvas" width="750" height="500"
-style="border:0px solid #c3c3c3;">
+<canvas id="canvas" width="750" height="500" style="border:0px solid #c3c3c3;">
 </canvas>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src = "sound.js"> </script>
 <script src = "index.js"> </script>
 
-<div id = "chat" style = "width:250; height: 500; border:0px solid #c3c3c3">
+<div id = "chat" class = "chat_box">
 
 </div>
 
