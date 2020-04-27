@@ -219,4 +219,20 @@ function setupAudios(circle_x, circle_y) {
   });
 }
 
+$(function () {
+  var socket = io();
+  $('form').submit(function(e){
+    e.preventDefault(); // prevents page reloading
+    socket.emit('chat message', $('#input').val());
+    $('#input').val('');
+    return false;
+  });
+  socket.on('chat message', function(msg){
+    if (msg != '') {
+      $('#messages').append($('<li>').text(msg));
+      updateScroll();
+  }
+  });
+});
+
 init();
