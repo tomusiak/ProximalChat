@@ -214,8 +214,4 @@ function setupAudios(circle_x, circle_y) {
   });
 }
 
-
-var username = prompt('Username please');
-            socket.emit('username', username);
-
 init();
