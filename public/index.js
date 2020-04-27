@@ -184,7 +184,7 @@ function setupAudios(circle_x, circle_y) {
     source.stop();
   });
   audios.forEach(song => {
-    audio_context = new audio_context();
+    audio_context = new audioContext();
     audio_element = document.querySelector('audio');
     gain_node = audio_context.createGain();
     let source = audio_context.createBufferSource();
