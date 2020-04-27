@@ -121,6 +121,3 @@ io.on('connection', function(socket) {
 setInterval(function() {
   io.sockets.emit('state', online_users);
 }, 2000 / 60);
-
-var username = prompt('Username please');
-            socket.emit('username', username);
