@@ -76,6 +76,8 @@ io.on('connection', function(socket) {
     if (data.left) {
       if (online_user.x > 50) {
         online_user.x -= 5;
+      } else {
+        data.left = false;
       }
     }
     if (data.up) {
