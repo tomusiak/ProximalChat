@@ -85,7 +85,7 @@
       return false;
     });
     socket.on('chat message', function(msg){
-      $('#messages').append($(msg.toString()));
+      $('#messages').append($('p').text(msg));
     });
   });
 </script>
