@@ -74,19 +74,21 @@ io.on('connection', function(socket) {
 
   socket.on('movement', function(data) {
     var online_user = online_users[socket.id] || {};
-    if (data.left) {
-      online_user.x -= 5;
+    if ( (online_user.x > 0) & (online_user.x < 750) & (online_user.y < 500) & (online_user.y > 0)) {
+      if (data.left) {
+        online_user.x -= 5;
+      }
+      if (data.up) {
+        online_user.y -= 5;
+      }
+      if (data.right) {
+        online_user.x += 5;
+      }
+      if (data.down) {
+        online_user.y += 5;
+      }
+      socket.emit("hasMoved",online_user);
     }
-    if (data.up) {
-      online_user.y -= 5;
-    }
-    if (data.right) {
-      online_user.x += 5;
-    }
-    if (data.down) {
-      online_user.y += 5;
-    }
-    socket.emit("hasMoved",online_user);
   });
 
   socket.on('disconnect', function() {
