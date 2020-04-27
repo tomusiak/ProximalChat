@@ -105,13 +105,11 @@ io.on('connection', function(socket) {
   });
 
   socket.on('disconnect', function() {
-    socket.broadcast.emit('disconnected', online_users[socket.id].username);
     delete online_users[socket.id];
   });
 
   socket.on('click',function(data) {
     online_users[socket.id] = {
-      username: data.username,
       x: data.x,
       y: data.y
     };
