@@ -74,8 +74,8 @@ io.on('connection', function(socket) {
   socket.on('movement', function(data) {
   var online_user = online_users[socket.id] || {};
     if (data.left) {
+      console.log(online_user.x);
       if (online_user.x > 50) {
-        console.log(online_user.x);
         online_user.x -= 5;
       } else {
         data.left = false;
