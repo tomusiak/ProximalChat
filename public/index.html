@@ -6,9 +6,9 @@
 </header>
 <body>
 
-  <style>
+<style>
   .chat_box {
-    position:static;
+    float: right;
     width: 250px;
     height: 500px;
     border:1px solid #c3c3c3;
@@ -20,32 +20,34 @@
     border:1px solid #c3c3c3;
     position:static;
   }
+</style>
 
-  </style>
-
-  <audio id = "audio"> <source src="buzzcut.ogg" crossorigin="anonymous" type = "audio/mpeg" ></audio>
-
-<canvas id="canvas" width="750" height="500" style="border:0px solid #c3c3c3;">
-</canvas>
+<audio id = "audio"> <source src="buzzcut.ogg" crossorigin="anonymous" type = "audio/mpeg" ></audio>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src = "sound.js"> </script>
 <script src = "index.js"> </script>
 
-<div id = "chat" class = "chat_box">
-
+<div id = "movement_and_chat">
+  <canvas id="canvas" width="750" height="500" style="border:0px solid #c3c3c3;">
+  </canvas>
+  <div id = "chat" class = "chat_box">
+  </div>
 </div>
 
 <br>
-
-<div id = "video_box_0" class = "video_box"> </div>
-<div id = "video_box_1" class = "video_box"> </div>
-<br>
-<div id = "video_box_2" class = "video_box"> </div>
-<div id = "video_box_3" class = "video_box"> </div>
-<br>
-<div id = "video_box_4" class = "video_box"> </div>
-<div id = "video_box_5" class = "video_box"> </div>
+<div id = "two_videos_0">
+  <div id = "video_box_0" class = "video_box"> </div>
+  <div id = "video_box_1" class = "video_box"> </div>
+</div>
+<div id = "two_videos_1">
+  <div id = "video_box_2" class = "video_box"> </div>
+  <div id = "video_box_3" class = "video_box"> </div>
+</div>
+<div id = "two_videos_2">
+  <div id = "video_box_4" class = "video_box"> </div>
+  <div id = "video_box_5" class = "video_box"> </div>
+</div>
 
 </body>
 </html>
