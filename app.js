@@ -85,6 +85,18 @@ io.on('connection', function(socket) {
     if (data.down) {
       online_user.y += 5;
     }
+    if (online_user.x < 5) {
+      online_user.x = 5;
+    }
+    if (online_user.x > 745) {
+      online_user.x = 745;
+    }
+    if (online_user.y < 5) {
+      online_user.y = 5;
+    }
+    if (online_user.y > 495) {
+      online_user.y = 495;
+    }
     socket.emit("hasMoved",online_user);
   });
 
