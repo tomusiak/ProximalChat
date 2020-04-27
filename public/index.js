@@ -29,26 +29,26 @@ function updateScroll(){
 
 document.addEventListener('keydown', function(event) {
     switch (event.keyCode) {
-      case 65: // A
+      case 37: // A
           movement.left = true;
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
           });
           break;
 
-      case 87: // W
+      case 38: // W
           movement.up = true;
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
           });
         break;
-      case 68: // D
+      case 39: // D
           movement.right = true;
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
           });
           break;
-      case 83: // S
+      case 40: // S
           movement.down = true;
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
@@ -69,16 +69,16 @@ document.addEventListener("click", function(event) {
 
 document.addEventListener('keyup', function(event) {
   switch (event.keyCode) {
-    case 65: // A
+    case 37: // A
       movement.left = false;
       break;
-    case 87: // W
+    case 38: // W
       movement.up = false;
       break;
-    case 68: // D
+    case 39: // D
       movement.right = false;
       break;
-    case 83: // S
+    case 40: // S
       movement.down = false;
       break;
   }
