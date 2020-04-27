@@ -215,6 +215,6 @@ function setupAudios(circle_x, circle_y) {
 socket.on("newlyConnected", function () {
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
-}
+})
 
 init();
