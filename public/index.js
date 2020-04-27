@@ -87,7 +87,7 @@ document.addEventListener('keyup', function(event) {
 
 setInterval(function() {
   socket.emit('movement', movement);
-}, 1000 / 60);
+}, 200 / 60);
 
 CanvasRenderingContext2D.prototype.clear =
   CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
