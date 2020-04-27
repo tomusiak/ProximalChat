@@ -150,8 +150,9 @@ function init(){
 function redrawCanvas(online_users) {
     ctx.clear();
     lines.forEach(lines =>  {
-      	ctx.beginPath();
-      	ctx.moveTo(lines.start_x,lines.start_y);
+      ctx.lineWidth = "5";
+      ctx.beginPath();
+      ctx.moveTo(lines.start_x,lines.start_y);
     	ctx.lineTo(lines.end_x,lines.end_y)
     	ctx.stroke();
     })
