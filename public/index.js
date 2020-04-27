@@ -113,7 +113,7 @@ function init(){
       {
         sound: "digger.ogg",
         x: 750,
-        y: 750,
+        y: 500,
         context: null,
         element: null,
         gain: 0,
