@@ -71,9 +71,6 @@ server.listen(3000, function() {
 
 var online_users = {};
 io.on('connection', function(socket) {
-  socket.on('join', function (data) {
-    socket.join(data.username);
-  });
 
   socket.on('movement', function(data) {
     var online_user = online_users[socket.id] || {};
@@ -97,10 +94,6 @@ io.on('connection', function(socket) {
     delete online_users[socket.id];
   });
 
-  socket.on('message', function (data) {
-    io.sockets.to(data.toUsername).emit('message', data.data);
-  });
-
   socket.on('click',function(data) {
     online_users[socket.id] = {
       username: data.username,
@@ -113,5 +106,3 @@ io.on('connection', function(socket) {
 setInterval(function() {
   io.sockets.emit('state', online_users);
 }, 1000 / 60);
-
-io.sockets.to(data.toUsername).emit('message', data.data);

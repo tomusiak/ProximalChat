@@ -213,28 +213,3 @@ function setupAudios(circle_x, circle_y) {
 }
 
 init();
-
-var SIGNALING_SERVER = 'http://localhost:3000/';
-// To create a new connection to the signaling server
-socket = io.connect(SIGNALING_SERVER);
-socket.on('connect', function () {
-  // To subscribe the socket to a given channel
-  socket.emit('join', {
-    username: loggedInUser.username
-  });
-});
-
-socket.send = function (message) {
-  socket.emit('message', {
-    fromUsername: peer.fromUsername,
-    toUsername: peer.toUsername,
-    data: message
-  });
-};
-
-socket.on('disconnect', function () {
-   // To intimate other clients about disconnection from server
-   socket.emit('disconnect', {
-     username: loggedInUser.username
-   });
- });
