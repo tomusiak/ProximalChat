@@ -8,7 +8,7 @@ var socket_IO = require('socket.io');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var http = require('http');
-var bodyParser = require(‘body-parser’)
+var bodyParser = require('body-parser')
 var app = express();
 
 // view engine setup
