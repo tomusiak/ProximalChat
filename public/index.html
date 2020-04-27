@@ -29,17 +29,14 @@
   }
 </style>
 
-<canvas id="canvas" width="750" height="500" style="border:0px solid #c3c3c3;">
-</canvas>
+<div>
+  <canvas id="canvas" width="750" height="500" style="border:0px solid #c3c3c3;">
+  </canvas>
+  <div id = "chat" class = "chat_box">
+  </div>
+</div>
 
 <audio id = "audio"> <source src="buzzcut.ogg" crossorigin="anonymous" type = "audio/mpeg" ></audio>
-
-<script src="/socket.io/socket.io.js"></script>
-<script src = "sound.js"> </script>
-<script src = "index.js"> </script>
-
-<div id = "chat" class = "chat_box">
-</div>
 
 <br>
 <div id = "two_videos_0">
@@ -54,6 +51,10 @@
   <div id = "video_box_4" class = "video_0"> </div>
   <div id = "video_box_5" class = "video_1"> </div>
 </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src = "sound.js"> </script>
+<script src = "index.js"> </script>
 
 </body>
 </html>
