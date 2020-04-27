@@ -58,8 +58,6 @@ document.addEventListener('keydown', function(event) {
           });
           break;
         }
-        break;
-      };
 });
 
 document.addEventListener("click", function(event) {
