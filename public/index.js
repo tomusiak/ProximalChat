@@ -212,6 +212,9 @@ function setupAudios(circle_x, circle_y) {
     //audio_element.play();
   });
 
+socket.on("newlyConnected") {}
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
 }
 
 init();

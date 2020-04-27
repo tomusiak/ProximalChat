@@ -75,6 +75,8 @@ var online_users = {};
 var messages = {};
 
 io.on('connection', function(socket) {
+  socket.emit("newlyConnected");
+
   socket.on('movement', function(data) {
     var online_user = online_users[socket.id] || {};
       if (data.left) {
@@ -112,6 +114,10 @@ io.on('connection', function(socket) {
     delete online_users[socket.id];
   });
 
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
+  });
+
   socket.on('click',function(data) {
     online_users[socket.id] = {
       x: data.x,
@@ -123,9 +129,3 @@ io.on('connection', function(socket) {
 setInterval(function() {
   io.sockets.emit('state', online_users);
 }, 2000 / 60);
-
-io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-  });
-});
