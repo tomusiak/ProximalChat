@@ -1,10 +1,4 @@
 socket = io('http://54.212.89.190:3000', {transports: ['websocket']});
-socket.on('message', function(data) {
-  console.log(data);
-});
-socket.on('name', function(data) {
-  // data is a parameter containing whatever data was sent
-});
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
@@ -218,21 +212,5 @@ function setupAudios(circle_x, circle_y) {
     //audio_element.play();
   });
 }
-
-$(function () {
-  var socket = io();
-  $('form').submit(function(e){
-    e.preventDefault(); // prevents page reloading
-    socket.emit('chat message', $('#input').val());
-    $('#input').val('');
-    return false;
-  });
-  socket.on('chat message', function(msg){
-    if (msg != '') {
-      $('#messages').append($('<li>').text(msg));
-      updateScroll();
-  }
-  });
-});
 
 init();
