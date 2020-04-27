@@ -210,7 +210,20 @@ function setupAudios(circle_x, circle_y) {
     source.connect(song.gain);
     (song.gain).connect((song.context).destination);
     //audio_element.play();
-  });
+  })
 }
+
+$('form').submit(function(e){
+  e.preventDefault(); // prevents page reloading
+  socket.emit('chat message', $('#input').val());
+  $('#input').val('');
+  return false;
+});
+socket.on('chat message', function(msg){
+  if (msg != '') {
+    $('#messages').append($('<li>').text(msg));
+    updateScroll();
+  }
+});
 
 init();
