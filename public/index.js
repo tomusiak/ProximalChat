@@ -1,4 +1,4 @@
-socket = io('http://54.212.89.190:3000', {transports: ['websocket']});
+socket = io('http://127.0.0.1:3000', {transports: ['websocket']});
 socket.on('message', function(data) {
   console.log(data);
 });
