@@ -31,13 +31,17 @@ var click_location = {
 document.addEventListener('keydown', function(event) {
     switch (event.keyCode) {
       case 65: // A
-        if (online_user_x > 0) {
+        if (online_user_x > 5) {
           movement.left = true;
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
           });
           break;
         }
+        movement.left = false;
+        movement.up = false;
+        movement.right = false;
+        movement.down = false;
       case 87: // W
         if (online_user_y > 5) {
           movement.up = true;
@@ -46,22 +50,34 @@ document.addEventListener('keydown', function(event) {
           });
           break;
         }
+        movement.left = false;
+        movement.up = false;
+        movement.right = false;
+        movement.down = false;
       case 68: // D
-        if (online_user_x < 750) {
+        if (online_user_x < 745) {
           movement.right = true;
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
           });
           break;
         }
+        movement.left = false;
+        movement.up = false;
+        movement.right = false;
+        movement.down = false;
       case 83: // S
-        if (online_user_y < 500) {
+        if (online_user_y < 495) {
           movement.down = true;
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
           });
           break;
         }
+        movement.left = false;
+        movement.up = false;
+        movement.right = false;
+        movement.down = false;
       };
 });
 
