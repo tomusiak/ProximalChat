@@ -42,6 +42,7 @@ document.addEventListener('keydown', function(event) {
         movement.up = false;
         movement.right = false;
         movement.down = false;
+        break;
       case 87: // W
         if (online_user_y > 5) {
           movement.up = true;
@@ -54,6 +55,7 @@ document.addEventListener('keydown', function(event) {
         movement.up = false;
         movement.right = false;
         movement.down = false;
+        break;
       case 68: // D
         if (online_user_x < 745) {
           movement.right = true;
@@ -66,6 +68,7 @@ document.addEventListener('keydown', function(event) {
         movement.up = false;
         movement.right = false;
         movement.down = false;
+        break;
       case 83: // S
         if (online_user_y < 495) {
           movement.down = true;
@@ -78,6 +81,7 @@ document.addEventListener('keydown', function(event) {
         movement.up = false;
         movement.right = false;
         movement.down = false;
+        break;
       };
 });
 
