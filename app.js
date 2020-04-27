@@ -71,25 +71,35 @@ server.listen(3000, function() {
 
 var online_users = {};
 io.on('connection', function(socket) {
-  console.log("Connected!");
   socket.on('movement', function(data) {
     var online_user = online_users[socket.id] || {};
       if (data.left) {
-        console.log("Connected!");
-        if (online_user.x > 50) {
+        if (online_user.x > 5) {
           online_user.x -= 5;
         } else {
           data.left = false;
         }
       }
       if (data.up) {
-        online_user.y -= 5;
+        if (online_user.y > 5) {
+          online_user.y -= 5;
+        } else {
+          data.up = false;
+        }
       }
       if (data.right) {
-        online_user.x += 5;
+        if (online_user.x < 745) {
+          online_user.x += 5;
+        } else {
+          data.right = false;
+        }
       }
       if (data.down) {
-        online_user.y += 5;
+        if (online_user.y < 495) {
+          online_user.y += 5;
+        } else {
+          data.up = false;
+        }
       }
       socket.emit("hasMoved",online_user);
   });
