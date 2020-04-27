@@ -2,9 +2,9 @@ var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var socketIO = require('socket.io');
+var cookie_parser = require('cookie-parser');
+var body_parser = require('body-parser');
+var socket_IO = require('socket.io');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var http = require('http');
@@ -16,9 +16,9 @@ app.set('view engine', 'jade');
 
 app.use(favicon());
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+app.use(body_parser.json());
+app.use(body_parser.urlencoded());
+app.use(cookie_parser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -56,7 +56,7 @@ app.use(function(err, req, res, next) {
 });
 
 var server = http.Server(app);
-var io = socketIO(server);
+var io = socket_IO(server);
 app.set('port', 3000);
 app.use('/static', express.static(__dirname + '/static'));
 
@@ -69,31 +69,41 @@ server.listen(3000, function() {
   console.log('Starting server on port 5000');
 });
 
-var players = {};
+var online_users = {};
 io.on('connection', function(socket) {
+  socket.on('join', function (data) {
+    socket.join(data.username);
+  });
+
   socket.on('movement', function(data) {
-    var player = players[socket.id] || {};
+    var online_user = online_users[socket.id] || {};
     if (data.left) {
-      player.x -= 5;
+      online_user.x -= 5;
     }
     if (data.up) {
-      player.y -= 5;
+      online_user.y -= 5;
     }
     if (data.right) {
-      player.x += 5;
+      online_user.x += 5;
     }
     if (data.down) {
-      player.y += 5;
+      online_user.y += 5;
     }
-    socket.emit("hasMoved",player);
+    socket.emit("hasMoved",online_user);
   });
 
   socket.on('disconnect', function() {
-    delete players[socket.id];
+    socket.broadcast.emit('disconnected', online_users[socket.id].username);
+    delete online_users[socket.id];
+  });
+
+  socket.on('message', function (data) {
+    io.sockets.to(data.toUsername).emit('message', data.data);
   });
 
   socket.on('click',function(data) {
-    players[socket.id] = {
+    online_users[socket.id] = {
+      username: data.username,
       x: data.x,
       y: data.y
     };
@@ -101,5 +111,5 @@ io.on('connection', function(socket) {
 });
 
 setInterval(function() {
-  io.sockets.emit('state', players);
+  io.sockets.emit('state', online_users);
 }, 1000 / 60);

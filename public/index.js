@@ -11,7 +11,7 @@ var ctx = canvas.getContext('2d');
 var circles = [];
 var lines = [];
 var audios = [];
-var sourceList = [];
+var source_list = [];
 
 var movement = {
   up: false,
@@ -20,10 +20,10 @@ var movement = {
   right: false
 }
 
-player_x = 0;
-player_y = 0;
+online_user_x = 0;
+online_user_y = 0;
 
-var clickLocation = {
+var click_location = {
   x: 0,
   y: 0
 }
@@ -33,38 +33,38 @@ document.addEventListener('keydown', function(event) {
       case 65: // A
         movement.left = true;
         audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
         });
         break;
       case 87: // W
         movement.up = true;
         audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
         });
         break;
       case 68: // D
         movement.right = true;
         audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
         });
         break;
       case 83: // S
         movement.down = true;
         audios.forEach(song => {
-          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(player_x-song.x,2)+Math.pow(player_y-song.y,2))),2) + 62500);
+          (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
         });
         break;
       }
 });
 
 document.addEventListener("click", function(event) {
-  player_x = event.pageX;
-  player_y = event.pageY-50;
-  clickLocation.x = event.pageX;
-  clickLocation.y = event.pageY-50;
-  socket.emit('click', clickLocation);
+  online_user_x = event.pageX;
+  online_user_y = event.pageY-50;
+  click_location.x = event.pageX;
+  click_location.y = event.pageY-50;
+  socket.emit('click', click_location);
   redrawCanvas();
-  setupAudios(clickLocation.x,clickLocation.y);
+  setupAudios(click_location.x,click_location.y);
 });
 
 document.addEventListener('keyup', function(event) {
@@ -147,7 +147,7 @@ function init(){
     }
 }
 
-function redrawCanvas(players) {
+function redrawCanvas(online_users) {
     ctx.clear();
     lines.forEach(lines =>  {
       	ctx.beginPath();
@@ -161,54 +161,54 @@ function redrawCanvas(players) {
     	ctx.fillStyle = circle.colour;
     	ctx.fill();
     });
-    for (var id in players) {
-    	var player = players[id];
+    for (var id in online_users) {
+    	var online_user = online_users[id];
     	ctx.beginPath();
-    	ctx.arc(player.x, player.y, 10, 0, 2 * Math.PI);
+    	ctx.arc(online_user.x, online_user.y, 10, 0, 2 * Math.PI);
     	ctx.fillStyle = '#00FF00'
     	ctx.fill();
   }
 }
 
-socket.on('hasMoved',function(player) {
-  player_x = player.x;
-  player_y = player.y;
+socket.on('hasMoved',function(online_user) {
+  online_user_x = online_user.x;
+  online_user_y = online_user.y;
 });
 
-socket.on('state', function(players) {
-  redrawCanvas(players);
+socket.on('state', function(online_users) {
+  redrawCanvas(online_users);
 });
 
-function setupAudios(circleX,circleY) {
-  sourceList.forEach(source => {
+function setupAudios(circle_x, circle_y) {
+  source_list.forEach(source => {
     source.stop();
   });
   audios.forEach(song => {
-    audioContext = new AudioContext();
-    audioElement = document.querySelector('audio');
-    gainNode = audioContext.createGain();
-    let source = audioContext.createBufferSource();
-    var myRequest = new Request(song.sound);
-    fetch(myRequest).then(function(response) {
+    audio_context = new audio_context();
+    audio_element = document.querySelector('audio');
+    gain_node = audio_context.createGain();
+    let source = audio_context.createBufferSource();
+    var my_request = new Request(song.sound);
+    fetch(my_request).then(function(response) {
       return response.arrayBuffer();
     }).then(function(buffer) {
-      audioContext.decodeAudioData(buffer, function(decodedData) {
-        source.buffer = decodedData;
+      audio_context.decodeAudioData(buffer, function(decoded_data) {
+        source.buffer = decoded_data;
       });
     });
-    if (audioContext.state === 'suspended') {
-      audioContext.resume();
+    if (audio_context.state === 'suspended') {
+      audio_context.resume();
     }
     source.start(5);
-    sourceList.push(source);
-    song.context = audioContext;
-    song.element = audioElement;
-    song.gain = gainNode;
+    source_list.push(source);
+    song.context = audio_context;
+    song.element = audio_element;
+    song.gain = gain_node;
     song.source = source;
-    (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(circleX-song.x,2)+Math.pow(circleY-song.y,2))),2) + 62500);
+    (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(circle_x-song.x,2)+Math.pow(circle_y-song.y,2))),2) + 62500);
     source.connect(song.gain);
     (song.gain).connect((song.context).destination);
-    //audioElement.play();
+    //audio_element.play();
   });
 }
 
