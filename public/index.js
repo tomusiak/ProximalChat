@@ -29,6 +29,7 @@ var click_location = {
 }
 
 document.addEventListener('keydown', function(event) {
+  if (online_user_x > 0 && online_user_x < 750 && online_user_y < 500 && online_user_y > 0) {
     switch (event.keyCode) {
       case 65: // A
         movement.left = true;
@@ -55,6 +56,7 @@ document.addEventListener('keydown', function(event) {
         });
         break;
       };
+    }
 });
 
 document.addEventListener("click", function(event) {
