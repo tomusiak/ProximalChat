@@ -71,26 +71,27 @@ server.listen(3000, function() {
 
 var online_users = {};
 io.on('connection', function(socket) {
+  console.log("Connected!");
   socket.on('movement', function(data) {
-  var online_user = online_users[socket.id] || {};
-    if (data.left) {
-      console.log(online_user.x);
-      if (online_user.x > 50) {
-        online_user.x -= 5;
-      } else {
-        data.left = false;
+    var online_user = online_users[socket.id] || {};
+      if (data.left) {
+        console.log("Connected!");
+        if (online_user.x > 50) {
+          online_user.x -= 5;
+        } else {
+          data.left = false;
+        }
       }
-    }
-    if (data.up) {
-      online_user.y -= 5;
-    }
-    if (data.right) {
-      online_user.x += 5;
-    }
-    if (data.down) {
-      online_user.y += 5;
-    }
-    socket.emit("hasMoved",online_user);
+      if (data.up) {
+        online_user.y -= 5;
+      }
+      if (data.right) {
+        online_user.x += 5;
+      }
+      if (data.down) {
+        online_user.y += 5;
+      }
+      socket.emit("hasMoved",online_user);
   });
 
   socket.on('disconnect', function() {
