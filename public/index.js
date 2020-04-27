@@ -32,7 +32,6 @@ document.addEventListener('keydown', function(event) {
     if ( (online_user_x > 0) & (online_user_x < 750) & (online_user_y < 500) & (online_user_y > 0)) {
       switch (event.keyCode) {
         case 65: // A
-          if ()
           movement.left = true;
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
