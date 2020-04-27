@@ -8,6 +8,7 @@ var socket_IO = require('socket.io');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var http = require('http');
+var bodyParser = require(‘body-parser’)
 var app = express();
 
 // view engine setup
@@ -20,7 +21,8 @@ app.use(body_parser.json());
 app.use(body_parser.urlencoded());
 app.use(cookie_parser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}))
 app.use('/', routes);
 app.use('/users', users);
 
@@ -70,6 +72,8 @@ server.listen(3000, function() {
 });
 
 var online_users = {};
+var messages = {};
+
 io.on('connection', function(socket) {
   socket.on('movement', function(data) {
     var online_user = online_users[socket.id] || {};
@@ -119,3 +123,9 @@ io.on('connection', function(socket) {
 setInterval(function() {
   io.sockets.emit('state', online_users);
 }, 2000 / 60);
+
+io.on('connection', (socket) => {
+  socket.on('chat message', (msg) => {
+    console.log('message: ' + msg);
+  });
+});
