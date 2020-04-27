@@ -79,5 +79,20 @@
 <script src = "sound.js"> </script>
 <script src = "index.js"> </script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
+<script>
+  $(function () {
+    $('form').submit(function(e){
+      e.preventDefault(); // prevents page reloading
+      socket.emit('chat message', $('#input').val());
+      $('#input').val('');
+      return false;
+    });
+    socket.on('chat message', function(msg){
+      if (msg != '') {
+        $('#messages').append($('<li>').text(msg));
+        updateScroll();
+    }
+    });
+  });
+</script>
 </html>
