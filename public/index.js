@@ -28,6 +28,11 @@ var click_location = {
   y: 0
 }
 
+function updateScroll(){
+    var element = document.getElementById("messages");
+    element.scrollTop = element.scrollHeight;
+}
+
 document.addEventListener('keydown', function(event) {
     switch (event.keyCode) {
       case 65: // A
