@@ -86,7 +86,7 @@ document.addEventListener('keyup', function(event) {
     case 83: // S
       movement.down = false;
       break;
-  }
+  };
 });
 
 setInterval(function() {
