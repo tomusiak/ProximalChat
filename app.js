@@ -113,3 +113,5 @@ io.on('connection', function(socket) {
 setInterval(function() {
   io.sockets.emit('state', online_users);
 }, 1000 / 60);
+
+io.sockets.to(data.toUsername).emit('message', data.data);
