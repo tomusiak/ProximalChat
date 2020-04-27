@@ -74,32 +74,32 @@ io.on('connection', function(socket) {
   socket.on('movement', function(data) {
     var online_user = online_users[socket.id] || {};
       if (data.left) {
-        //if (online_user.x > 5) {
+        if (online_user.x > 5) {
           online_user.x -= 5;
-        //} else {
-          //data.left = false;
-        //}
+        } else {
+          data.left = false;
+        }
       }
       if (data.up) {
-        //if (online_user.y > 5) {
+        if (online_user.y > 5) {
           online_user.y -= 5;
-        //} else {
-      //    data.up = false;
-        //}
+        } else {
+          data.up = false;
+        }
       }
       if (data.right) {
-        //if (online_user.x < 745) {
+        if (online_user.x < 745) {
           online_user.x += 5;
-      //  } else {
-      //    data.right = false;
-      //  }
+        } else {
+          data.right = false;
+        }
       }
       if (data.down) {
-        //if (online_user.y < 495) {
+        if (online_user.y < 495) {
           online_user.y += 5;
-        //} else {
-        //  data.up = false;
-        //}
+        } else {
+          data.up = false;
+        }
       }
       socket.emit("hasMoved",online_user);
   });
