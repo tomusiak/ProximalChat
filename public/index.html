@@ -131,7 +131,7 @@
 <script src = "index.js"> </script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-var socket = io();
+socket = io('http://54.212.89.190:3000', {transports: ['websocket']});
   $(function () {
     $('form').submit(function(e){
       e.preventDefault(); // prevents page reloading
@@ -147,6 +147,7 @@ var socket = io();
     });
   });
 </script>
+
 <div class = "popup" id = "myPopup"> Horse</div>
 
 </html>
