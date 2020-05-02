@@ -115,6 +115,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
 socket = io('http://54.212.89.190:3000', {transports: ['websocket']});
+function $(x) {return document.getElementById(x);} 
   $(function () {
     $('form').submit(function(e){
       e.preventDefault(); // prevents page reloading
