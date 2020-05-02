@@ -116,7 +116,7 @@
 <script>
 socket = io('http://54.212.89.190:3000', {transports: ['websocket']});
   $(function () {
-    $('form').submit(function(e){
+    document.getElementById('form').submit(function(e){
       e.preventDefault(); // prevents page reloading
       socket.emit('chat message', $('#chat_message').val());
       $('#chat_message').val('');
