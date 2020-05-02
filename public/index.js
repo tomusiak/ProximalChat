@@ -225,4 +225,11 @@ window.onclick = function(event) {
   }
 }
 
+socket.on('chat message', function(msg){
+  if (msg != '') {
+    $('#messages').append($('<li>').text(msg));
+    updateScroll();
+}
+});
+
 init();
