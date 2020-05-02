@@ -135,7 +135,7 @@ socket = io('http://54.212.89.190:3000', {transports: ['websocket']});
     $('form').submit(function(e){
       e.preventDefault(); // prevents page reloading
       socket.emit('chat message', $('#chat').val());
-      $('#input').val('');
+      $('#chat').val('');
       return false;
     });
     socket.on('chat message', function(msg){
