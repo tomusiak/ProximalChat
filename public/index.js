@@ -205,6 +205,7 @@ socket.on("usernameAdded", function(user) {
   online_user_y = 250;
   redrawCanvas();
   setupAudios(250,250);
+  $('#users').append($('<li>').text(user.username));
 });
 
 socket.on("newlyConnected", function () {
