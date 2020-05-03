@@ -72,6 +72,14 @@ server.listen(3000, function() {
 });
 
 var online_users = {};
+filled_rooms = {
+  0: False,
+  1: False,
+  2: False,
+  3: False,
+  4: False,
+  5: False
+};
 
 io.on('connection', function(socket) {
   socket.emit("newlyConnected");
@@ -110,6 +118,12 @@ io.on('connection', function(socket) {
   });
 
   socket.on('disconnect', function() {
+    for (i = 0; i < filled_rooms.length;i ++) {
+      if (filled_rooms[i] == socket.id) {
+        filled_rooms[i] = False;
+        break;
+      }
+    }
     delete online_users[socket.id];
     io.sockets.emit("usersChanged",online_users);
   });
@@ -120,6 +134,12 @@ io.on('connection', function(socket) {
       x: 250,
       y: 250
     };
+    for (i = 0; i < filled_rooms.length;i ++) {
+      if (filled_rooms[i] == False) {
+        filled_rooms[i] = socket.id;
+        break;
+      }
+    }
     socket.emit('usernameAdded', online_users[socket.id]);
     io.sockets.emit("usersChanged", online_users);
   });
