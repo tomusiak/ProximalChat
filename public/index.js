@@ -222,10 +222,10 @@ socket.on('state', function(online_users) {
 socket.on("usernameAdded", function(user) {
   var modal = document.getElementById("myModal");
   modal.style.display = "none";
-  online_user_x = 250;
-  online_user_y = 250;
+  online_user_x = user.x;
+  online_user_y = user.y;
   redrawCanvas();
-  setupAudios(250,250);
+  setupAudios(online_user_x,online_user_y);
   username = user.username;
   video = document.getElementById(video_array[user.room_number]);
   var constraints = {
@@ -267,8 +267,6 @@ $(document).ready(function(){
 
 init();
 
-var local_video;
-var remote_video;
 var peerConnection;
 var peerConnectionConfig = {'iceServers': [{'url': 'stun:stun.services.mozilla.com'}, {'url': 'stun:stun.l.google.com:19302'}]};
 navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
