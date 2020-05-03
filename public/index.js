@@ -273,16 +273,3 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || 
 window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
 window.RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate || window.webkitRTCIceCandidate;
 window.RTCSessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
-
-function requestStream() {
-  video_0 = document.getElementById('video_0');
-  var constraints = {
-      video: true,
-      audio: false,
-  };
-  navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-    video_0.srcObject = mediaStream;
-  })
-}
-
-requestStream();
