@@ -265,7 +265,7 @@ function requestStream() {
   remote_video = document.getElementById('remote_video');
   var constraints = {
       video: true,
-      audio: true,
+      audio: false,
   };
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
   local_video.srcObject = mediaStream;
