@@ -146,7 +146,7 @@ io.on('connection', function(socket) {
     filled_rooms[room_number] = socket.id;
     online_users[socket.id] = {
       username: data,
-      x: 250,
+      x: 333,
       y: 250,
       room_number: room_number
     };
@@ -155,13 +155,25 @@ io.on('connection', function(socket) {
     num_users = num_users + 1;
   });
 
-  socket.on('chat message', (msg) => {
+  socket.on('messageSent', (msg) => {
     var message = {
       username: online_users[socket.id].username,
       msg: msg
     };
-    io.sockets.emit('chat message', message);
+    io.sockets.emit('messageSent', message);
   });
+
+  const { RTCPeerConnection, RTCSessionDescription } = window;
+
+  async function callUser(socketId) {
+   const offer = await peerConnection.createOffer();
+   await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
+
+   socket.emit("call-user", {
+     offer,
+     to: socketId
+   });
+  }
 
 });
 
