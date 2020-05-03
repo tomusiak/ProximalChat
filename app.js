@@ -120,7 +120,6 @@ io.on('connection', function(socket) {
       x: 250,
       y: 250
     }
-
     socket.emit('usernameAdded', online_users[socket.id]);
   });
 
