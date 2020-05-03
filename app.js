@@ -131,19 +131,19 @@ io.on('connection', function(socket) {
     };
     io.sockets.emit('chat message', message);
   });
-});
 
-socket.on('make-offer', function (data) {
-  socket.to(data.to).emit('offer-made', {
-    offer: data.offer,
-    socket: socket.id
+  socket.on('make-offer', function (data) {
+    socket.to(data.to).emit('offer-made', {
+      offer: data.offer,
+      socket: socket.id
+    });
   });
-});
 
-socket.on('make-answer', function (data) {
-  socket.to(data.to).emit('answer-made', {
-    socket: socket.id,
-    answer: data.answer
+  socket.on('make-answer', function (data) {
+    socket.to(data.to).emit('answer-made', {
+      socket: socket.id,
+      answer: data.answer
+    });
   });
 });
 
