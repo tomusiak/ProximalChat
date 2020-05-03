@@ -86,7 +86,7 @@ var num_users = 0;
 
 io.on('connection', function(socket) {
   function obtainFirstOpenRoom() {
-    for (i = 0; i < filled_rooms.length(); i++) {
+    for (i = 0; i < filled_rooms.length; i++) {
       if (filled_rooms[i] == "false") {
         return i;
       }
