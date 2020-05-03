@@ -228,7 +228,7 @@ socket.on("newlyConnected", function () {
 
 socket.on('chat message', function(message) {
   $('#messages').append($('<li>').html('<b>' + message.username + '</b>  ' + message.msg));
-  if (msg != '') {
+  if (message.msg != '') {
     updateScroll();
   }
 });
