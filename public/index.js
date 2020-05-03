@@ -199,7 +199,11 @@ socket.on('usersChanged', function(online_users) {
   $('#users').empty();
   for (var id in online_users) {
     online_user = online_users[id];
-    $('#users').append($('<li>').text(online_user.username));
+    if (online_user.username == username) {
+      $('#users').append($('<li>').html("<b>" + online_user.username + "</b"));
+    } else {
+      $('#users').append($('<li>').text(online_user.username));
+    }
   };
 });
 
