@@ -278,7 +278,7 @@ function requestStream() {
 
 function getUserMediaSuccess(stream) {
     localStream = stream;
-    localVideo.src = window.URL.createObjectURL(stream);
+    local_video.src = window.URL.createObjectURL(stream);
 }
 
 function getUserMediaError(error) {
