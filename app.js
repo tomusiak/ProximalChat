@@ -163,18 +163,6 @@ io.on('connection', function(socket) {
     io.sockets.emit('messageSent', message);
   });
 
-  const { RTCPeerConnection, RTCSessionDescription } = window;
-
-  async function callUser(socketId) {
-   const offer = await peerConnection.createOffer();
-   await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
-
-   socket.emit("call-user", {
-     offer,
-     to: socketId
-   });
-  }
-
 });
 
 setInterval(function() {
