@@ -156,24 +156,6 @@ function redrawCanvas(online_users) {
   }
 }
 
-socket.on('hasMoved',function(online_user) {
-  online_user_x = online_user.x;
-  online_user_y = online_user.y;
-});
-
-socket.on('state', function(online_users) {
-  redrawCanvas(online_users);
-});
-
-socket.on("usernameAdded", function(user) {
-  var modal = document.getElementById("myModal");
-  modal.style.display = "none";
-  online_user_x = 250;
-  online_user_y = 250;
-  redrawCanvas();
-  setupAudios(250,250);
-});
-
 function setupAudios(circle_x, circle_y) {
   source_list.forEach(source => {
     source.stop();
@@ -207,10 +189,28 @@ function setupAudios(circle_x, circle_y) {
   });
 }
 
+socket.on('hasMoved',function(online_user) {
+  online_user_x = online_user.x;
+  online_user_y = online_user.y;
+});
+
+socket.on('state', function(online_users) {
+  redrawCanvas(online_users);
+});
+
+socket.on("usernameAdded", function(user) {
+  var modal = document.getElementById("myModal");
+  modal.style.display = "none";
+  online_user_x = 250;
+  online_user_y = 250;
+  redrawCanvas();
+  setupAudios(250,250);
+});
+
 socket.on("newlyConnected", function () {
     var modal = document.getElementById("myModal");
     modal.style.display = "block";
-})
+});
 
 socket.on('chat message', function(msg){
   if (msg != '') {
