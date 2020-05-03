@@ -220,14 +220,14 @@ socket.on('chat message', function(msg){
 });
 
 $(document).ready(function(){
-  $('chat_form').submit(function(e){
+  $('#chat_form').submit(function(e){
     e.preventDefault(); // prevents page reloading
     socket.emit('chat message', $('#chat_message').val());
     $('#chat_message').val('');
     return false;
   });
 
-  $('username_form').submit(function(e){
+  $('#username_form').submit(function(e){
     e.preventDefault(); // prevents page reloading
     socket.emit('username', $('#username_input').val());
     $('#username_input').val('');
