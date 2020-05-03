@@ -229,7 +229,16 @@ socket.on('chat message', function(msg){
   if (msg != '') {
     $('#messages').append($('<li>').text(msg));
     updateScroll();
-}
+  }
+});
+
+$(document).ready(function(){
+  $('form').submit(function(e){
+    e.preventDefault(); // prevents page reloading
+    socket.emit('chat message', $('#chat_message').val());
+    $('#chat_message').val('');
+    return false;
+  });
 });
 
 init();

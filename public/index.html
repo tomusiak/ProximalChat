@@ -1,6 +1,7 @@
 <DOCTYPE html>
 <html>
 <header style="height:50px; width:1000px">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <center>
     <b>ProximalChat</b> <br>
     Use arrow keys to move around.
@@ -109,18 +110,5 @@
 </div>
 
 </body>
-<script src="/socket.io/socket.io.js"></script>
 <script src = "sound.js"> </script>
 <script src = "index.js"> </script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script>
-socket = io('http://54.212.89.190:3000', {transports: ['websocket']});
-  $(function () {
-    document.getElementById('form').submit(function(e){
-      e.preventDefault(); // prevents page reloading
-      socket.emit('chat message', $('#chat_message').val());
-      $('#chat_message').val('');
-      return false;
-    });
-  });
-</script>
