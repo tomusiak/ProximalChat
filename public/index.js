@@ -1,5 +1,5 @@
-socket = io('https://54.212.89.190:3000', {transports: ['websocket']});
-
+//socket = io('https://54.212.89.190:3000', {transports: ['websocket']});
+socket=io();
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var circles = [];
