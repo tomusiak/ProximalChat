@@ -248,7 +248,7 @@ socket.on("newlyConnected", function () {
     modal.style.display = "block";
 });
 
-socket.on('chat message', function(message) {
+socket.on('messageSent', function(message) {
   $('#messages').append($('<li>').html('<b>' + message.username + '</b>  ' + message.msg));
   if (message.msg != '') {
     updateScroll();
@@ -258,7 +258,7 @@ socket.on('chat message', function(message) {
 $(document).ready(function(){
   $('#chat_form').submit(function(e){
     e.preventDefault(); // prevents page reloading
-    socket.emit('chat message', $('#chat_message').val());
+    socket.emit('messageSent', $('#chat_message').val());
     $('#chat_message').val('');
     return false;
   });
