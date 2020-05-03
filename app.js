@@ -59,7 +59,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.set('port', 3000);
-app.use('/static', express.static(__dirname + '/static'));
+app.use('/public', express.static(__dirname + '/public'));
 
 // Routing
 app.get('/', function(request, response) {
