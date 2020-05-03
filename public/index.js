@@ -260,7 +260,7 @@ var sessionDescription = window.RTCSessionDescription ||
     window.webkitRTCSessionDescription ||
     window.msRTCSessionDescription;
 
-    navigator.getUserMedia  = navigator.getUserMedia ||
+    navigator.mediaDevices.getUserMedia  = navigator.mediaDevices.getUserMedia ||
     navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia ||
     navigator.msGetUserMedia;
@@ -323,7 +323,7 @@ pc.onaddstream = function (obj) {
     vid.srcObject = obj.stream;
 }
 
-navigator.getUserMedia({video: true, audio: true}, function (stream) {
+navigator.mediaDevices.getUserMedia({video: true, audio: true}, function (stream) {
     var video = document.querySelector('video');
     video.srcObject = stream;
     pc.addStream(stream);
