@@ -72,7 +72,6 @@ server.listen(3000, function() {
 });
 
 var online_users = {};
-var messages = {};
 
 io.on('connection', function(socket) {
   socket.emit("newlyConnected");
@@ -121,8 +120,8 @@ io.on('connection', function(socket) {
       x: 250,
       y: 250
     };
-    socket.emit("usersChanged", online_users);
     socket.emit('usernameAdded', online_users[socket.id]);
+    socket.emit("usersChanged", online_users);
   });
 
   socket.on('chat message', (msg) => {
