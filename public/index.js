@@ -277,7 +277,7 @@ function requestStream() {
 }
 
 function getUserMediaSuccess(stream) {
-  media_stream = await navigator.mediaDevices.getUserMedia(constraints);
+  media_stream = navigator.mediaDevices.getUserMedia(constraints);
   video = document.getElementById('local_video');
   video.srcObject = media_stream;
 }
