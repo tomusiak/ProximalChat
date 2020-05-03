@@ -1,4 +1,4 @@
-socket = io({transports: ['websocket']});
+var socket = io('localhost:3000', {transports: ['websocket']});
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var circles = [];
