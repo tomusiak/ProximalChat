@@ -233,6 +233,7 @@ $(document).ready(function(){
     $('#username_input').val('');
     return false;
   });
+
 });
 
 init();
