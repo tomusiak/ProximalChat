@@ -67,7 +67,11 @@ app.get('/', function(request, response) {
 });
 
 server.listen(3000,'127.0.0.1', function() {
+<<<<<<< HEAD
   console.log('Starting server on port 3000');
+=======
+  console.log('Starting server on port 5000');
+>>>>>>> 66feac7c1af7ab3f0d58fc07f534f6b4525037a3
 });
 
 var online_users = {};
