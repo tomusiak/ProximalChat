@@ -57,8 +57,8 @@ app.use(function(err, req, res, next) {
     });
 });
 
-var server = http.Server(app);
-var io = socket_IO(server);
+var server  = require('http').createServer(app);
+var io      = require('socket.io').listen(server);
 app.set('port', 3000);
 app.use('/static', express.static(__dirname + '/static'));
 
