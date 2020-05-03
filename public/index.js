@@ -14,6 +14,15 @@ var movement = {
   right: false
 }
 
+const video_array = [
+  "video_0",
+  "video_1",
+  "video_2",
+  "video_3",
+  "video_4",
+  "video_5"
+]
+
 online_user_x = 0;
 online_user_y = 0;
 
@@ -218,6 +227,14 @@ socket.on("usernameAdded", function(user) {
   redrawCanvas();
   setupAudios(250,250);
   username = user.username;
+  video = document.getElementById(video_array[user.room_number]);
+  var constraints = {
+      video: true,
+      audio: false,
+  };
+  navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
+    video.srcObject = mediaStream;
+  })
 });
 
 socket.on("newlyConnected", function () {
