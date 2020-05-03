@@ -125,7 +125,11 @@ io.on('connection', function(socket) {
   });
 
   socket.on('chat message', (msg) => {
-    io.sockets.emit('chat message', msg);
+    var message = {
+      username: online_users[socket.id].username,
+      msg: msg
+    };
+    io.sockets.emit('chat message', message);
   });
 });
 
