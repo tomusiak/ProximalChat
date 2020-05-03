@@ -133,6 +133,20 @@ io.on('connection', function(socket) {
   });
 });
 
+socket.on('make-offer', function (data) {
+  socket.to(data.to).emit('offer-made', {
+    offer: data.offer,
+    socket: socket.id
+  });
+});
+
+socket.on('make-answer', function (data) {
+  socket.to(data.to).emit('answer-made', {
+    socket: socket.id,
+    answer: data.answer
+  });
+});
+
 setInterval(function() {
   io.sockets.emit('state', online_users);
 }, 1000 / 60);
