@@ -23,6 +23,10 @@ const video_array = [
   "video_5"
 ]
 
+var online_users_local = {
+
+}
+
 online_user_x = 0;
 online_user_y = 0;
 
@@ -213,6 +217,7 @@ socket.on('usersChanged', function(online_users) {
       $('#users').append($('<li>').text(online_user.username));
     }
   };
+  online_users_local = online_users;
 });
 
 socket.on('state', function(online_users) {
@@ -235,6 +240,7 @@ socket.on("usernameAdded", function(user) {
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
     video.srcObject = mediaStream;
   })
+  video.muted = true;
 });
 
 socket.on("newlyConnected", function () {
