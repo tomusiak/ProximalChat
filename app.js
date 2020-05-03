@@ -112,6 +112,7 @@ io.on('connection', function(socket) {
 
   socket.on('disconnect', function() {
     delete online_users[socket.id];
+    socket.emit("usersChanged",online_users);
   });
 
   socket.on('username', function (data) {
@@ -120,6 +121,7 @@ io.on('connection', function(socket) {
       x: 250,
       y: 250
     }
+    socket.emit("usersChanged",online_users);
     socket.emit('usernameAdded', online_users[socket.id]);
   });
 

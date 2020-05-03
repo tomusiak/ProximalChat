@@ -194,11 +194,14 @@ socket.on('hasMoved',function(online_user) {
   online_user_y = online_user.y;
 });
 
-socket.on('state', function(online_users) {
+socket.on('usersChanged', function(online_users) {
   $(this).children("#users").remove();
   for (user in online_users) {
     $('#users').append($('<li>').text(user.username));
   };
+});
+
+socket.on('state', function(online_users) {
   redrawCanvas(online_users);
 });
 
