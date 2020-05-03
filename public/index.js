@@ -248,47 +248,6 @@ $(document).ready(function(){
     return false;
   });
 });
-function getUserMedia(mediaType, callback) {
-   var mediaStreamConstraints = {};
-   if (mediaType == 'audio') {
-     mediaStreamConstraints = {
-       audio: {
-         echoCancellation: true
-       }
-     };
-     window.mediaType = 'audio';
-   } else
-     window.mediaType = 'video';
-   if (mediaType == 'video') {
-     mediaStreamConstraints = {
-       audio: {
-       echoCancellation: true
-       },
-       video: {
-       optional: [],
-       mandatory: {}
-       }
-     };
-   }
-   navigator.getUserMedia(mediaStreamConstraints, function (stream) {
-     if (peer)
-       peer.mediaType = mediaType == 'audio' ? 'audio' : 'video';
-     callback(stream);
-     var mediaElement = document.createElement(mediaType == 'audio' ? 'audio' : 'video');
-     mediaElement.id = 'selfMedia';
-     mediaElement.preload = 'none';
-     mediaElement[isGecko ? 'mozSrcObject' : 'src'] = isGecko ? stream : (window.URL || window.webkitURL).createObjectURL(stream);
-     mediaElement.controls = false;
-     mediaElement.muted = true;
-     mediaElement.volume = 0;
-     peer.onStreamAdded({
-       mediaElement: mediaElement,
-       username: username,
-       stream: stream
-     });
-   }, function () {
-     alert('Could not connect camera!');
-   });
- }
+
 
 init();
