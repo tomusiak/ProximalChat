@@ -195,9 +195,10 @@ socket.on('hasMoved',function(online_user) {
 });
 
 socket.on('usersChanged', function(online_users) {
-  $("#users").empty();
-  for (user in online_users) {
-    $('#users').append($('<li>').text(user.x));
+  $('#users').empty();
+  for (var id in online_users) {
+    online_user = online_users[id];
+    $('#users').append($('<li>').text(online_user.username));
   };
 });
 
