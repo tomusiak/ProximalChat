@@ -6,6 +6,7 @@ var circles = [];
 var lines = [];
 var audios = [];
 var source_list = [];
+var username = "";
 
 var movement = {
   up: false,
@@ -213,6 +214,7 @@ socket.on("usernameAdded", function(user) {
   online_user_y = 250;
   redrawCanvas();
   setupAudios(250,250);
+  username = user.username;
 });
 
 socket.on("newlyConnected", function () {
