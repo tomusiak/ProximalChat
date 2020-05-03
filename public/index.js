@@ -249,17 +249,19 @@ $(document).ready(function(){
   });
 });
 
-navigator.mediaDevices.getUserMedia(
- { video: true, audio: true },
- stream => {
-   const localVideo = document.getElementById("local-video");
-   if (localVideo) {
-     localVideo.srcObject = stream;
-   }
- },
- error => {
-   console.warn(error.message);
- }
-);
+const webrtc = new SimpleWebRTC({
+  // the id/element dom element that will hold "our" video
+  localVideoEl: 'local_video',
+  // the id/element dom element that will hold remote videos
+  remoteVideosEl: 'remote_video',
+  // immediately ask for camera access
+  autoRequestMedia: true,
+});
+
+// We got access to local camera
+webrtc.on('localStream', () => {
+  localImageEl.hide();
+  localVideoEl.show();
+});
 
 init();
