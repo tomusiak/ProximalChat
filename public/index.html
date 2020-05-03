@@ -34,21 +34,21 @@
     border:2px solid #000000;
   }
 
-  .video_0 {
+  .video_class_0 {
     width: 329px;
     height: 246px;
     border:2px solid #000000;
     float:left;
   }
 
-  .video_1 {
+  .video_class_1 {
     width: 329px;
     height: 246px;
     float:left;
     border:2px solid #000000;
   }
 
-  .video_2 {
+  .video_class_2 {
     width: 329px;
     height: 246px;
     border:2px solid #000000;
@@ -98,19 +98,25 @@
 
 <audio id = "audio"> <source src="buzzcut.ogg" crossorigin="anonymous" type = "audio/mpeg" ></audio>
 <div id = "two_videos_0" style = "width: 1000; height:250">
-  <div id = "video_box_0" class = "video_0">
-    <video autoplay muted class="local_video" id="local_video" style = "width:333;height:250"></video>
+  <div id = "video_box_0" class = "video_class_0">
+    <video autoplay class="video_0" id="video_1"></video>
   </div>
-  <div id = "video_box_1" class = "video_1">
-      <video autoplay class="remote_video" id="remote_video"></video>
+  <div id = "video_box_1" class = "video_class_1">
+    <video autoplay class="video_1" id="video_1"></video>
   </div>
-  <div id = "video_box_2" class = "video_2"> </div>
+  <div id = "video_box_2" class = "video_class_2">
+    <video autoplay class="video_2" id="video_2"></video>
+  </div>
 </div>
 
 <div id = "two_videos_1" style = "width: 1000; height:250">
-  <div id = "video_box_3" class = "video_0"> </div>
-  <div id = "video_box_4" class = "video_1"> </div>
-  <div id = "video_box_5" class = "video_2"> </div>
+  <div id = "video_box_3" class = "video_class_0"> </div>
+    <video autoplay class="video_3" id="video_3"></video>
+  <div id = "video_box_4" class = "video_class_1"> </div>
+    <video autoplay class="video_4" id="video_4"></video>
+  <div id = "video_box_5" class = "video_class_2">
+    <video autoplay class="video_5" id="video_5"></video>
+ </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

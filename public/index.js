@@ -260,14 +260,13 @@ window.RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate || 
 window.RTCSessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
 
 function requestStream() {
-  local_video = document.getElementById('local_video');
-  remote_video = document.getElementById('remote_video');
+  video_0 = document.getElementById('video_0');
   var constraints = {
       video: true,
       audio: false,
   };
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-    local_video.srcObject = mediaStream;
+    video_0.srcObject = mediaStream;
   })
 }
 
