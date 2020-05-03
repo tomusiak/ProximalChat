@@ -268,11 +268,8 @@ function requestStream() {
       audio: false,
   };
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-  local_video.srcObject = mediaStream;
-  local_video.onloadedmetadata = function(e) {
-    video.play();
-  };
-})
+    local_video.srcObject = mediaStream;
+  })
 }
 
 requestStream();
