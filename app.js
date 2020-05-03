@@ -7,7 +7,8 @@ var body_parser = require('body-parser');
 var socket_IO = require('socket.io');
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var http = require('http');
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 var bodyParser = require('body-parser')
 var app = express();
 
@@ -57,9 +58,7 @@ app.use(function(err, req, res, next) {
     });
 });
 
-var server  = require('http').createServer(app);
-var io      = require('socket.io').listen(server);
-app.set('port', 3000);
+http.set('port', 3000);
 app.use('/static', express.static(__dirname + '/static'));
 
 // Routing
@@ -67,7 +66,7 @@ app.get('/', function(request, response) {
   response.sendFile(path.join(__dirname, 'index.html'));
 });
 
-server.listen(3000, function() {
+http.listen(3000, function() {
   console.log('Starting server on port 5000');
 });
 
