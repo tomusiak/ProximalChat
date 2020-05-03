@@ -10,7 +10,7 @@ var users = require('./routes/users');
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var bodyParser = require('body-parser')
-var app = express();
+var app = require('express')();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -58,7 +58,7 @@ app.use(function(err, req, res, next) {
     });
 });
 
-http.set('port', 3000);
+app.set('port', 3000);
 app.use('/static', express.static(__dirname + '/static'));
 
 // Routing
