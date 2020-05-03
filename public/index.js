@@ -17,11 +17,6 @@ var movement = {
 online_user_x = 0;
 online_user_y = 0;
 
-var click_location = {
-  x: 0,
-  y: 0
-}
-
 function updateScroll(){
     var element = document.getElementById("messages");
     element.scrollTop = element.scrollHeight;
@@ -55,16 +50,6 @@ document.addEventListener('keydown', function(event) {
           });
           break;
       };
-});
-
-document.addEventListener("click", function(event) {
-  online_user_x = event.pageX;
-  online_user_y = event.pageY-50;
-  click_location.x = event.pageX;
-  click_location.y = event.pageY-50;
-  socket.emit('click', click_location);
-  redrawCanvas();
-  setupAudios(click_location.x,click_location.y);
 });
 
 document.addEventListener('keyup', function(event) {
@@ -180,6 +165,13 @@ socket.on('state', function(online_users) {
   redrawCanvas(online_users);
 });
 
+socket.on("usernameAdded", function(user) {
+  online_user_x = 250;
+  online_user_y = 250;
+  redrawCanvas();
+  setupAudios(250,250);
+});
+
 function setupAudios(circle_x, circle_y) {
   source_list.forEach(source => {
     source.stop();
@@ -237,6 +229,13 @@ $(document).ready(function(){
     e.preventDefault(); // prevents page reloading
     socket.emit('chat message', $('#chat_message').val());
     $('#chat_message').val('');
+    return false;
+  });
+
+  $('form').submit(function(e){
+    e.preventDefault(); // prevents page reloading
+    socket.emit('username', $('#username_input').val());
+    $('#username_input').val('');
     return false;
   });
 });

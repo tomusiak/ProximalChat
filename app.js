@@ -114,15 +114,17 @@ io.on('connection', function(socket) {
     delete online_users[socket.id];
   });
 
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
+  socket.on('username', function (data) {
+    online_users[socket.id] = {
+      username: data,
+      x: 250,
+      y: 250
+    }
+    io.emit('usernameAdded', online_users[socket.id]);
   });
 
-  socket.on('click',function(data) {
-    online_users[socket.id] = {
-      x: data.x,
-      y: data.y
-    };
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
   });
 });
 
