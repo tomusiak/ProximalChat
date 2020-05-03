@@ -72,6 +72,7 @@ server.listen(3000, function() {
 });
 
 var online_users = {};
+
 filled_rooms = {
   0: false,
   1: false,
@@ -80,6 +81,8 @@ filled_rooms = {
   4: false,
   5: false
 };
+
+var num_users = 0;
 
 io.on('connection', function(socket) {
   socket.emit("newlyConnected");
@@ -126,6 +129,7 @@ io.on('connection', function(socket) {
     }
     delete online_users[socket.id];
     io.sockets.emit("usersChanged",online_users);
+    num_users = num_users - 1;
   });
 
   socket.on('username', (data) => {
@@ -145,6 +149,7 @@ io.on('connection', function(socket) {
     };
     socket.emit('usernameAdded', online_users[socket.id]);
     io.sockets.emit("usersChanged", online_users);
+    num_users = num_users + 1;
   });
 
   socket.on('chat message', (msg) => {
