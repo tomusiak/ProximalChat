@@ -195,6 +195,10 @@ socket.on('hasMoved',function(online_user) {
 });
 
 socket.on('state', function(online_users) {
+  $(this).children("#users").remove();
+  online_users.forEach(user => {
+    $('#users').append($('<li>').text(online_users.username));
+  });
   redrawCanvas(online_users);
 });
 
@@ -214,8 +218,8 @@ socket.on("newlyConnected", function () {
 });
 
 socket.on('chat message', function(msg){
+  $('#messages').append($('<li>').text(msg));
   if (msg != '') {
-    $('#messages').append($('<li>').text(msg));
     updateScroll();
   }
 });
