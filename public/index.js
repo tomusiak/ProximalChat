@@ -260,7 +260,7 @@ var sessionDescription = window.RTCSessionDescription ||
     window.webkitRTCSessionDescription ||
     window.msRTCSessionDescription;
 
-    navigator.mediaDevices.getUserMedia  = navigator.mediaDevices.getUserMedia ||
+    navigator.getUserMedia  = navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia ||
     navigator.msGetUserMedia;
