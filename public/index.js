@@ -264,18 +264,16 @@ function requestStream() {
   local_video = document.getElementById('local_video');
   remote_video = document.getElementById('remote_video');
 
-  var constraints = {
-      video: true,
-      audio: true,
-  };
-
   if (navigator.getUserMedia) {
       navigator.getUserMedia(constraints, getUserMediaSuccess, getUserMediaError);
   } else {
       alert('Your browser does not support getUserMedia API');
   }
 }
-
+var constraints = {
+    video: true,
+    audio: true,
+};
 function getUserMediaSuccess(stream) {
   media_stream = navigator.mediaDevices.getUserMedia(constraints);
   video = document.getElementById('local_video');
