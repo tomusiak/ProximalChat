@@ -75,7 +75,6 @@ var online_users = {};
 var messages = {};
 
 io.on('connection', function(socket) {
-  console.log("here");
   socket.emit("newlyConnected");
 
   socket.on('movement', function(data) {
@@ -121,7 +120,7 @@ io.on('connection', function(socket) {
       x: 250,
       y: 250
     }
-    console.log("here");
+
     socket.emit('usernameAdded', online_users[socket.id]);
   });
 
