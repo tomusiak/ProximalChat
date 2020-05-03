@@ -166,12 +166,12 @@ socket.on('state', function(online_users) {
 });
 
 socket.on("usernameAdded", function(user) {
+  var modal = document.getElementById("myModal");
+  modal.style.display = "none";
   online_user_x = 250;
   online_user_y = 250;
   redrawCanvas();
   setupAudios(250,250);
-  var modal = document.getElementById("myModal");
-  modal.style.display = "none";
 });
 
 function setupAudios(circle_x, circle_y) {
@@ -211,13 +211,6 @@ socket.on("newlyConnected", function () {
     var modal = document.getElementById("myModal");
     modal.style.display = "block";
 })
-
-window.onclick = function(event) {
-  var modal = document.getElementById("myModal");
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
 
 socket.on('chat message', function(msg){
   if (msg != '') {
