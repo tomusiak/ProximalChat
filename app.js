@@ -115,13 +115,13 @@ io.on('connection', function(socket) {
     socket.emit("usersChanged",online_users);
   });
 
-  socket.on('username', function (data) {
+  socket.on('username', (data) => {
     online_users[socket.id] = {
       username: data,
       x: 250,
       y: 250
-    }
-    socket.emit("usersChanged",online_users);
+    });
+    socket.emit("usersChanged", online_users);
     socket.emit('usernameAdded', online_users[socket.id]);
   });
 
