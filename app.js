@@ -66,7 +66,7 @@ app.get('/', function(request, response) {
   response.sendFile(path.join(__dirname, 'index.html'));
 });
 
-server.listen(3000, function() {
+server.listen(3000,'127.0.0.1', function() {
   console.log('Starting server on port 5000');
 });
 
