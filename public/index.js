@@ -195,7 +195,7 @@ socket.on('hasMoved',function(online_user) {
 });
 
 socket.on('usersChanged', function(online_users) {
-  $(this).children("#users").remove();
+  //$(this).children("#users").remove();
   for (user in online_users) {
     $('#users').append($('<li>').text(user.username));
   };
@@ -212,7 +212,6 @@ socket.on("usernameAdded", function(user) {
   online_user_y = 250;
   redrawCanvas();
   setupAudios(250,250);
-  $('#users').append($('<li>').text(user.username));
 });
 
 socket.on("newlyConnected", function () {
