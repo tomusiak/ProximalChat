@@ -111,7 +111,7 @@ io.on('connection', function(socket) {
 
   socket.on('disconnect', function() {
     delete online_users[socket.id];
-    io.emit("usersChanged",online_users);
+    socket.emit("usersChanged",online_users);
   });
 
   socket.on('username', (data) => {
@@ -121,11 +121,11 @@ io.on('connection', function(socket) {
       y: 250
     };
     socket.emit('usernameAdded', online_users[socket.id]);
-    io.emit("usersChanged", online_users);
+    socket.emit("usersChanged", online_users);
   });
 
   socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
+    socket.emit('chat message', msg);
   });
 });
 
