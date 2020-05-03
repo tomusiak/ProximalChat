@@ -87,7 +87,7 @@ var num_users = 0;
 io.on('connection', function(socket) {
   function obtainFirstOpenRoom() {
     for (i = 0; i < filled_rooms.length; i++) {
-      if (filled_rooms[i] == "false") {
+      if (filled_rooms[i] == false) {
         return i;
       }
     }
@@ -132,7 +132,7 @@ io.on('connection', function(socket) {
   socket.on('disconnect', function() {
     for (i = 0; i < filled_rooms.length;i ++) {
       if (filled_rooms[i] == socket.id) {
-        filled_rooms[i] = False;
+        filled_rooms[i] = false;
         break;
       }
     }
