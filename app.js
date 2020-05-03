@@ -143,6 +143,7 @@ io.on('connection', function(socket) {
 
   socket.on('username', (data) => {
     room_number = obtainFirstOpenRoom();
+    filled_rooms[room_number] = socket.id;
     online_users[socket.id] = {
       username: data,
       x: 250,
