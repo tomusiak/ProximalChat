@@ -132,4 +132,4 @@ io.on('connection', function(socket) {
 
 setInterval(function() {
   io.sockets.emit('state', online_users);
-}, 2000 / 60);
+}, 3000 / 60);
