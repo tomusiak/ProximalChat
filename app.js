@@ -73,12 +73,12 @@ server.listen(3000, function() {
 
 var online_users = {};
 filled_rooms = {
-  0: False,
-  1: False,
-  2: False,
-  3: False,
-  4: False,
-  5: False
+  0: false,
+  1: false,
+  2: false,
+  3: false,
+  4: false,
+  5: false
 };
 
 io.on('connection', function(socket) {
@@ -129,17 +129,20 @@ io.on('connection', function(socket) {
   });
 
   socket.on('username', (data) => {
-    online_users[socket.id] = {
-      username: data,
-      x: 250,
-      y: 250
-    };
+    room_number= 0;
     for (i = 0; i < filled_rooms.length;i ++) {
-      if (filled_rooms[i] == False) {
+      if (filled_rooms[i] == false) {
         filled_rooms[i] = socket.id;
+        room_number = i;
         break;
       }
     }
+    online_users[socket.id] = {
+      username: data,
+      x: 250,
+      y: 250,
+      room_number: room_number
+    };
     socket.emit('usernameAdded', online_users[socket.id]);
     io.sockets.emit("usersChanged", online_users);
   });
