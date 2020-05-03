@@ -329,4 +329,8 @@ navigator.getUserMedia({video: true, audio: true}, function (stream) {
     pc.addStream(stream);
 }, error);
 
+function error(err) {
+    console.warn('Error', err);
+}
+
 init();
