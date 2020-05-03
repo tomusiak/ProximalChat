@@ -220,7 +220,7 @@ socket.on("newlyConnected", function () {
     modal.style.display = "block";
 });
 
-socket.on('chat message', function(msg){
+socket.on('chat message', function(msg) {
   $('#messages').append($('<li>').text(msg));
   if (msg != '') {
     updateScroll();

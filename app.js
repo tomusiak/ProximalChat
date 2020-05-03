@@ -121,7 +121,7 @@ io.on('connection', function(socket) {
       y: 250
     };
     socket.emit('usernameAdded', online_users[socket.id]);
-    socket.emit("usersChanged", online_users);
+    io.emit("usersChanged", online_users);
   });
 
   socket.on('chat message', (msg) => {
