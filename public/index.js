@@ -249,7 +249,7 @@ $(document).ready(function(){
   });
 });
 
-navigator.getUserMedia(
+navigator.mediaDevices.getUserMedia(
  { video: true, audio: true },
  stream => {
    const localVideo = document.getElementById("local-video");
