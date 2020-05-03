@@ -7,9 +7,10 @@ var body_parser = require('body-parser');
 var socket_IO = require('socket.io');
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var http = require('http');
+const server = require('http').createServer();
+var io = require('socket.io')(server);
 var bodyParser = require('body-parser')
-var app = express();
+var app = require('express')();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,8 +58,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
-var server = http.Server(app);
-var io = socket_IO(server);
 app.set('port', 3000);
 app.use('/static', express.static(__dirname + '/static'));
 
@@ -67,8 +66,8 @@ app.get('/', function(request, response) {
   response.sendFile(path.join(__dirname, 'index.html'));
 });
 
-server.listen(3000, function() {
-  console.log('Starting server on port 5000');
+server.listen(3000,'127.0.0.1', function() {
+  console.log('Starting server on port 3000');
 });
 
 var online_users = {};
