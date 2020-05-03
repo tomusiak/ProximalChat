@@ -7,8 +7,8 @@ var body_parser = require('body-parser');
 var socket_IO = require('socket.io');
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+const server = require('http').createServer();
+var io = require('socket.io')(server);
 var bodyParser = require('body-parser')
 var app = require('express')();
 
@@ -66,7 +66,7 @@ app.get('/', function(request, response) {
   response.sendFile(path.join(__dirname, 'index.html'));
 });
 
-http.listen(3000, function() {
+server.listen(3000, function() {
   console.log('Starting server on port 5000');
 });
 
