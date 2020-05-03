@@ -170,6 +170,8 @@ socket.on("usernameAdded", function(user) {
   online_user_y = 250;
   redrawCanvas();
   setupAudios(250,250);
+  var modal = document.getElementById("myModal");
+  modal.style.display = "none";
 });
 
 function setupAudios(circle_x, circle_y) {
