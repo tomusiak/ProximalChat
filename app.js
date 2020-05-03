@@ -111,7 +111,7 @@ io.on('connection', function(socket) {
 
   socket.on('disconnect', function() {
     delete online_users[socket.id];
-    socket.emit("usersChanged",online_users);
+    io.emit("usersChanged",online_users);
   });
 
   socket.on('username', (data) => {
