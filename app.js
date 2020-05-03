@@ -120,7 +120,7 @@ io.on('connection', function(socket) {
       x: 250,
       y: 250
     }
-    io.emit('usernameAdded', online_users[socket.id]);
+    socket.emit('usernameAdded', online_users[socket.id]);
   });
 
   socket.on('chat message', (msg) => {
