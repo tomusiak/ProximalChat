@@ -219,6 +219,18 @@ socket.on("usernameAdded", function(user) {
   redrawCanvas();
   setupAudios(250,250);
   username = user.username;
+  navigator.mediaDevices.getUserMedia(
+   { video: true, audio: true },
+   stream => {
+     const localVideo = document.getElementById("local-video");
+     if (localVideo) {
+       localVideo.srcObject = stream;
+     }
+   },
+   error => {
+     console.warn(error.message);
+   }
+  );
 });
 
 socket.on("newlyConnected", function () {
@@ -248,18 +260,5 @@ $(document).ready(function(){
     return false;
   });
 });
-
-navigator.mediaDevices.getUserMedia(
- { video: true, audio: true },
- stream => {
-   const localVideo = document.getElementById("local-video");
-   if (localVideo) {
-     localVideo.srcObject = stream;
-   }
- },
- error => {
-   console.warn(error.message);
- }
-);
 
 init();
