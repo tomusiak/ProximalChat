@@ -6,6 +6,7 @@ var lines = [];
 var audios = [];
 var source_list = [];
 var username = "";
+var edit = "";
 
 var movement = {
   up: false,
