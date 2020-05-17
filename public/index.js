@@ -219,6 +219,9 @@ function setupAudios(circle_x, circle_y) {
 }
 */
 
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia
+                    || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
 socket.on('hasMoved',function(online_user) {
   online_user_x = online_user.x;
   online_user_y = online_user.y;
