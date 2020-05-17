@@ -26,6 +26,15 @@ const video_array = [
 
 var video = "video_4";
 
+video = document.getElementById("video_0");
+var constraints = {
+    video: true,
+    audio: true,
+};
+navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
+  video.srcObject = mediaStream;
+})
+
 navigator.getUserMedia(
  { video: true, audio: true },
  stream => {
