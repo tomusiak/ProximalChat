@@ -68,7 +68,7 @@ app.get('/', function(request, response) {
 });
 
 server.listen(3000, function() {
-  console.log('Starting server on port 5000');
+  console.log('Starting server on port 3000');
 });
 
 var online_users = {};
@@ -157,6 +157,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on("userCalled", data => {
+    console.log('Made it to calling.');
      socket.to(data.to).emit("callMade", {
        offer: data.offer,
        socket: socket.id
