@@ -288,12 +288,16 @@ async function callUser(socketId) {
       socket.emit("candidate", id, event.candidate);
     }
   };
-  const offer = await peerConnection.createOffer();
-  await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
-  socket.emit("userCalled", {
-    offer,
-    to: socketId
-  });
+
+  peerConnection
+    .createOffer()
+    .then(sdp => peerConnection.setLocalDescription(sdp))
+    .then(() => {
+      socket.emit("userCalled", {
+        offer,
+        to: socketId
+      });
+    });
 }
 
 socket.on('callingInitiated', function(online_users) {
