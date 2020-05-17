@@ -33,7 +33,7 @@ peerConnection.ontrack = function({ streams: [stream] }) {
  }
 };
 
-var video = 0;
+var local_video = 0;
 
 online_user_x = 0;
 online_user_y = 0;
@@ -250,15 +250,15 @@ socket.on("usernameAdded", function(user) {
   redrawCanvas();
   //setupAudios(online_user_x,online_user_y);
   username = user.username;
-  video = document.getElementById(video_array[user.room_number]);
+  local_video = document.getElementById(video_array[user.room_number]);
   var constraints = {
       video: true,
       audio: false,
   };
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-    video.srcObject = mediaStream;
+    local_video.srcObject = mediaStream;
   })
-  video.muted = true;
+  local_video.muted = true;
 });
 
 socket.on("newlyConnected", function () {
@@ -284,9 +284,7 @@ async function callUser(socketId) {
 
 socket.on('callingInitiated', function(online_users) {
   for (var id in online_users.users) {
-    socket.emit("log", id);
     if (id != online_users.me) {
-      socket.emit("log", id);
       callUser(id);
     }
   }
@@ -308,13 +306,13 @@ socket.on("answerMade", async data => {
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.answer)
  );
+
  //callUser(data.socket)
  navigator.getUserMedia(
   { video: true, audio: true },
   stream => {
-    const localVideo = video;
-    if (localVideo) {
-      localVideo.srcObject = stream;
+    if (local_video) {
+      local_video.srcObject = stream;
     }
     stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   },
