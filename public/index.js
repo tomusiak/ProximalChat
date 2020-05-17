@@ -340,7 +340,7 @@ socket.on("answer", (id, description) => {
 
 let peerConnection;
 
-socket.on("offer", (id, description) => {
+socket.on("offer", (id, description, your_id) => {
   socket.emit("log","in offer");
   video = document.getElementById("video_4");
   peerConnection = new RTCPeerConnection(config);
@@ -349,7 +349,7 @@ socket.on("offer", (id, description) => {
     .then(() => peerConnection.createAnswer())
     .then(sdp => peerConnection.setLocalDescription(sdp))
     .then(() => {
-      socket.emit("answer", id, peerConnection.localDescription);
+      socket.emit("answer", id, peerConnection.localDescription, your_id);
     });
   peerConnection.ontrack = event => {
     socket.emit("log","in ontrack");
