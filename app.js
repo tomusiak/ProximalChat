@@ -180,16 +180,11 @@ io.on('connection', function(socket) {
     });
 
   socket.on("offer", (id, message) => {
-    console.log(id);
-    console.log(socket.id);
-      io.to(id).emit("offer", socket.id, message, id);
+      io.to(id).emit("offer", socket.id, message);
   });
 
   socket.on("answer", (id, message, me) => {
-    console.log(id);
-    console.log(socket.id);
-    console.log(me);
-    io.to(id).emit("answer", me, message);
+    io.to(id).emit("answer", id, message);
   });
 
   socket.on("candidateCallee", (id, message) => {

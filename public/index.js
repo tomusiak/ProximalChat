@@ -321,7 +321,7 @@ socket.on("watcher", data => {
         .createOffer()
         .then(sdp => peerConnection.setLocalDescription(sdp))
         .then(() => {
-          socket.emit("offer", id, peerConnection.localDescription, data.me);
+          socket.emit("offer", id, peerConnection.localDescription);
         });
       }
     }
@@ -331,16 +331,17 @@ socket.on("answer", (id, description) => {
   //socket.emit("log", peerConnections);
   //socket.emit("log", id)
 
+  first_key = peerConnections.keys(ahash)[0];
   socket.emit("log","connections");
   socket.emit("log",peerConnections);
-  socket.emit("log","requested id");
-  socket.emit("log", id);
-  peerConnections[id].setRemoteDescription(description);
+  socket.emit("log","first key");
+  socket.emit("log", first_key);
+  first_key.setRemoteDescription(description);
 });
 
 let peerConnection;
 
-socket.on("offer", (id, description, me) => {
+socket.on("offer", (id, description) => {
   socket.emit("log","in offer");
   video = document.getElementById("video_4");
   peerConnection = new RTCPeerConnection(config);
@@ -349,8 +350,7 @@ socket.on("offer", (id, description, me) => {
     .then(() => peerConnection.createAnswer())
     .then(sdp => peerConnection.setLocalDescription(sdp))
     .then(() => {
-      socket.emit("log",me);
-      socket.emit("answer", id, peerConnection.localDescription, me);
+      socket.emit("answer", id, peerConnection.localDescription);
     });
   peerConnection.ontrack = event => {
     socket.emit("log","in ontrack");
