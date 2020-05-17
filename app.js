@@ -179,15 +179,15 @@ io.on('connection', function(socket) {
       socket.emit("disconnectPeer", socket.id);
     });
 
-  socket.on("offer", (id, message) => {
-      io.to(id).emit("offer", socket.id, message, id);
+  socket.on("offer", (id, message, me) => {
+      io.to(id).emit("offer", socket.id, message, me);
   });
 
-  socket.on("answer", (id, message, your_id) => {
+  socket.on("answer", (id, message, me) => {
     console.log(id);
     console.log(socket.id);
-    console.log(your_id);
-    io.to(id).emit("answer", your_id, message);
+    console.log(me);
+    io.to(id).emit("answer", me, message);
   });
 
   socket.on("candidateCallee", (id, message) => {
