@@ -315,6 +315,7 @@ socket.on("callMade", async data => {
  );
  const answer = await peerConnection.createAnswer();
  await peerConnection.setLocalDescription(new RTCSessionDescription(answer));
+ openCall(peerConnection);
  socket.emit("answerCall", {
    answer,
    to: data.socket
