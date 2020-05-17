@@ -294,7 +294,7 @@ const config = {
   ]
 };
 
-const video = document.getElementById("video_5");
+video = document.getElementById("video_5");
 navigator.mediaDevices
   .getUserMedia(constraints)
   .then(stream => {
