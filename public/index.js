@@ -271,6 +271,7 @@ async function openCall(pc) {
   const gumStream = await navigator.mediaDevices.getUserMedia(
                           {video: true, audio: true});
   for (const track of gumStream.getTracks()) {
+    socket.emit("log","DID I DO SOMETHING HERE");
     pc.addTrack(track);
   }
 }
@@ -322,7 +323,6 @@ socket.on("callMade", async data => {
   };
  navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
    stream = mediaStream;
-   socket.emit("log","DID I DO SOMETHING HERE");
    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
  })
  socket.emit("answerCall", {
