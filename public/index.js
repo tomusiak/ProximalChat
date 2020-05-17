@@ -285,7 +285,8 @@ socket.on('callingInitiated', function(online_users) {
 });
 
 socket.on("callMade", async data => {
- console.log("getting called");
+ var modal = document.getElementById("myModal");
+ modal.style.display = "block";
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.offer)
  );
