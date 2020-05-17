@@ -295,6 +295,12 @@ const config = {
 };
 
 const video = document.getElementById("video_5");
+navigator.mediaDevices
+  .getUserMedia(constraints)
+  .then(stream => {
+    video.srcObject = stream;
+  })
+  .catch(error => console.error(error));
 
 socket.on("watcher", data => {
   for (id in data.users) {
