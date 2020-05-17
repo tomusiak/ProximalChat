@@ -166,6 +166,9 @@ io.on('connection', function(socket) {
      });
    });
 
+   socket.on("answer", (id, message) => {
+     socket.to(id).emit("answer", socket.id, message);
+   });
    socket.on("offer", (id, message) => {
        socket.to(id).emit("offer", socket.id, message);
    });

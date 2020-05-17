@@ -271,7 +271,6 @@ async function openCall(pc) {
   const gumStream = await navigator.mediaDevices.getUserMedia(
                           {video: true, audio: true});
   for (const track of gumStream.getTracks()) {
-    socket.emit("log","DID I DO SOMETHING HERE");
     pc.addTrack(track);
   }
 }
@@ -329,6 +328,10 @@ socket.on("callMade", async data => {
    answer,
    to: data.socket
  });
+});
+
+socket.on("answer", (id, description) => {
+  peerConnections[id].setRemoteDescription(description);
 });
 
 socket.on("candidate", (id, candidate) => {
