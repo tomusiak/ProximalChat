@@ -285,6 +285,7 @@ socket.on('callingInitiated', function(online_users) {
 });
 
 socket.on("callMade", async data => {
+  socket.emit("log");
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.offer)
  );

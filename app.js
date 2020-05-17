@@ -180,6 +180,10 @@ io.on('connection', function(socket) {
     io.sockets.emit('messageSent', message);
   });
 
+  socket.on("log") {
+    console.log("log");
+  }
+
 });
 
 setInterval(function() {
