@@ -256,15 +256,19 @@ socket.on('messageSent', function(message) {
   }
 });
 
+async function callUser(socketId) {
+  const offer = await peerConnection.createOffer();
+  await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
+  socket.emit("userCalled", {
+    offer,
+    to: online_user
+  });
+}
+
 socket.on('callingInitiated', function(online_users) {
   for (var id in online_users) {
     online_user = online_users[id];
-    const offer = await peerConnection.createOffer();
-    await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
-    socket.emit("userCalled", {
-      offer,
-      to: online_user
-    });
+    callUser(online_user);
   }
 });
 
