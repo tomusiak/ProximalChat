@@ -273,7 +273,7 @@ async function callUser(socketId) {
   await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
   socket.emit("userCalled", {
     offer,
-    to: online_user
+    to: socketId
   });
 }
 
