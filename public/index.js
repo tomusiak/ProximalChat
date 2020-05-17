@@ -306,7 +306,7 @@ socket.on("answerMade", async data => {
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.answer)
  );
- socket.emit("log");
+ socket.emit("log", "horse");
  //callUser(data.socket)
  navigator.getUserMedia(
   { video: true, audio: true },

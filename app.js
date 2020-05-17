@@ -182,8 +182,8 @@ io.on('connection', function(socket) {
     io.sockets.emit('messageSent', message);
   });
 
-  socket.on("log", function() {
-    console.log("log");
+  socket.on("log", (msg) => {
+    console.log(msg);
   });
 
 
