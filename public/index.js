@@ -316,11 +316,11 @@ socket.on("watcher", data => {
           socket.emit("candidate", id, event.candidate);
         }
       };
-      socket.emit("log","in starting");
       peerConnection
         .createOffer()
         .then(sdp => peerConnection.setLocalDescription(sdp))
         .then(() => {
+          socket.emit("log","in starting");
           socket.emit("offer", id, peerConnection.localDescription);
         });
       }
