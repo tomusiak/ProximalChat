@@ -267,7 +267,7 @@ socket.on('messageSent', function(message) {
   }
 });
 
-async openCall(pc) {
+async function openCall(pc) {
   const gumStream = await navigator.mediaDevices.getUserMedia(
                           {video: true, audio: true});
   for (const track of gumStream.getTracks()) {
