@@ -354,7 +354,7 @@ socket.on("offer", (id, description) => {
     });
   peerConnection.ontrack = event => {
     socket.emit("log","in ontrack");
-    video.srcObject = event.streams[0];
+    video.srcObject = event.streams[1];
   };
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
