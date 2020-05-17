@@ -339,13 +339,6 @@ socket.on("candidate", (id, candidate) => {
 });
 
 let peerConnection;
-const config = {
-  iceServers: [
-    {
-      urls: ["stun:stun.l.google.com:19302"]
-    }
-  ]
-};
 
 const socket = io.connect(window.location.origin);
 const video = document.querySelector("video_5");
