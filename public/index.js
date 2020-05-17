@@ -33,7 +33,7 @@ peerConnection.ontrack = function({ streams: [stream] }) {
  }
 };
 
-var local_video = 0;
+var local_video_slot;
 
 online_user_x = 0;
 online_user_y = 0;
@@ -259,6 +259,7 @@ socket.on("usernameAdded", function(user) {
     local_video.srcObject = mediaStream;
   })
   local_video.muted = true;
+  local_video_slot = video_array[user.room_number]);
 });
 
 socket.on("newlyConnected", function () {
@@ -309,9 +310,10 @@ socket.on("answerMade", async data => {
   navigator.getUserMedia(
     { video: true, audio: true },
     stream => {
-      socket.emit("log",local_video);
-      if (local_video) {
-        local_video.srcObject = stream;
+      socket.emit("log",local_video_slot);
+      local_video = document.getElementById(video_array[local_video_slot]);
+      if (local_video_slot) {
+        local_video_slot.srcObject = stream;
       }
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
     },
