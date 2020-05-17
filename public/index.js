@@ -15,9 +15,6 @@ var movement = {
   right: false
 }
 
-const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
-const peerConnection = new RTCPeerConnection(configuration);
-
 const video_array = [
   "video_0",
   "video_1",
@@ -30,6 +27,9 @@ const video_array = [
 var video = "video_0";
 
 const { RTCPeerConnection, RTCSessionDescription } = window;
+
+const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
+const peerConnection = new RTCPeerConnection(configuration);
 
 online_user_x = 0;
 online_user_y = 0;
