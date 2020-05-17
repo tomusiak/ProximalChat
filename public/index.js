@@ -293,7 +293,7 @@ const config = {
   ]
 };
 
-const video = document.querySelector("video_5");
+const video = document.getElementById("video_5");
 
 var constraints = {
     video: true,
