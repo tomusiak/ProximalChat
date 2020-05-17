@@ -40,28 +40,36 @@ document.addEventListener('keydown', function(event) {
     switch (event.keyCode) {
       case 37: // A
           movement.left = true;
+          /*
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
           });
+          */
           break;
 
       case 38: // W
           movement.up = true;
+          /*
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
           });
+          */
         break;
       case 39: // D
           movement.right = true;
+          /*
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
           });
+          */
           break;
       case 40: // S
           movement.down = true;
+          /*
           audios.forEach(song => {
             (song.gain).gain.value = 62500 / (Math.pow((Math.sqrt(Math.pow(online_user_x-song.x,2)+Math.pow(online_user_y-song.y,2))),2) + 62500);
           });
+          */
           break;
       };
 });
