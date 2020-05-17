@@ -349,6 +349,7 @@ socket.on("offer", (id, description, me) => {
     .then(() => peerConnection.createAnswer())
     .then(sdp => peerConnection.setLocalDescription(sdp))
     .then(() => {
+      socket.emit("log",me);
       socket.emit("answer", id, peerConnection.localDescription, me);
     });
   peerConnection.ontrack = event => {
