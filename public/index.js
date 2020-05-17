@@ -330,6 +330,7 @@ socket.on("watcher", data => {
 socket.on("answer", (id, description) => {
   //socket.emit("log", peerConnections);
   //socket.emit("log", id)
+  socket.emit("log",peerConnections);
   peerConnections[id].setRemoteDescription(description);
 });
 
