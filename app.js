@@ -180,7 +180,7 @@ io.on('connection', function(socket) {
     });
 
   socket.on("offer", (id, message) => {
-      io.to(id).emit("offer", socket.id, message, your_id);
+      io.to(id).emit("offer", socket.id, message, id);
   });
 
   socket.on("answer", (id, message, your_id) => {
