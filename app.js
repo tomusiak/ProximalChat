@@ -150,10 +150,10 @@ io.on('connection', function(socket) {
       y: 250,
       room_number: room_number
     };
-    socket.emit('usernameAdded', online_users[socket.id]);
+    io.to(socket).emit('usernameAdded', online_users[socket.id]);
     io.sockets.emit("usersChanged", online_users);
     console.log(online_users);
-    socket.emit('watcher', {
+    io.to(socket.id).emit('watcher', {
       users: online_users,
       me: socket.id});
     num_users = num_users + 1;
@@ -180,13 +180,13 @@ io.on('connection', function(socket) {
     });
 
   socket.on("offer", (id, message) => {
-      socket.to(id).emit("offer", socket.id, message);
+      io.to(id).emit("offer", socket.id, message);
   });
   socket.on("answer", (id, message) => {
-    socket.to(id).emit("answer", socket.id, message);
+    io.to(id).emit("answer", socket.id, message);
   });
   socket.on("candidate", (id, message) => {
-    socket.to(id).emit("candidate", socket.id, message);
+    io.to(id).emit("candidate", socket.id, message);
   });
 });
 
