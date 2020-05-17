@@ -303,24 +303,23 @@ socket.on("callMade", async data => {
 });
 
 socket.on("answerMade", async data => {
- await peerConnection.setRemoteDescription(
-   new RTCSessionDescription(data.answer)
- );
-
- //callUser(data.socket)
- navigator.getUserMedia(
-  { video: true, audio: true },
-  stream => {
-    if (local_video) {
-      local_video.srcObject = stream;
+  socket.emit("log","before remote desc");
+  await peerConnection.setRemoteDescription(
+    new RTCSessionDescription(data.answer)
+  );
+  socket.emit("log","after remote desc");
+  navigator.getUserMedia(
+    { video: true, audio: true },
+    stream => {
+      if (local_video) {
+        local_video.srcObject = stream;
+      }
+      stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+    },
+    error => {
+      console.warn(error.message);
     }
-    socket.emit("log",local_video);
-    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
-  },
-  error => {
-    console.warn(error.message);
-  }
- );
+   );
 });
 
 $(document).ready(function(){
