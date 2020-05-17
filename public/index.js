@@ -301,7 +301,7 @@ socket.on("answerMade", async data => {
    new RTCSessionDescription(data.answer)
  );
 
- callUser(data.socket);
+ //callUser(data.socket);
 
  navigator.getUserMedia(
   { video: true, audio: true },
@@ -316,7 +316,6 @@ socket.on("answerMade", async data => {
     console.warn(error.message);
   }
  );
-
 
  peerConnection.ontrack = function({ streams: [stream] }) {
   const remoteVideo = document.getElementById("video_5");
