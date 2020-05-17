@@ -316,7 +316,7 @@ socket.on("watcher", data => {
           socket.emit("candidateCaller", id, event.candidate);
         }
       };
-
+      }
       peerConnection
         .createOffer()
         .then(sdp => peerConnection.setLocalDescription(sdp))
@@ -324,19 +324,18 @@ socket.on("watcher", data => {
           socket.emit("offer", id, peerConnection.localDescription);
         });
       }
-    }
 });
 
 socket.on("answer", (id, description) => {
   //socket.emit("log", peerConnections);
   //socket.emit("log", id)
 
-  first_key = Object.keys(peerConnections)[0];
+  //first_key = Object.keys(peerConnections)[0];
   socket.emit("log","connections");
   socket.emit("log",peerConnections);
   socket.emit("log","first key");
   socket.emit("log", first_key);
-  peerConnections[first_key].setRemoteDescription(description);
+  peerConnections[id].setRemoteDescription(description);
 });
 
 let peerConnection;
