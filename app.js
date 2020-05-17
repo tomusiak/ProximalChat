@@ -164,7 +164,8 @@ io.on('connection', function(socket) {
      });
    });
 
-   socket.on("callMade", data => {
+   socket.on("answerCall", data => {
+     console.log('Made it to answering call.');
       socket.to(data.to).emit("answerMade", {
         socket: socket.id,
         answer: data.answer
