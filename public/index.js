@@ -6,6 +6,7 @@ var lines = [];
 var audios = [];
 var source_list = [];
 var username = "";
+var stream;
 var edit = "";
 
 var movement = {
@@ -27,7 +28,7 @@ const video_array = [
 const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
 const peerConnection = new RTCPeerConnection(configuration);
 peerConnection.ontrack = function({ streams: [stream] }) {
-  socket.emit("log","in here now.")
+ socket.emit("log","in here now.")
  const remoteVideo = document.getElementById("video_5");
  if (remoteVideo) {
    remoteVideo.srcObject = stream;
@@ -314,7 +315,7 @@ socket.on("answerMade", async data => {
       socket.emit("log",local_video_slot);
       local_video = document.getElementById(video_array[local_video_slot]);
       if (local_video_slot) {
-        local_video_slot.srcObject = stream;
+        local_video.srcObject = stream;
       }
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
     },
