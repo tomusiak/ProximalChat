@@ -233,7 +233,7 @@ socket.on("usernameAdded", function(user) {
   online_user_x = user.x;
   online_user_y = user.y;
   redrawCanvas();
-  setupAudios(online_user_x,online_user_y);
+  //setupAudios(online_user_x,online_user_y);
   username = user.username;
   video = document.getElementById(video_array[user.room_number]);
   var constraints = {
