@@ -25,16 +25,6 @@ const video_array = [
   "video_5"
 ]
 
-const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
-const peerConnection = new RTCPeerConnection(configuration);
-peerConnection.onaddstream = event => {
-  socket.emit("log","streaming!");
-  const remoteVideo = document.getElementById("video_5");
-  remoteVideo.srcObject = event.stream;
-};
-
-
-
 var local_video_slot;
 
 online_user_x = 0;
@@ -256,11 +246,11 @@ socket.on("usernameAdded", function(user) {
   var constraints = {
       video: true,
       audio: false,
-  };
+  };+
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
     local_video.srcObject = mediaStream;
-    peerConnection.addStream(mediaStream);
   })
+  add_to_connection
   local_video.muted = true;
   local_video_slot = video_array[user.room_number];
 });
@@ -278,6 +268,13 @@ socket.on('messageSent', function(message) {
 });
 
 async function callUser(socketId) {
+  const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
+  const peerConnection = new RTCPeerConnection(configuration);
+  peerConnection.ontrack = event => {
+    socket.emit("log","streaming!");
+    const remoteVideo = document.getElementById("video_5");
+    remoteVideo.srcObject = event.stream;
+  };
   const offer = await peerConnection.createOffer();
   await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
   socket.emit("userCalled", {
