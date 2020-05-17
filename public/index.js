@@ -268,7 +268,7 @@ socket.on('messageSent', function(message) {
   }
 });
 
-function openCall(peerConnection) {
+async function openCall(peerConnection) {
   local_video = document.getElementById(video_array[local_video_slot]);
   var constraints = {
       video: true,
@@ -276,9 +276,9 @@ function openCall(peerConnection) {
   };
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
     local_video.srcObject = mediaStream;
+    stream = mediaStream;
+    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   })
-  stream = local_video.srcObject;
-  stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
 }
 
 async function callUser(socketId) {
