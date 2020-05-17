@@ -271,7 +271,7 @@ async function callUser(id) {
   configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
   peerConnection = new RTCPeerConnection(configuration);
   peer_connections[id] = peerConnection;
-  remote_video = document.getElementById("video_5");
+  remote_video = document.getElementById("video_0");
   var constraints = {
       video: true,
       audio: true,
@@ -354,7 +354,7 @@ socket.on("offer", (id, description) => {
     .then(() => {
       socket.emit("answer", id, peerConnection.localDescription);
     });
-    remote_video = document.getElementById("video_5");
+    remote_video = document.getElementById("video_0");
     peerConnection.ontrack = event => {
     remote_video.srcObject = event.streams[0];
   };
