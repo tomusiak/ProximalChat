@@ -303,14 +303,13 @@ socket.on("callMade", async data => {
 });
 
 socket.on("answerMade", async data => {
-  socket.emit("log","before remote desc");
   await peerConnection.setRemoteDescription(
     new RTCSessionDescription(data.answer)
   );
-  socket.emit("log","after remote desc");
   navigator.getUserMedia(
     { video: true, audio: true },
     stream => {
+      socket.emit("log",local_video);
       if (local_video) {
         local_video.srcObject = stream;
       }
