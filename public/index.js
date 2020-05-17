@@ -24,17 +24,16 @@ const video_array = [
   "video_5"
 ]
 
-var video = "video_4";
-
-
 const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
 const peerConnection = new RTCPeerConnection(configuration);
 
-video = document.getElementById("video_0");
+var video = document.getElementById("video_0");
+
 var constraints = {
     video: true,
     audio: true,
 };
+
 navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
   video.srcObject = mediaStream;
 })
@@ -309,8 +308,10 @@ async function callUser(socketId) {
 }
 
 socket.on('callingInitiated', function(online_users) {
-  for (var id in online_users) {
-    callUser(id);
+  for (var id in online_users.users) {
+    if (id != online_users.me) {
+      callUser(id);
+    }
   }
 });
 
