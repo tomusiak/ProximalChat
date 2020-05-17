@@ -333,10 +333,6 @@ socket.on("answer", (id, description) => {
   peerConnections[id].setRemoteDescription(description);
 });
 
-socket.on("candidate", (id, candidate) => {
-  peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate));
-});
-
 let peerConnection;
 
 socket.on("offer", (id, description) => {
@@ -362,9 +358,7 @@ socket.on("offer", (id, description) => {
 });
 
 socket.on("candidate", (id, candidate) => {
-  peerConnection
-    .addIceCandidate(new RTCIceCandidate(candidate))
-    .catch(e => console.error(e));
+  peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate));
 });
 
 socket.on("connect", () => {
