@@ -280,9 +280,7 @@ async function callUser(id) {
     stream = mediaStream;
     stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   })
-  peerConnection.ontrack = event => {
-    remote_video.srcObject = event.streams[0];
-  }
+
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
       socket.emit("candidate", id, event.candidate);
