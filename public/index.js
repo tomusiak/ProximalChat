@@ -320,7 +320,7 @@ socket.on("watcher", data => {
         .createOffer()
         .then(sdp => peerConnection.setLocalDescription(sdp))
         .then(() => {
-          socket.emit("log",id);
+          //socket.emit("log",id);
           socket.emit("offer", id, peerConnection.localDescription);
         });
       }
