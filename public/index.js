@@ -252,10 +252,10 @@ socket.on("usernameAdded", function(user) {
   };
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
     local_video.srcObject = mediaStream;
+    stream = mediaStream;
   })
   local_video.muted = true;
   local_video_slot = video_array[user.room_number];
-  stream = mediaStream;
 });
 
 socket.on("newlyConnected", function () {
