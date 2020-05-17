@@ -307,10 +307,10 @@ socket.on("watcher", data => {
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[id] = peerConnection;
 
+      if (id != data.me) {
+
       let stream = video.srcObject;
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
-      
-      if (id != data.me) {
 
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
