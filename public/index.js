@@ -322,7 +322,7 @@ socket.on("callMade", async data => {
   };
  navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
    stream = mediaStream;
-   socket.emit("DID I DO SOMETHING HERE");
+   socket.emit("log","DID I DO SOMETHING HERE");
    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
  })
  socket.emit("answerCall", {
@@ -345,7 +345,7 @@ socket.on("answerMade", async data => {
 socket.on("offer", (id, description) => {
   const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
   peerConnection = new RTCPeerConnection(configuration);
-  socket.emit("DID I MAKEI T???");
+  socket.emit("log","DID I MAKEI T???");
   peerConnection
     .setRemoteDescription(description)
     .then(() => peerConnection.createAnswer())
