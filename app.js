@@ -184,7 +184,9 @@ io.on('connection', function(socket) {
   });
 
   socket.on("answer", (id, message) => {
-    io.to(id).emit("answer", id, message);
+    console.log(id);
+    console.log(socket.id);
+    io.to(id).emit("answer", socket.id, message);
   });
 
   socket.on("candidateCallee", (id, message) => {
