@@ -303,6 +303,7 @@ navigator.mediaDevices
   .catch(error => console.error(error));
 
 socket.on("watcher", data => {
+  socket.emit("log","in starting");
   for (id in data.users) {
     if (id != data.me) {
       const peerConnection = new RTCPeerConnection(config);
@@ -338,6 +339,7 @@ socket.on("candidate", (id, candidate) => {
 let peerConnection;
 
 socket.on("offer", (id, description) => {
+  socket.emit("log","in offer");
   video = document.getElementById("video_4");
   peerConnection = new RTCPeerConnection(config);
   peerConnection
@@ -348,6 +350,7 @@ socket.on("offer", (id, description) => {
       socket.emit("answer", id, peerConnection.localDescription);
     });
   peerConnection.ontrack = event => {
+    socket.emit("log","in ontrack");
     video.srcObject = event.streams[0];
   };
   peerConnection.onicecandidate = event => {
