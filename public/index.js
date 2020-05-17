@@ -27,7 +27,7 @@ const video_array = [
 
 const peer_connections = {};
 
-var local_video_slot;
+var local_video = 0;
 
 online_user_x = 0;
 online_user_y = 0;
@@ -253,7 +253,6 @@ socket.on("usernameAdded", function(user) {
     local_video.srcObject = mediaStream;
   })
   local_video.muted = true;
-  local_video_slot = video_array[user.room_number];
 });
 
 socket.on("newlyConnected", function () {
@@ -269,7 +268,6 @@ socket.on('messageSent', function(message) {
 });
 
 async function openCall(peerConnection) {
-  local_video = document.getElementById(local_video_slot);
   let stream = local_video.srcObject;
   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
 }
@@ -285,7 +283,7 @@ async function callUser(socketId) {
   openCall(peerConnection);
   const offer = await peerConnection.createOffer();
   await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
-  peerConnections[socketId] = peerConnection;
+  peer_connections[socketId] = peerConnection;
   socket.emit("userCalled", {
     offer,
     to: socketId
@@ -301,7 +299,7 @@ socket.on('callingInitiated', function(online_users) {
 });
 
 socket.on("callMade", async data => {
- peerConnection = peerConnections[data.socket];
+ peerConnection = peer_connections[data.socket];
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.offer)
  );
@@ -314,7 +312,7 @@ socket.on("callMade", async data => {
 });
 
 socket.on("answerMade", async data => {
-  peerConnection = peerConnections[data.socket];
+  peerConnection = peer_connections[data.socket];
   await peerConnection.setRemoteDescription(
     new RTCSessionDescription(data.answer)
   );
