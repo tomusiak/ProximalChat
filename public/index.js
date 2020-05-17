@@ -280,15 +280,12 @@ function callUser(id) {
   peerConnection = new RTCPeerConnection(configuration);
   peer_connections[id] = peerConnection;
   remote_video = document.getElementById("video_4");
-
   openCall(peerConnection);
-
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
       socket.emit("candidate", id, event.candidate);
     }
   };
-
   peerConnection
       .createOffer()
       .then(sdp => peerConnection.setLocalDescription(sdp))
@@ -347,6 +344,18 @@ socket.on("answerMade", async data => {
 socket.on("offer", (id, description) => {
   const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
   peerConnection = new RTCPeerConnection(configuration);
+  peerConnectionc.ontrack = ev => {
+    videoElem = document.querySelector("video_5");
+    if (ev.streams && ev.streams[0]) {
+      videoElem.srcObject = ev.streams[0];
+    } else {
+      if (!inboundStream) {
+        inboundStream = new MediaStream();
+        videoElem.srcObject = inboundStream;
+      }
+      inboundStream.addTrack(ev.track);
+    }
+  }
   peerConnection
     .setRemoteDescription(description)
     .then(() => peerConnection.createAnswer())
