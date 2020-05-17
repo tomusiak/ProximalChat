@@ -247,12 +247,12 @@ socket.on("usernameAdded", function(user) {
   local_video = document.getElementById(video_array[user.room_number]);
   var constraints = {
       video: true,
-      audio: false,
+      audio: true,
   };
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
     local_video.srcObject = mediaStream;
   })
-  local_video.muted = true;
+  socket.emit("log",local_video);
 });
 
 socket.on("newlyConnected", function () {
@@ -268,7 +268,8 @@ socket.on('messageSent', function(message) {
 });
 
 async function openCall(peerConnection) {
-  let stream = local_video.srcObject;
+  socket.emit("log",local_video);
+  stream = local_video.srcObject;
   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
 }
 
@@ -299,6 +300,8 @@ socket.on('callingInitiated', function(online_users) {
 });
 
 socket.on("callMade", async data => {
+ const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
+ const peerConnection = new RTCPeerConnection(configuration);
  peerConnection = peer_connections[data.socket];
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.offer)
