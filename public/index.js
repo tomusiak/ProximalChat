@@ -309,14 +309,14 @@ socket.on("watcher", data => {
 
       let stream = video.srcObject;
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+      
+      if (id != data.me) {
 
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
           socket.emit("candidateCaller", id, event.candidate);
         }
       };
-
-      if (id != data.me) {
 
       peerConnection
         .createOffer()
