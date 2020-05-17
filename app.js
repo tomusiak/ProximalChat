@@ -158,34 +158,6 @@ io.on('connection', function(socket) {
     num_users = num_users + 1;
   });
 
-  socket.on("userCalled", data => {
-    console.log('Made it to calling.');
-     socket.to(data.to).emit("callMade", {
-       offer: data.offer,
-       socket: socket.id
-     });
-   });
-
-   socket.on("answer", (id, message) => {
-     socket.to(id).emit("answer", socket.id, message);
-   });
-   socket.on("offer", (id, message) => {
-       socket.to(id).emit("offer", socket.id, message);
-   });
-
-   socket.on("candidate", (id, message) => {
-      socket.to(id).emit("candidate", socket.id, message);
-    });
-
-
-   socket.on("answerCall", data => {
-     console.log('Made it to answering call.');
-      socket.to(data.to).emit("answerMade", {
-        socket: socket.id,
-        answer: data.answer
-      });
-    });
-
   socket.on('messageSent', (msg) => {
     var message = {
       username: online_users[socket.id].username,
