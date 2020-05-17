@@ -297,7 +297,7 @@ const socket = io.connect(window.location.origin);
 const video = document.querySelector("video");
 
 const constraints = {
-  video: { facingMode: "user" }
+  video: { facingMode: "user" },
   audio: true,
 };
 
