@@ -272,14 +272,8 @@ async function callUser(id) {
   peerConnection = new RTCPeerConnection(configuration);
   peer_connections[id] = peerConnection;
   remote_video = document.getElementById("video_0");
-  var constraints = {
-      video: true,
-      audio: true,
-  };
-  navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-    stream = mediaStream;
-    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
-  })
+  let stream = remote_video.srcObject;
+  stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
 
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
