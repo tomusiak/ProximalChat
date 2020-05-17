@@ -331,7 +331,7 @@ socket.on("callMade", async data => {
 });
 
 socket.on("answer", (id, description) => {
-  peerConnections[id].setRemoteDescription(description);
+  peer_connections[id].setRemoteDescription(description);
 });
 
 socket.on("candidate", (id, candidate) => {
