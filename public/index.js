@@ -273,7 +273,7 @@ function callUser(id) {
   peer_connections[id] = peerConnection;
   remote_video = document.getElementById("video_4");
 
-  const gumStream = await navigator.mediaDevices.getUserMedia(
+  const gumStream = navigator.mediaDevices.getUserMedia(
                           {video: true, audio: true});
   for (const track of gumStream.getTracks()) {
     peerConnection.addTrack(track);
