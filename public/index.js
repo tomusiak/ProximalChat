@@ -27,7 +27,13 @@ const video_array = [
 
 const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
 const peerConnection = new RTCPeerConnection(configuration);
-
+peerConnection.ontrack = function({ streams: [stream] }) {
+  socket.emit("log","in here now.")
+  const remoteVideo = document.getElementById("video_5");
+  if (remoteVideo) {
+    remoteVideo.srcObject = stream;
+    }
+  };
 var local_video_slot;
 
 online_user_x = 0;
@@ -303,13 +309,6 @@ socket.on("answerMade", async data => {
   await peerConnection.setRemoteDescription(
     new RTCSessionDescription(data.answer)
   );
-  peerConnection.ontrack = function({ streams: [stream] }) {
-    socket.emit("log","in here now.")
-    const remoteVideo = document.getElementById("video_5");
-    if (remoteVideo) {
-      remoteVideo.srcObject = stream;
-      }
-    };
 });
 
 $(document).ready(function(){
