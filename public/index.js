@@ -305,7 +305,6 @@ navigator.mediaDevices
 socket.on("watcher", data => {
   for (id in data.users) {
     if (id != data.me) {
-      socket.emit("log","in starting");
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[id] = peerConnection;
 
@@ -317,7 +316,7 @@ socket.on("watcher", data => {
           socket.emit("candidate", id, event.candidate);
         }
       };
-
+      socket.emit("log","in starting");
       peerConnection
         .createOffer()
         .then(sdp => peerConnection.setLocalDescription(sdp))
