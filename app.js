@@ -143,6 +143,7 @@ io.on('connection', function(socket) {
 
   socket.on('username', (data) => {
     room_number = obtainFirstOpenRoom();
+    socket.emit('callingInitiated', online_users);
     filled_rooms[room_number] = socket.id;
     online_users[socket.id] = {
       username: data,
@@ -152,7 +153,6 @@ io.on('connection', function(socket) {
     };
     socket.emit('usernameAdded', online_users[socket.id]);
     io.sockets.emit("usersChanged", online_users);
-    socket.emit('callingInitiated', online_users);
     num_users = num_users + 1;
   });
 
