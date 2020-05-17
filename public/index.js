@@ -259,7 +259,7 @@ socket.on("usernameAdded", function(user) {
     local_video.srcObject = mediaStream;
   })
   local_video.muted = true;
-  local_video_slot = video_array[user.room_number]);
+  local_video_slot = video_array[user.room_number];
 });
 
 socket.on("newlyConnected", function () {
