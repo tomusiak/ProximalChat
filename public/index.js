@@ -170,6 +170,7 @@ function redrawCanvas(online_users) {
   }
 }
 
+/*
 function setupAudios(circle_x, circle_y) {
   source_list.forEach(source => {
     source.stop();
@@ -202,6 +203,7 @@ function setupAudios(circle_x, circle_y) {
     //audio_element.play();
   });
 }
+*/
 
 socket.on('hasMoved',function(online_user) {
   online_user_x = online_user.x;
