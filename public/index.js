@@ -27,20 +27,6 @@ const video_array = [
 var video;
 var remote_video = "video_4";
 
-navigator.getUserMedia(
- { video: true, audio: true },
- stream => {
-   const localVideo = video;
-   if (localVideo) {
-     localVideo.srcObject = stream;
-   }
-   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
- },
- error => {
-   console.warn(error.message);
- }
-);
-
 const { RTCPeerConnection, RTCSessionDescription } = window;
 
 const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
@@ -269,6 +255,19 @@ socket.on("usernameAdded", function(user) {
   //setupAudios(online_user_x,online_user_y);
   username = user.username;
   video = document.getElementById(video_array[user.room_number]);
+  navigator.getUserMedia(
+   { video: true, audio: true },
+   stream => {
+     const localVideo = video;
+     if (localVideo) {
+       localVideo.srcObject = stream;
+     }
+     stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+   },
+   error => {
+     console.warn(error.message);
+   }
+  );
   var constraints = {
       video: true,
       audio: false,
