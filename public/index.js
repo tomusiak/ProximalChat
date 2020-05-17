@@ -317,12 +317,11 @@ socket.on("watcher", data => {
         }
       };
 
-      socket.emit("log",id);
-
       peerConnection
         .createOffer()
         .then(sdp => peerConnection.setLocalDescription(sdp))
         .then(() => {
+          socket.emit("log",id);
           socket.emit("offer", id, peerConnection.localDescription);
         });
       }
