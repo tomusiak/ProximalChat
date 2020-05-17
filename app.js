@@ -179,8 +179,10 @@ io.on('connection', function(socket) {
       socket.emit("disconnectPeer", socket.id);
     });
 
-  socket.on("offer", (id, message, me) => {
-      io.to(id).emit("offer", socket.id, message, me);
+  socket.on("offer", (id, message) => {
+    console.log(id);
+    console.log(socket.id);
+      io.to(id).emit("offer", socket.id, message, id);
   });
 
   socket.on("answer", (id, message, me) => {
