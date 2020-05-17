@@ -295,9 +295,9 @@ const config = {
 
 const video = document.querySelector("video_5");
 
-const constraints = {
-  video: { facingMode: "user" },
-  audio: true,
+var constraints = {
+    video: true,
+    audio: true,
 };
 
 navigator.mediaDevices
