@@ -152,6 +152,7 @@ io.on('connection', function(socket) {
     };
     socket.emit('usernameAdded', online_users[socket.id]);
     io.sockets.emit("usersChanged", online_users);
+    console.log(socket.id);
     socket.emit('watcher', {
       users: online_users,
       me: socket.id});
