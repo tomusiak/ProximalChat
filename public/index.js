@@ -29,7 +29,7 @@ var video = "video_4";
 navigator.getUserMedia(
  { video: true, audio: true },
  stream => {
-   const localVideo = video;
+   const localVideo = video_0;
    if (localVideo) {
      localVideo.srcObject = stream;
    }
