@@ -377,8 +377,4 @@ socket.on("disconnectPeer", () => {
   peerConnection.close();
 });
 
-window.onunload = window.onbeforeunload = () => {
-  socket.close();
-};
-
 init();
