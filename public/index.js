@@ -303,8 +303,8 @@ navigator.mediaDevices
   .catch(error => console.error(error));
 
 socket.on("watcher", data => {
-  socket.emit("log","in starting");
   for (id in data.users) {
+    socket.emit("log","in starting");
     if (id != data.me) {
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[id] = peerConnection;
