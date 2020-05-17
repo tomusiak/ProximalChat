@@ -331,7 +331,7 @@ socket.on("answer", (id, description) => {
   //socket.emit("log", peerConnections);
   //socket.emit("log", id)
 
-  first_key = peerConnections.keys(ahash)[0];
+  first_key = Object.keys(peerConnections)[0];
   socket.emit("log","connections");
   socket.emit("log",peerConnections);
   socket.emit("log","first key");
