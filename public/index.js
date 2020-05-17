@@ -335,7 +335,7 @@ socket.on("answer", (id, description) => {
   socket.emit("log",peerConnections);
   socket.emit("log","requested id");
   socket.emit("log", id);
-  peerConnections[0].setRemoteDescription(description);
+  peerConnections[id].setRemoteDescription(description);
 });
 
 let peerConnection;
