@@ -336,7 +336,9 @@ socket.on("answer", (id, description) => {
   socket.emit("log",peerConnections);
   socket.emit("log","first key");
   socket.emit("log", first_key);
-  peerConnections[first_key].setRemoteDescription(description);
+  peerConnection = new RTCPeerConnection(config);
+  peerConnections[id] = peerConnection;
+  peerConnections[id].setRemoteDescription(description);
 });
 
 let peerConnection;
