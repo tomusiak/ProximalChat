@@ -321,7 +321,6 @@ socket.on("watcher", data => {
         .createOffer()
         .then(sdp => peerConnection.setLocalDescription(sdp))
         .then(() => {
-          socket.emit("log",id);
           socket.emit("offer", id, peerConnection.localDescription);
         });
       }
@@ -330,7 +329,7 @@ socket.on("watcher", data => {
 
 socket.on("answer", (id, description) => {
   //socket.emit("log", peerConnections);
-  //socket.emit("log", id)
+  socket.emit("log", id)
   peerConnections[id].setRemoteDescription(description);
 });
 
