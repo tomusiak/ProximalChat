@@ -267,17 +267,21 @@ socket.on('messageSent', function(message) {
   }
 });
 
+async openCall(pc) {
+  const gumStream = await navigator.mediaDevices.getUserMedia(
+                          {video: true, audio: true});
+  for (const track of gumStream.getTracks()) {
+    pc.addTrack(track);
+  }
+}
+
 function callUser(id) {
   configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
   peerConnection = new RTCPeerConnection(configuration);
   peer_connections[id] = peerConnection;
   remote_video = document.getElementById("video_4");
 
-  const gumStream = navigator.mediaDevices.getUserMedia(
-                          {video: true, audio: true});
-  for (const track of gumStream.getTracks()) {
-    peerConnection.addTrack(track);
-  }
+  openCall(peerConnection);
 
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
