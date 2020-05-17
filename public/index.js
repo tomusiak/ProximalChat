@@ -294,29 +294,29 @@ socket.on("answerMade", async data => {
    callUser(data.socket);
    isAlreadyCalling = true;
  }
+
+ navigator.getUserMedia(
+  { video: true, audio: true },
+  stream => {
+    const localVideo = video;
+    if (localVideo) {
+      localVideo.srcObject = stream;
+    }
+    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+  },
+  error => {
+    console.warn(error.message);
+  }
+ );
+
+
+ peerConnection.ontrack = function({ streams: [stream] }) {
+  const remoteVideo = document.getElementById("video_5");
+  if (remoteVideo) {
+    remoteVideo.srcObject = stream;
+  }
+ };
 });
-
-navigator.getUserMedia(
- { video: true, audio: true },
- stream => {
-   const localVideo = video;
-   if (localVideo) {
-     localVideo.srcObject = stream;
-   }
-   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
- },
- error => {
-   console.warn(error.message);
- }
-);
-
-
-peerConnection.ontrack = function({ streams: [stream] }) {
- const remoteVideo = document.getElementById("video_5");
- if (remoteVideo) {
-   remoteVideo.srcObject = stream;
- }
-};
 
 $(document).ready(function(){
   $('#chat_form').submit(function(e){
