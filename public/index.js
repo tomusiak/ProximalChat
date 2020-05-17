@@ -25,6 +25,8 @@ const video_array = [
   "video_5"
 ]
 
+const peer_connections = {};
+
 var local_video_slot;
 
 online_user_x = 0;
@@ -267,6 +269,12 @@ socket.on('messageSent', function(message) {
   }
 });
 
+async function openCall(peerConnection) {
+  local_video = document.getElementById(local_video_slot);
+  let stream = local_video.srcObject;
+  stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+}
+
 async function callUser(socketId) {
   const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
   const peerConnection = new RTCPeerConnection(configuration);
@@ -275,8 +283,10 @@ async function callUser(socketId) {
     const remoteVideo = document.getElementById("video_5");
     remoteVideo.srcObject = event.stream;
   };
+  openCall(peerConnection);
   const offer = await peerConnection.createOffer();
   await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
+  peerConnections[socketId] = peerConnection;
   socket.emit("userCalled", {
     offer,
     to: socketId
@@ -292,6 +302,7 @@ socket.on('callingInitiated', function(online_users) {
 });
 
 socket.on("callMade", async data => {
+ peerConnection = peerConnections[data.socket];
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.offer)
  );
@@ -304,6 +315,7 @@ socket.on("callMade", async data => {
 });
 
 socket.on("answerMade", async data => {
+  peerConnection = peerConnections[data.socket];
   await peerConnection.setRemoteDescription(
     new RTCSessionDescription(data.answer)
   );
