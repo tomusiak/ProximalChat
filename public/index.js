@@ -282,8 +282,8 @@ async function openCall(peerConnection) {
 }
 
 async function callUser(socketId) {
-  const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
-  const peerConnection = new RTCPeerConnection(configuration);
+  configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
+  peerConnection = new RTCPeerConnection(configuration);
   peerConnection.ontrack = event => {
     socket.emit("log","streaming!");
     const remoteVideo = document.getElementById("video_5");
