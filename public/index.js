@@ -340,7 +340,6 @@ socket.on("candidate", (id, candidate) => {
 
 let peerConnection;
 
-const socket = io.connect(window.location.origin);
 const video = document.querySelector("video_5");
 
 socket.on("offer", (id, description) => {
