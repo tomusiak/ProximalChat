@@ -290,14 +290,11 @@ async function callUser(socketId) {
   };
 
   peerConnection
-    .createOffer()
-    .then(sdp => peerConnection.setLocalDescription(sdp))
-    .then(() => {
-      socket.emit("userCalled", {
-        offer,
-        to: socketId
+      .createOffer()
+      .then(sdp => peerConnection.setLocalDescription(sdp))
+      .then(() => {
+        socket.emit("offer", id, peerConnection.localDescription);
       });
-    });
 }
 
 socket.on('callingInitiated', function(online_users) {
@@ -345,6 +342,26 @@ socket.on("answerMade", async data => {
   await peerConnection.setRemoteDescription(
     new RTCSessionDescription(data.answer)
   );
+});
+
+socket.on("offer", (id, description) => {
+  peerConnection = new RTCPeerConnection(config);
+  peerConnection
+    .setRemoteDescription(description)
+    .then(() => peerConnection.createAnswer())
+    .then(sdp => peerConnection.setLocalDescription(sdp))
+    .then(() => {
+      socket.emit("answer", id, peerConnection.localDescription);
+    });
+    remote_video = document.getElementById("video_5");
+    peerConnection.ontrack = event => {
+    remote_video.srcObject = event.streams[0];
+  };
+    peerConnection.onicecandidate = event => {
+  if (event.candidate) {
+    socket.emit("candidate", id, event.candidate);
+  }
+};
 });
 
 $(document).ready(function(){
