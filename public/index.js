@@ -345,7 +345,8 @@ socket.on("answerMade", async data => {
 });
 
 socket.on("offer", (id, description) => {
-  peerConnection = new RTCPeerConnection(config);
+  const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
+  peerConnection = new RTCPeerConnection(configuration);
   peerConnection
     .setRemoteDescription(description)
     .then(() => peerConnection.createAnswer())
