@@ -267,7 +267,11 @@ socket.on('messageSent', function(message) {
   }
 });
 
-async function openCall(peerConnection) {
+async function callUser(socketId) {
+  configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
+  peerConnection = new RTCPeerConnection(configuration);
+  peer_connections[socketId] = peerConnection;
+  remote_video = document.getElementById("video_5");
   var constraints = {
       video: true,
       audio: true,
@@ -276,19 +280,16 @@ async function openCall(peerConnection) {
     stream = mediaStream;
     stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   })
-}
-
-async function callUser(socketId) {
-  configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
-  peerConnection = new RTCPeerConnection(configuration);
-  remote_video = document.getElementById("video_5");
   peerConnection.ontrack = event => {
     remote_video.srcObject = event.streams[0];
+  }
+  peerConnection.onicecandidate = event => {
+    if (event.candidate) {
+      socket.emit("candidate", id, event.candidate);
+    }
   };
-  openCall(peerConnection);
   const offer = await peerConnection.createOffer();
   await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
-  peer_connections[socketId] = peerConnection;
   socket.emit("userCalled", {
     offer,
     to: socketId
@@ -312,11 +313,27 @@ socket.on("callMade", async data => {
  );
  const answer = await peerConnection.createAnswer();
  await peerConnection.setLocalDescription(new RTCSessionDescription(answer));
- openCall(peerConnection);
+ var constraints = {
+     video: true,
+     audio: true,
+ };
+ peerConnection.onicecandidate = event => {
+    if (event.candidate) {
+      socket.emit("candidate", id, event.candidate);
+    }
+  };
+ navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
+   stream = mediaStream;
+   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+ })
  socket.emit("answerCall", {
    answer,
    to: data.socket
  });
+});
+
+socket.on("candidate", (id, candidate) => {
+  peer_connections[id].addIceCandidate(new RTCIceCandidate(candidate));
 });
 
 socket.on("answerMade", async data => {

@@ -166,6 +166,11 @@ io.on('connection', function(socket) {
      });
    });
 
+   socket.on("candidate", (id, message) => {
+      socket.to(id).emit("candidate", socket.id, message);
+    });
+
+
    socket.on("answerCall", data => {
      console.log('Made it to answering call.');
       socket.to(data.to).emit("answerMade", {
