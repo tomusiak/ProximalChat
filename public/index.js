@@ -219,9 +219,6 @@ function setupAudios(circle_x, circle_y) {
 }
 */
 
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia
-                    || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
 socket.on('hasMoved',function(online_user) {
   online_user_x = online_user.x;
   online_user_y = online_user.y;
@@ -307,6 +304,7 @@ navigator.mediaDevices
 
 socket.on("watcher", data => {
   for (id in data.users) {
+    if (id != data.me) {
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[id] = peerConnection;
 
@@ -318,21 +316,21 @@ socket.on("watcher", data => {
           socket.emit("candidateCaller", id, event.candidate);
         }
       };
-      //if (id != data.me) {
+
       peerConnection
         .createOffer()
         .then(sdp => peerConnection.setLocalDescription(sdp))
         .then(() => {
           socket.emit("offer", id, peerConnection.localDescription);
         });
-      //}
+      }
     }
 });
 
 socket.on("answer", (id, description) => {
   //socket.emit("log", peerConnections);
-  socket.emit("log", id)
-  peerConnections[id].setRemoteDescription(description);
+  //socket.emit("log", id)
+  peerConnections[0].setRemoteDescription(description);
 });
 
 let peerConnection;
