@@ -27,13 +27,13 @@ const video_array = [
 
 const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
 const peerConnection = new RTCPeerConnection(configuration);
-peerConnection.ontrack = function({ streams: [stream] }) {
-  socket.emit("log","in here now.")
+peerConnection.onaddstream = event => {
   const remoteVideo = document.getElementById("video_5");
-  if (remoteVideo) {
-    remoteVideo.srcObject = stream;
-    }
-  };
+  remoteVideo.srcObject = event.stream;
+};
+
+
+
 var local_video_slot;
 
 online_user_x = 0;
@@ -258,7 +258,7 @@ socket.on("usernameAdded", function(user) {
   };
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
     local_video.srcObject = mediaStream;
-    stream = mediaStream;
+    peerConnection.addStream(mediaStream);
   })
   local_video.muted = true;
   local_video_slot = video_array[user.room_number];
