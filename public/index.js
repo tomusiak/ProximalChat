@@ -344,7 +344,7 @@ socket.on("answerMade", async data => {
 socket.on("offer", (id, description) => {
   const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
   peerConnection = new RTCPeerConnection(configuration);
-  peerConnectionc.ontrack = ev => {
+  peerConnection.ontrack = ev => {
     videoElem = document.querySelector("video_5");
     if (ev.streams && ev.streams[0]) {
       videoElem.srcObject = ev.streams[0];
