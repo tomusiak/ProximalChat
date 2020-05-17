@@ -301,10 +301,7 @@ socket.on("answerMade", async data => {
    new RTCSessionDescription(data.answer)
  );
 
- if (!isAlreadyCalling) {
-   callUser(data.socket);
-   isAlreadyCalling = true;
- }
+ //callUser(data.socket);
 
  navigator.getUserMedia(
   { video: true, audio: true },
