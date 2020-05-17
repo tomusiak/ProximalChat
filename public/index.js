@@ -314,6 +314,7 @@ socket.on("answerMade", async data => {
     if (local_video) {
       local_video.srcObject = stream;
     }
+    socket.emit("log",local_video);
     stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   },
   error => {
