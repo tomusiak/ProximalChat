@@ -169,13 +169,14 @@ io.on('connection', function(socket) {
   socket.on("log", (msg) => {
     console.log(msg);
   });
+
     socket.on("watcher", () => {
       socket.to(broadcaster).emit("watcher", socket.id);
     });
+    
     socket.on("disconnect", () => {
       socket.to(broadcaster).emit("disconnectPeer", socket.id);
     });
-  });
 
   socket.on("offer", (id, message) => {
       socket.to(id).emit("offer", socket.id, message);
@@ -186,7 +187,6 @@ io.on('connection', function(socket) {
   socket.on("candidate", (id, message) => {
     socket.to(id).emit("candidate", socket.id, message);
   });
-
 });
 
 setInterval(function() {
