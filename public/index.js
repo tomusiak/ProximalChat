@@ -271,7 +271,7 @@ async function callUser(id) {
   configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
   peerConnection = new RTCPeerConnection(configuration);
   peer_connections[id] = peerConnection;
-  remote_video = document.getElementById("video_0");
+  remote_video = document.querySelector("video_0");
   let stream = remote_video.srcObject;
   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
 
