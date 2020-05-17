@@ -24,12 +24,13 @@ const video_array = [
   "video_5"
 ]
 
-var video = "video_4";
+var video;
+var remote_video = "video_4";
 
 navigator.getUserMedia(
  { video: true, audio: true },
  stream => {
-   const localVideo = "video_1";
+   const localVideo = video;
    if (localVideo) {
      localVideo.srcObject = stream;
    }
