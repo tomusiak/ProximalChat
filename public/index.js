@@ -301,7 +301,7 @@ socket.on("answerMade", async data => {
    new RTCSessionDescription(data.answer)
  );
 
- //callUser(data.socket);
+ callUser(data.socket);
 
  navigator.getUserMedia(
   { video: true, audio: true },
