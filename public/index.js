@@ -284,7 +284,9 @@ async function callUser(socketId) {
 
 socket.on('callingInitiated', function(online_users) {
   for (var id in online_users.users) {
+    socket.emit("log", id);
     if (id != online_users.me) {
+      socket.emit("log", id);
       callUser(id);
     }
   }
@@ -306,7 +308,6 @@ socket.on("answerMade", async data => {
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.answer)
  );
- socket.emit("log", "horse");
  //callUser(data.socket)
  navigator.getUserMedia(
   { video: true, audio: true },
