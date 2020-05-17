@@ -150,7 +150,7 @@ io.on('connection', function(socket) {
       y: 250,
       room_number: room_number
     };
-    io.to(socket).emit('usernameAdded', online_users[socket.id]);
+    io.to(socket.id).emit('usernameAdded', online_users[socket.id]);
     io.sockets.emit("usersChanged", online_users);
     console.log(online_users);
     io.to(socket.id).emit('watcher', {
