@@ -315,7 +315,7 @@ socket.on("watcher", data => {
 
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
-          socket.emit("candidate", id, event.candidate);
+          socket.emit("candidateCaller", id, event.candidate);
         }
       };
       peerConnection
@@ -352,13 +352,21 @@ socket.on("offer", (id, description) => {
   };
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
-      socket.emit("candidate", id, event.candidate);
+      socket.emit("candidateCallee", id, event.candidate);
     }
   };
 });
 
-socket.on("candidate", (id, candidate) => {
+// caller
+socket.on("candidateCaller", (id, candidate) => {
   peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate));
+});
+
+//callee
+socket.on("candidateCallee", (id, candidate) => {
+  peerConnection
+    .addIceCandidate(new RTCIceCandidate(candidate))
+    .catch(e => console.error(e));
 });
 
 socket.on("connect", () => {
