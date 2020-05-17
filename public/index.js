@@ -338,6 +338,13 @@ socket.on("candidate", (id, candidate) => {
 let peerConnection;
 
 socket.on("offer", (id, description) => {
+  video = document.getElementById("video_4");
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(stream => {
+      video.srcObject = stream;
+    })
+    .catch(error => console.error(error));
   peerConnection = new RTCPeerConnection(config);
   peerConnection
     .setRemoteDescription(description)
