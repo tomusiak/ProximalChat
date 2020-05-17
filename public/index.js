@@ -305,8 +305,8 @@ socket.on("answerMade", async data => {
   navigator.getUserMedia(
     { video: true, audio: true },
     stream => {
-      local_video = document.getElementById(video_array[local_video_slot]);
-      if (local_video_slot) {
+      local_video = document.getElementById(local_video_slot);
+      if (local_video) {
         local_video.srcObject = stream;
       }
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
