@@ -268,7 +268,7 @@ socket.on('messageSent', function(message) {
   }
 });
 
-async function openCall(peerConnection) {
+function openCall(peerConnection) {
   local_video = document.getElementById(video_array[local_video_slot]);
   var constraints = {
       video: true,
