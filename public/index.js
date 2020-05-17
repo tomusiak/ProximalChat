@@ -27,38 +27,7 @@ const video_array = [
 const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
 const peerConnection = new RTCPeerConnection(configuration);
 
-var video = document.getElementById("video_0");
-
-var constraints = {
-    video: true,
-    audio: true,
-};
-
-navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-  video.srcObject = mediaStream;
-})
-
-navigator.getUserMedia(
- { video: true, audio: true },
- stream => {
-   const localVideo = "video_0";
-   if (localVideo) {
-     localVideo.srcObject = stream;
-   }
-   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
- },
- error => {
-   console.warn(error.message);
- }
-);
-
-peerConnection.ontrack = function({ streams: [stream] }) {
- const remoteVideo = document.getElementById("video_5");
- if (remoteVideo) {
-   socket.emit("log");
-   remoteVideo.srcObject = stream;
- }
-};
+var video = 0;
 
 online_user_x = 0;
 online_user_y = 0;
@@ -333,6 +302,27 @@ socket.on("answerMade", async data => {
  );
 
  //callUser(data.socket)
+ navigator.getUserMedia(
+  { video: true, audio: true },
+  stream => {
+    const localVideo = video;
+    if (localVideo) {
+      localVideo.srcObject = stream;
+    }
+    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+  },
+  error => {
+    console.warn(error.message);
+  }
+ );
+
+ peerConnection.ontrack = function({ streams: [stream] }) {
+  const remoteVideo = document.getElementById("video_5");
+  if (remoteVideo) {
+    socket.emit("log");
+    remoteVideo.srcObject = stream;
+  }
+ };
 
 });
 
