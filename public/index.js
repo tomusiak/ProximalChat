@@ -248,11 +248,10 @@ socket.on("usernameAdded", function(user) {
   var constraints = {
       video: true,
       audio: false,
-  };+
+  };
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
     local_video.srcObject = mediaStream;
   })
-  add_to_connection
   local_video.muted = true;
   local_video_slot = video_array[user.room_number];
 });
