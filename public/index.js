@@ -302,7 +302,6 @@ socket.on("answerMade", async data => {
  );
 
  //callUser(data.socket);
-socket.emit("log");
  navigator.getUserMedia(
   { video: true, audio: true },
   stream => {
@@ -323,6 +322,7 @@ socket.emit("log");
     remoteVideo.srcObject = stream;
   }
  };
+ socket.emit("log");
 });
 
 $(document).ready(function(){
