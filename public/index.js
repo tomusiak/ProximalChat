@@ -294,7 +294,7 @@ const config = {
 };
 
 const socket = io.connect(window.location.origin);
-const video = document.querySelector("video");
+const video = document.querySelector("video_5");
 
 const constraints = {
   video: { facingMode: "user" },
@@ -339,8 +339,6 @@ socket.on("candidate", (id, candidate) => {
 });
 
 let peerConnection;
-
-const video = document.querySelector("video_5");
 
 socket.on("offer", (id, description) => {
   peerConnection = new RTCPeerConnection(config);
