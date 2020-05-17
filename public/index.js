@@ -318,8 +318,8 @@ socket.on("answerMade", async data => {
 
  peerConnection.ontrack = function({ streams: [stream] }) {
   const remoteVideo = document.getElementById("video_5");
+  socket.emit("log");
   if (remoteVideo) {
-    socket.emit("log");
     remoteVideo.srcObject = stream;
   }
  };
