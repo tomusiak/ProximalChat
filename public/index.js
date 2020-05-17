@@ -279,7 +279,7 @@ async function callUser(socketId) {
 
 socket.on('callingInitiated', function(online_users) {
   for (var id in online_users) {
-    callUser(online_user);
+    callUser(id);
   }
 });
 
