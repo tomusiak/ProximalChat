@@ -302,7 +302,6 @@ socket.on('callingInitiated', function(online_users) {
 socket.on("callMade", async data => {
  const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
  const peerConnection = new RTCPeerConnection(configuration);
- peerConnection = peer_connections[data.socket];
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.offer)
  );
