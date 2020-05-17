@@ -268,13 +268,11 @@ socket.on('messageSent', function(message) {
 });
 
 async function openCall(peerConnection) {
-  local_video = document.getElementById(video_array[local_video_slot]);
   var constraints = {
       video: true,
       audio: true,
   };
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-    local_video.srcObject = mediaStream;
     stream = mediaStream;
     stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   })
@@ -283,10 +281,9 @@ async function openCall(peerConnection) {
 async function callUser(socketId) {
   configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
   peerConnection = new RTCPeerConnection(configuration);
+  remote_video = document.getElementById("video_5");
   peerConnection.ontrack = event => {
-    socket.emit("log","streaming!");
-    const remoteVideo = document.getElementById("video_5");
-    remoteVideo.srcObject = event.stream;
+    remote_video.srcObject = event.streams[0];
   };
   openCall(peerConnection);
   const offer = await peerConnection.createOffer();
