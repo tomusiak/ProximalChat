@@ -49,10 +49,9 @@ navigator.getUserMedia(
  }
 );
 
-const { RTCPeerConnection, RTCSessionDescription } = window;
-
 const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
 const peerConnection = new RTCPeerConnection(configuration);
+
 peerConnection.ontrack = function({ streams: [stream] }) {
  const remoteVideo = document.getElementById("video_5");
  if (remoteVideo) {
