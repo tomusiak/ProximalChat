@@ -27,7 +27,7 @@ const video_array = [
 
 const peer_connections = {};
 
-var local_video = 0;
+var local_video_slot = 0;
 
 online_user_x = 0;
 online_user_y = 0;
@@ -252,6 +252,7 @@ socket.on("usernameAdded", function(user) {
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
     local_video.srcObject = mediaStream;
   })
+  local_video_slot = user.room_number;
   socket.emit("log",local_video);
 });
 
@@ -268,7 +269,14 @@ socket.on('messageSent', function(message) {
 });
 
 async function openCall(peerConnection) {
-  socket.emit("log",local_video);
+  local_video = document.getElementById(video_array[local_video_slot]);
+  var constraints = {
+      video: true,
+      audio: true,
+  };
+  navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
+    local_video.srcObject = mediaStream;
+  })
   stream = local_video.srcObject;
   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
 }
