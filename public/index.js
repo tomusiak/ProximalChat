@@ -271,7 +271,7 @@ function callUser(id) {
   configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
   peerConnection = new RTCPeerConnection(configuration);
   peer_connections[id] = peerConnection;
-  remote_video = document.getElementById("video_6");
+  remote_video = document.getElementById("video_4");
   var constraints = {
       video: true,
       audio: true,
