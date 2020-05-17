@@ -304,7 +304,6 @@ navigator.mediaDevices
 
 socket.on("watcher", data => {
   for (id in data.users) {
-    if (id != data.me) {
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[id] = peerConnection;
 
@@ -316,7 +315,9 @@ socket.on("watcher", data => {
           socket.emit("candidateCaller", id, event.candidate);
         }
       };
-      }
+
+      if (id != data.me) {
+
       peerConnection
         .createOffer()
         .then(sdp => peerConnection.setLocalDescription(sdp))
@@ -324,6 +325,7 @@ socket.on("watcher", data => {
           socket.emit("offer", id, peerConnection.localDescription);
         });
       }
+    }
 });
 
 socket.on("answer", (id, description) => {
@@ -333,8 +335,7 @@ socket.on("answer", (id, description) => {
   //first_key = Object.keys(peerConnections)[0];
   socket.emit("log","connections");
   socket.emit("log",peerConnections);
-  socket.emit("log","first key");
-  socket.emit("log", first_key);
+
   peerConnections[id].setRemoteDescription(description);
 });
 
