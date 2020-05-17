@@ -267,7 +267,7 @@ socket.on('messageSent', function(message) {
   }
 });
 
-async function callUser(id) {
+function callUser(id) {
   configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
   peerConnection = new RTCPeerConnection(configuration);
   peer_connections[id] = peerConnection;
