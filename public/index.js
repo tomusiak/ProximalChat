@@ -24,9 +24,9 @@ const video_array = [
   "video_5"
 ]
 
-var online_users_local = {
+var video = "video_0";
 
-}
+const { RTCPeerConnection, RTCSessionDescription } = window;
 
 online_user_x = 0;
 online_user_y = 0;
@@ -255,6 +255,64 @@ socket.on('messageSent', function(message) {
     updateScroll();
   }
 });
+
+socket.on('callingInitiated', function(online_users) {
+  for (var id in online_users) {
+    online_user = online_users[id];
+    const offer = await peerConnection.createOffer();
+    await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
+    socket.emit("userCalled", {
+      offer,
+      to: online_user
+    });
+  }
+});
+
+socket.on("callMade", async data => {
+ await peerConnection.setRemoteDescription(
+   new RTCSessionDescription(data.offer)
+ );
+ const answer = await peerConnection.createAnswer();
+ await peerConnection.setLocalDescription(new RTCSessionDescription(answer));
+
+ socket.emit("answerCall", {
+   answer,
+   to: data.socket
+ });
+});
+
+socket.on("answerMade", async data => {
+ await peerConnection.setRemoteDescription(
+   new RTCSessionDescription(data.answer)
+ );
+
+ if (!isAlreadyCalling) {
+   callUser(data.socket);
+   isAlreadyCalling = true;
+ }
+});
+
+navigator.getUserMedia(
+ { video: true, audio: true },
+ stream => {
+   const localVideo = video;
+   if (localVideo) {
+     localVideo.srcObject = stream;
+   }
+   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+ },
+ error => {
+   console.warn(error.message);
+ }
+);
+
+
+peerConnection.ontrack = function({ streams: [stream] }) {
+ const remoteVideo = document.getElementById("video_5");
+ if (remoteVideo) {
+   remoteVideo.srcObject = stream;
+ }
+};
 
 $(document).ready(function(){
   $('#chat_form').submit(function(e){

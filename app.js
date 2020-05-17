@@ -152,8 +152,23 @@ io.on('connection', function(socket) {
     };
     socket.emit('usernameAdded', online_users[socket.id]);
     io.sockets.emit("usersChanged", online_users);
+    socket.emit('callingInitiated', online_users);
     num_users = num_users + 1;
   });
+
+  socket.on("userCalled", data => {
+     socket.to(data.to).emit("callMade", {
+       offer: data.offer,
+       socket: socket.id
+     });
+   });
+
+   socket.on("callMade", data => {
+      socket.to(data.to).emit("answerMade", {
+        socket: socket.id,
+        answer: data.answer
+      });
+    });
 
   socket.on('messageSent', (msg) => {
     var message = {
