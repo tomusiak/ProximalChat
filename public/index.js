@@ -253,7 +253,6 @@ socket.on("usernameAdded", function(user) {
     local_video.srcObject = mediaStream;
   })
   local_video_slot = user.room_number;
-  socket.emit("log",local_video);
 });
 
 socket.on("newlyConnected", function () {
@@ -310,6 +309,7 @@ socket.on('callingInitiated', function(online_users) {
 socket.on("callMade", async data => {
  const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
  const peerConnection = new RTCPeerConnection(configuration);
+ peer_connections[data.socket] = peerConnection;
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.offer)
  );
