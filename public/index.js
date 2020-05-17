@@ -304,8 +304,6 @@ navigator.mediaDevices
 
 socket.on("watcher", data => {
   for (id in data.users) {
-    socket.emit("log",id);
-    socket.emit("log",data.me);
     if (id != data.me) {
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[id] = peerConnection;
@@ -330,6 +328,7 @@ socket.on("watcher", data => {
 });
 
 socket.on("answer", (id, description) => {
+  socket.emit("log", id)
   peerConnections[id].setRemoteDescription(description);
 });
 
