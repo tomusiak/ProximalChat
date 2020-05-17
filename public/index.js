@@ -330,7 +330,7 @@ socket.on("watcher", data => {
 socket.on("answer", (id, description) => {
   //socket.emit("log", peerConnections);
   //socket.emit("log", id)
-  peerConnections[0].setRemoteDescription(description);
+  peerConnections[id].setRemoteDescription(description);
 });
 
 let peerConnection;
@@ -339,7 +339,6 @@ socket.on("offer", (id, description) => {
   socket.emit("log","in offer");
   video = document.getElementById("video_4");
   peerConnection = new RTCPeerConnection(config);
-  peerConnections[id]=peerConnection;
   peerConnection
     .setRemoteDescription(description)
     .then(() => peerConnection.createAnswer())
