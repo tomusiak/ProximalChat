@@ -279,20 +279,16 @@ async function callUser(socketId) {
 
 socket.on('callingInitiated', function(online_users) {
   for (var id in online_users) {
-    online_user = online_users[id];
     callUser(online_user);
   }
 });
 
 socket.on("callMade", async data => {
- var modal = document.getElementById("myModal");
- modal.style.display = "block";
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.offer)
  );
  const answer = await peerConnection.createAnswer();
  await peerConnection.setLocalDescription(new RTCSessionDescription(answer));
-
  socket.emit("answerCall", {
    answer,
    to: data.socket
