@@ -285,7 +285,6 @@ socket.on('callingInitiated', function(online_users) {
 });
 
 socket.on("callMade", async data => {
-  socket.emit("log");
  await peerConnection.setRemoteDescription(
    new RTCSessionDescription(data.offer)
  );
@@ -303,7 +302,7 @@ socket.on("answerMade", async data => {
  );
 
  //callUser(data.socket);
-
+socket.emit("log");
  navigator.getUserMedia(
   { video: true, audio: true },
   stream => {
