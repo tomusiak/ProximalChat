@@ -346,7 +346,7 @@ socket.on("offer", (id, description) => {
     .then(() => {
       socket.emit("answer", id, peerConnection.localDescription);
     });
-    remote_video = document.getElementById("video_5");
+    remote_video = document.querySelector("video_5");
     peerConnection.ontrack = event => {
     remote_video.srcObject = event.streams[0];
   };
