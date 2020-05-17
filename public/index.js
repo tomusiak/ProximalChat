@@ -354,8 +354,10 @@ socket.on("offer", (id, description) => {
     });
     peerConnection.ontrack = ev => {
       videoElem = document.querySelector("video_5");
+      socket.emit("log","AM I HERE");
       if (ev.streams && ev.streams[0]) {
         videoElem.srcObject = ev.streams[0];
+        socket.emit("log","OR HERE???");
       } else {
         if (!inboundStream) {
           inboundStream = new MediaStream();
