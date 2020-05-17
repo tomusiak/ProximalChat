@@ -344,18 +344,7 @@ socket.on("answerMade", async data => {
 socket.on("offer", (id, description) => {
   const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
   peerConnection = new RTCPeerConnection(configuration);
-  peerConnection.ontrack = ev => {
-    videoElem = document.querySelector("video_5");
-    if (ev.streams && ev.streams[0]) {
-      videoElem.srcObject = ev.streams[0];
-    } else {
-      if (!inboundStream) {
-        inboundStream = new MediaStream();
-        videoElem.srcObject = inboundStream;
-      }
-      inboundStream.addTrack(ev.track);
-    }
-  }
+
   peerConnection
     .setRemoteDescription(description)
     .then(() => peerConnection.createAnswer())
@@ -363,10 +352,18 @@ socket.on("offer", (id, description) => {
     .then(() => {
       socket.emit("answer", id, peerConnection.localDescription);
     });
-    remote_video = document.querySelector("video_5");
-    peerConnection.ontrack = event => {
-    remote_video.srcObject = event.streams[0];
-  };
+    peerConnection.ontrack = ev => {
+      videoElem = document.querySelector("video_5");
+      if (ev.streams && ev.streams[0]) {
+        videoElem.srcObject = ev.streams[0];
+      } else {
+        if (!inboundStream) {
+          inboundStream = new MediaStream();
+          videoElem.srcObject = inboundStream;
+        }
+        inboundStream.addTrack(ev.track);
+      }
+    }
     peerConnection.onicecandidate = event => {
   if (event.candidate) {
     socket.emit("candidate", id, event.candidate);
