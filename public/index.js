@@ -315,14 +315,14 @@ socket.on("watcher", data => {
           socket.emit("candidateCaller", id, event.candidate);
         }
       };
-      if (id != data.me) {
+      //if (id != data.me) {
       peerConnection
         .createOffer()
         .then(sdp => peerConnection.setLocalDescription(sdp))
         .then(() => {
           socket.emit("offer", id, peerConnection.localDescription);
         });
-      }
+      //}
     }
 });
 
