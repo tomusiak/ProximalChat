@@ -24,8 +24,21 @@ const video_array = [
   "video_5"
 ]
 
-var video;
-var remote_video = "video_4";
+var video = "video_4";
+
+navigator.getUserMedia(
+ { video: true, audio: true },
+ stream => {
+   const localVideo = "video_0";
+   if (localVideo) {
+     localVideo.srcObject = stream;
+   }
+   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+ },
+ error => {
+   console.warn(error.message);
+ }
+);
 
 const { RTCPeerConnection, RTCSessionDescription } = window;
 
@@ -310,19 +323,7 @@ socket.on("answerMade", async data => {
  );
 
  //callUser(data.socket)
- navigator.getUserMedia(
-  { video: true, audio: true },
-  stream => {
-    const localVideo = video;
-    if (localVideo) {
-      localVideo.srcObject = stream;
-    }
-    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
-  },
-  error => {
-    console.warn(error.message);
-  }
- );
+
 });
 
 $(document).ready(function(){
