@@ -180,9 +180,9 @@ io.on('connection', function(socket) {
     io.sockets.emit('messageSent', message);
   });
 
-  socket.on("log") {
+  socket.on("log", function() ) {
     console.log("log");
-  }
+  });
 
 });
 
