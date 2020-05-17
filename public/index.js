@@ -293,7 +293,6 @@ const config = {
   ]
 };
 
-const socket = io.connect(window.location.origin);
 const video = document.querySelector("video_5");
 
 const constraints = {
@@ -376,5 +375,9 @@ socket.on("broadcaster", () => {
 socket.on("disconnectPeer", () => {
   peerConnection.close();
 });
+
+window.onunload = window.onbeforeunload = () => {
+  socket.close();
+};
 
 init();
