@@ -255,6 +255,7 @@ socket.on("usernameAdded", function(user) {
   })
   local_video.muted = true;
   local_video_slot = video_array[user.room_number];
+  stream = mediaStream;
 });
 
 socket.on("newlyConnected", function () {
@@ -302,26 +303,13 @@ socket.on("answerMade", async data => {
   await peerConnection.setRemoteDescription(
     new RTCSessionDescription(data.answer)
   );
-  navigator.getUserMedia(
-    { video: true, audio: true },
-    stream => {
-      local_video = document.getElementById(local_video_slot);
-      if (local_video) {
-        local_video.srcObject = stream;
-      }
-      stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
-    },
-    error => {
-      console.warn(error.message);
-    }
-   );
-   peerConnection.ontrack = function({ streams: [stream] }) {
+  peerConnection.ontrack = function({ streams: [stream] }) {
     socket.emit("log","in here now.")
     const remoteVideo = document.getElementById("video_5");
     if (remoteVideo) {
       remoteVideo.srcObject = stream;
-    }
-   };
+      }
+    };
 });
 
 $(document).ready(function(){
