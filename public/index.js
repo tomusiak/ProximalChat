@@ -279,7 +279,7 @@ function callUser(id) {
   navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
     remote_video.srcObject = mediaStream;
   })
-  let stream = remote_video.srcObject;
+  stream = remote_video.srcObject;
   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
 
   peerConnection.onicecandidate = event => {
