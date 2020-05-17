@@ -267,6 +267,8 @@ socket.on('messageSent', function(message) {
 });
 
 async function callUser(socketId) {
+  const configuration {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
+  const peerConnection = new RTCPeerConnection(configuration);
   const offer = await peerConnection.createOffer();
   await peerConnection.setLocalDescription(new RTCSessionDescription(offer));
   socket.emit("userCalled", {
