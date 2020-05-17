@@ -152,7 +152,7 @@ io.on('connection', function(socket) {
     };
     socket.emit('usernameAdded', online_users[socket.id]);
     io.sockets.emit("usersChanged", online_users);
-    socket.emit('callingInitiated', {
+    socket.emit('watcher', {
       users: online_users,
       me: socket.id});
     num_users = num_users + 1;
@@ -169,14 +169,6 @@ io.on('connection', function(socket) {
   socket.on("log", (msg) => {
     console.log(msg);
   });
-
-  let broadcaster
-
-  io.sockets.on("connection", socket => {
-    socket.on("broadcaster", () => {
-      broadcaster = socket.id;
-      socket.broadcast.emit("broadcaster");
-    });
     socket.on("watcher", () => {
       socket.to(broadcaster).emit("watcher", socket.id);
     });
@@ -194,7 +186,6 @@ io.on('connection', function(socket) {
   socket.on("candidate", (id, message) => {
     socket.to(id).emit("candidate", socket.id, message);
   });
-
 
 });
 
