@@ -292,7 +292,7 @@ const config = {
 
 socket.on("watcher", data => {
   const caller = data.caller;
-  const video = document.getElementById(video_array[local_video_slot]);
+  video = document.getElementById(video_array[local_video_slot]);
   navigator.mediaDevices
   .getUserMedia(constraints)
   .then(stream => {
