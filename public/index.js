@@ -323,12 +323,12 @@ socket.on("watcher", data => {
       peerConnection.ontrack = event => {
         socket.emit("log",video_array[count]);
         document.getElementById(video_array[count]).srcObject = event.streams[0];
-        count = count + 1;
       };
       peerConnection
           .createOffer()
           .then(sdp => peerConnection.setLocalDescription(sdp))
           .then(() => {
+            count = count + 1;
             socket.emit("offer", callee, peerConnection.localDescription, caller);
           });
       }
