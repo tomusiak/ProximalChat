@@ -180,7 +180,7 @@ io.on('connection', function(socket) {
     });
 
   socket.on("offer", (id, message, caller) => {
-      io.to(id).emit("offer", socket.id, message, caller);
+      io.to(id).emit("offer", id, message, caller);
   });
 
   socket.on("answer", (id, message, callee) => {
@@ -188,11 +188,11 @@ io.on('connection', function(socket) {
   });
 
   socket.on("candidateCallee", (id, message, callee) => {
-    io.to(id).emit("candidateCallee", socket.id, message, callee);
+    io.to(id).emit("candidateCallee", id, message, callee);
   });
 
   socket.on("candidateCaller", (id, message, caller) => {
-    io.to(id).emit("candidateCaller", socket.id, message, caller);
+    io.to(id).emit("candidateCaller", id, message, caller);
   });
 });
 
