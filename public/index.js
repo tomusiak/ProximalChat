@@ -303,31 +303,30 @@ navigator.mediaDevices
   .catch(error => console.error(error));
 
 socket.on("watcher", data => {
-  for (id in data.users) {
+  caller = data.caller;
+  for (callee in data.users) {
+      if (id != caller) {
       socket.emit("log","Callee is:");
-      socket.emit("log",id);
+      socket.emit("log", callee);
       socket.emit("log","Caller is:");
-      socket.emit("log",data.caller);
+      socket.emit("log", caller);
       const peerConnection = new RTCPeerConnection(config);
-      peerConnections[id] = peerConnection;
+      peerConnections[callee] = peerConnection;
+        let stream = video.srcObject;
+        stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
 
-      if (id != data.caller) {
+        peerConnection.onicecandidate = event => {
+          if (event.candidate) {
+            socket.emit("candidateCaller", id, event.candidate, data.caller);
+          }
+        };
 
-      let stream = video.srcObject;
-      stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
-
-      peerConnection.onicecandidate = event => {
-        if (event.candidate) {
-          socket.emit("candidateCaller", id, event.candidate, data.caller);
-        }
-      };
-
-      peerConnection
-        .createOffer()
-        .then(sdp => peerConnection.setLocalDescription(sdp))
-        .then(() => {
-          socket.emit("offer", id, peerConnection.localDescription, data.caller);
-        });
+        peerConnection
+          .createOffer()
+          .then(sdp => peerConnection.setLocalDescription(sdp))
+          .then(() => {
+            socket.emit("offer", id, peerConnection.localDescription, data.caller);
+          });
       }
     }
 });
