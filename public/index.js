@@ -223,7 +223,7 @@ socket.on('hasMoved',function(online_user) {
   online_user_y = online_user.y;
 });
 
-socket.on('usersChanged', function(online_users, socket_id) {
+socket.on('usersChanged', function(online_users, socket_id, disconnect) {
   $('#users').empty();
   for (var id in online_users) {
     online_user = online_users[id];
@@ -233,12 +233,16 @@ socket.on('usersChanged', function(online_users, socket_id) {
       $('#users').append($('<li>').text(online_user.username));
     }
   };
-  online_users_local = online_users;
-  room = peer_rooms[socket_id];
-  peer_rooms[socket_id] = false;
-  delete peer_rooms[socket_id];
-  peer = peerConnections[socket_id];
-  peer.close();
+  if (disconnect) {
+    online_users_local = online_users;
+    room = peer_rooms[socket_id];
+    peer_rooms[socket_id] = false;
+    delete peer_rooms[socket_id];
+    peer = peerConnections[socket_id]
+    if (peer) {
+      peer.close();
+    }
+  }
 });
 
 socket.on('state', function(online_users) {

@@ -137,7 +137,7 @@ io.on('connection', function(socket) {
       }
     }
     delete online_users[socket.id];
-    io.sockets.emit("usersChanged", online_users, socket.id);
+    io.sockets.emit("usersChanged", online_users, socket.id, disconnect = true);
     num_users = num_users - 1;
   });
 
@@ -151,7 +151,7 @@ io.on('connection', function(socket) {
       room_number: room_number
     };
     io.to(socket.id).emit('usernameAdded', online_users[socket.id]);
-    io.sockets.emit("usersChanged", online_users);
+    io.sockets.emit("usersChanged", online_users, socket.id, disconnect = false);
     num_users = num_users + 1;
     io.to(socket.id).emit('watcher', {
       users: online_users,
