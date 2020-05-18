@@ -22,19 +22,19 @@ var constraints = {
 };
 
 const video_array = [
-  "remote_video_1",
-  "remote_video_2",
-  "remote_video_3",
-  "remote_video_4",
-  "remote_video_5"
+  "video_1",
+  "video_2",
+  "video_3",
+  "video_4",
+  "video_5"
 ]
 
 var video_occupancy = {
-  "remote_video_1": false,
-  "remote_video_2": false,
-  "remote_video_3": false,
-  "remote_video_4": false,
-  "remote_video_5": false
+  "video_1": false,
+  "video_2": false,
+  "video_3": false,
+  "video_4": false,
+  "video_5": false
 }
 
 const peer_connections = {};
