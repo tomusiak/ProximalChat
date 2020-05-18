@@ -301,6 +301,7 @@ navigator.mediaDevices
   .getUserMedia(constraints)
   .then(stream => {
     local_video.srcObject = stream;
+    local_video.muted = true;
   })
   .catch(error => console.error(error));
 
@@ -340,7 +341,6 @@ socket.on("watcher", data => {
             socket.emit("offer", callee, peerConnection.localDescription, caller);
           });
       count = count + 1;
-      local_video.muted = true;
       }
     }
 });
@@ -356,7 +356,6 @@ socket.on("offer", (callee, description, caller) => {
   peerConnection = new RTCPeerConnection(config);
   peerConnections[caller] = peerConnection;
   const stream = local_video.srcObject;
-  local_video.muted = true;
   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   first_open_room = 5;
   for (i = 0; i < 6; i++) {
