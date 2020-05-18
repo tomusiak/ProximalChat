@@ -288,13 +288,6 @@ $(document).ready(function(){
 
 const peerConnections = {};
 const local_video = document.getElementById("video_0");
-remote_video_dict = [
- document.getElementById("video_1"),
- document.getElementById("video_2"),
- document.getElementById("video_3"),
- document.getElementById("video_4"),
- document.getElementById("video_5")
-]
 const config = {
   iceServers: [
     {
@@ -329,7 +322,7 @@ socket.on("watcher", data => {
       };
       peerConnection.ontrack = event => {
         socket.emit("log","in caller ontrack");
-        remote_video_dict[count].srcObject = event.streams[0];
+        document.getElementById(video_array[count]).srcObject = event.streams[0];
       };
       peerConnection
           .createOffer()
@@ -364,7 +357,7 @@ socket.on("offer", (callee, description, caller) => {
   var video = 0;
   for (vid in video_array) {
     if (video_occupancy[vid] = false) {
-      video = vid;
+      video = document.getElementById(vid);
     }
   }
   peerConnection.ontrack = event => {
