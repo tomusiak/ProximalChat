@@ -176,7 +176,7 @@ io.on('connection', function(socket) {
     console.log(callee);
     console.log(caller);
     console.log("...")
-      io.to(callee).emit("offer", callee, message, caller);
+    io.to(callee).emit("offer", callee, message, caller, online_users);
   });
 
   socket.on("answer", (caller, message, callee) => {

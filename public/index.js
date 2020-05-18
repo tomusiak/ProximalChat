@@ -294,14 +294,6 @@ const config = {
   ]
 };
 
-video = document.getElementById("video_5");
-navigator.mediaDevices
-  .getUserMedia(constraints)
-  .then(stream => {
-    video.srcObject = stream;
-  })
-  .catch(error => console.error(error));
-
 socket.on("watcher", data => {
   const caller = data.caller;
   for (id in data.users) {
@@ -314,6 +306,7 @@ socket.on("watcher", data => {
       saveCaller = callee;
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
+      video = document.getElementById(video_array[local_video_slot]);
       let stream = video.srcObject;
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection.onicecandidate = event => {
@@ -350,11 +343,12 @@ socket.on("answer", (caller, description, callee) => {
 let peerConnection;
 
 socket.on("offer", (callee, description, caller) => {
+  user_room = online_users_local[callee].room_number;
+  video = document.getElementById(video_array[user_room]);
   socket.emit("log","Callee is:");
   socket.emit("log", callee);
   socket.emit("log","Caller is:");
   socket.emit("log",caller);
-  video = document.getElementById("video_4");
   peerConnection = new RTCPeerConnection(config);
   peerConnections[caller] = peerConnection;
   peerConnection
