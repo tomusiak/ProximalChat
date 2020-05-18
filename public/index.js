@@ -292,14 +292,12 @@ const config = {
 
 socket.on("watcher", data => {
   const caller = data.caller;
-  video = document.getElementById(video_array[local_video_slot]);
-  navigator.mediaDevices
-  .getUserMedia(constraints)
-  .then(stream => {
-    video.srcObject = stream;
-    stream = video.srcObject;
-  })
   .catch(error => console.error(error));
+  navigator.mediaDevices.getUserMedia({audio: true, video: true})
+  .then(mediaStream => {
+    document.querySelector(video_array[local_video_slot]).srcObject = mediaStream;
+    let stream = mediaStream;
+  })
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
