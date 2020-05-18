@@ -292,6 +292,19 @@ const config = {
 
 socket.on("watcher", data => {
   const caller = data.caller;
+  navigator.getUserMedia(
+     { video: true, audio: true },
+     stream => {
+       const video = document.getElementById(video_array[local_video_slot]);
+       if (video) {
+         video.srcObject = stream;
+       }
+     },
+     error => {
+       console.warn(error.message);
+     }
+  );
+  let stream = video.srcObject;
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
@@ -302,11 +315,6 @@ socket.on("watcher", data => {
       saveCaller = callee;
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
-      video = document.getElementById(video_array[local_video_slot]);
-      navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-        video.srcObject = mediaStream;
-        let stream = mediaStream;
-      })
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
