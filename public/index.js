@@ -298,15 +298,15 @@ socket.on("watcher", data => {
   navigator.mediaDevices.getUserMedia({audio: true, video: true})
   .then(mediaStream => {
     video.srcObject = mediaStream;
-    stream = mediaStream;
   })
+  let stream = video.srcObject;
+  stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
       saveCaller = callee;
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
-      stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
           socket.emit("candidateCaller", callee, event.candidate, caller);
