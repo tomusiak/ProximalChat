@@ -137,7 +137,7 @@ io.on('connection', function(socket) {
       }
     }
     delete online_users[socket.id];
-    io.sockets.emit("usersChanged", online_users);
+    io.sockets.emit("usersChanged", online_users, socket.id);
     num_users = num_users - 1;
   });
 
