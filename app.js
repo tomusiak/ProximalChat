@@ -152,10 +152,10 @@ io.on('connection', function(socket) {
     };
     io.to(socket.id).emit('usernameAdded', online_users[socket.id]);
     io.sockets.emit("usersChanged", online_users);
+    num_users = num_users + 1;
     io.to(socket.id).emit('watcher', {
       users: online_users,
       caller: socket.id});
-    num_users = num_users + 1;
   });
 
   socket.on('messageSent', (msg) => {
