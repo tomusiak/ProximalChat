@@ -233,8 +233,8 @@ socket.on('usersChanged', function(online_users, socket_id, disconnect) {
       $('#users').append($('<li>').text(online_user.username));
     }
   };
+  online_users_local = online_users;
   if (disconnect) {
-    online_users_local = online_users;
     room = peer_rooms[socket_id];
     room_occ[socket_id] = false;
     delete peer_rooms[socket_id];
