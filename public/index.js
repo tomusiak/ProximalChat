@@ -359,6 +359,7 @@ socket.on("offer", (callee, description, caller) => {
   for (vid in video_array) {
     if (video_occupancy[vid] = false) {
       video = document.getElementById(vid);
+      video_occupancy[vid] = true;
     }
   }
   peerConnection.ontrack = event => {
