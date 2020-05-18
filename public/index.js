@@ -316,17 +316,18 @@ socket.on("watcher", data => {
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
       peer_connection_slots[callee] = count;
-      let stream = local_video.srcObject;
-      stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
           socket.emit("candidateCaller", callee, event.candidate, caller);
         }
       };
       peerConnection.ontrack = event => {
-        socket.emit("log",video_array[count]);
+        socket.emit("log",peer_connection_slots.callee);
+        socket.emit("log",video_array[peer_connection_slots.callee]);
         document.getElementById(video_array[peer_connection_slots.callee]).srcObject = event.streams[0];
       };
+      let stream = local_video.srcObject;
+      stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection
           .createOffer()
           .then(sdp => peerConnection.setLocalDescription(sdp))
