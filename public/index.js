@@ -249,10 +249,6 @@ socket.on("usernameAdded", function(user) {
   redrawCanvas();
   //setupAudios(online_user_x,online_user_y);
   username = user.username;
-  local_video = document.getElementById(video_array[user.room_number]);
-  navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-    local_video.srcObject = mediaStream;
-  })
   local_video_slot = user.room_number;
 });
 
@@ -309,8 +305,8 @@ socket.on("watcher", data => {
       video = document.getElementById(video_array[local_video_slot]);
       navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
         video.srcObject = mediaStream;
+        let stream = mediaStream;
       })
-      let stream = video.srcObject;
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
