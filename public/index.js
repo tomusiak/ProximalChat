@@ -314,10 +314,9 @@ socket.on("watcher", data => {
       peerConnections[callee] = peerConnection;
         let stream = video.srcObject;
         stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
-
         peerConnection.onicecandidate = event => {
           if (event.candidate) {
-            socket.emit("candidateCaller", id, event.candidate, data.caller);
+            socket.emit("candidateCaller", callee, event.candidate, caller);
           }
         };
 
@@ -325,29 +324,25 @@ socket.on("watcher", data => {
           .createOffer()
           .then(sdp => peerConnection.setLocalDescription(sdp))
           .then(() => {
-            socket.emit("offer", id, peerConnection.localDescription, data.caller);
+            socket.emit("offer", callee, peerConnection.localDescription, caller);
           });
       }
     }
 });
 
-socket.on("answer", (id, description, callee) => {
-  //socket.emit("log", peerConnections);
-  //socket.emit("log", id)
-
-  //first_key = Object.keys(peerConnections)[0];
-  socket.emit("log","connections");
-  socket.emit("log",peerConnections);
-
+socket.on("answer", (caller, description, callee) => {
+  socket.emit("log","Callee is:");
+  socket.emit("log", callee);
+  socket.emit("log","Caller is:");
+  socket.emit("log", caller);
   peerConnections[callee].setRemoteDescription(description);
 });
 
 let peerConnection;
 
-socket.on("offer", (id, description, caller) => {
-  var callee = id;
+socket.on("offer", (callee, description, caller) => {
   socket.emit("log","Callee is:");
-  socket.emit("log",id);
+  socket.emit("log", callee);
   socket.emit("log","Caller is:");
   socket.emit("log",caller);
   video = document.getElementById("video_4");
@@ -371,7 +366,7 @@ socket.on("offer", (id, description, caller) => {
 });
 
 // caller
-socket.on("candidateCaller", (id, candidate, caller) => {
+socket.on("candidateCaller", (callee, candidate, caller) => {
   socket.emit("log","Callee is:");
   socket.emit("log",id);
   socket.emit("log","Caller is:");
@@ -380,7 +375,7 @@ socket.on("candidateCaller", (id, candidate, caller) => {
 });
 
 //callee
-socket.on("candidateCallee", (id, candidate, callee) => {
+socket.on("candidateCallee", (caller, candidate, callee) => {
   socket.emit("log","Callee is:");
   socket.emit("log",callee);
   socket.emit("log","Caller is:");

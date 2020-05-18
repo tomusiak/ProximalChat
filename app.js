@@ -179,20 +179,20 @@ io.on('connection', function(socket) {
       socket.emit("disconnectPeer", socket.id);
     });
 
-  socket.on("offer", (id, message, caller) => {
-      io.to(id).emit("offer", id, message, caller);
+  socket.on("offer", (callee, message, caller) => {
+      io.to(callee).emit("offer", callee, message, caller);
   });
 
-  socket.on("answer", (id, message, callee) => {
-    io.to(id).emit("answer", id, message, callee);
+  socket.on("answer", (caller, message, callee) => {
+    io.to(id).emit("answer", caller, message, callee);
   });
 
-  socket.on("candidateCallee", (id, message, callee) => {
-    io.to(id).emit("candidateCallee", id, message, callee);
+  socket.on("candidateCallee", (caller, message, callee) => {
+    io.to(id).emit("candidateCallee", caller, message, callee);
   });
 
-  socket.on("candidateCaller", (id, message, caller) => {
-    io.to(id).emit("candidateCaller", id, message, caller);
+  socket.on("candidateCaller", (callee, message, caller) => {
+    io.to(callee).emit("candidateCaller", callee, message, caller);
   });
 });
 
