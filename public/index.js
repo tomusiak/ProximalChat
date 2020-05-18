@@ -291,7 +291,7 @@ const config = {
 socket.on("watcher", data => {
   const caller = data.caller;
   var stream;
-  local_video_slot = data[users].caller;
+  local_video_slot = data.users;
   socket.emit("log",local_video_slot);
   navigator.mediaDevices.getUserMedia({audio: true, video: true})
   .then(mediaStream => {

@@ -152,7 +152,6 @@ io.on('connection', function(socket) {
     };
     io.to(socket.id).emit('usernameAdded', online_users[socket.id]);
     io.sockets.emit("usersChanged", online_users);
-    console.log(online_users);
     io.to(socket.id).emit('watcher', {
       users: online_users,
       caller: socket.id});
