@@ -23,11 +23,11 @@ var constraints = {
 
 const peer_rooms = {};
 const room_occ = {
+  0: false,
   1: false,
   2: false,
   3: false,
-  4: false,
-  5: false
+  4: false
 }
 
 video_array = ["video_1", "video_2", "video_3", "video_4", "video_5"];
