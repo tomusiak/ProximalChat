@@ -359,12 +359,13 @@ socket.on("offer", (callee, description, caller) => {
   for (vid in video_array) {
     if (video_occupancy.vid == false) {
       socket.emit("log",vid);
+      socket.emit(video_occupancy.vid);
+      socket.emit(video_array[vid]);
       video = document.getElementById(video_array[vid]);
-      video_occupancy[vid] = true;
+      video_occupancy.vid = true;
     }
   }
   peerConnection.ontrack = event => {
-    socket.emit("log",video);
     video.srcObject = event.streams[0];
   };
   peerConnection.onicecandidate = event => {
