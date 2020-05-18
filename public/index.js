@@ -281,11 +281,13 @@ $(document).ready(function(){
 
 const peerConnections = {};
 const local_video = document.getElementById("video_0");
-const remote_video_1 = document.getElementById("video_1");
-const remote_video_2 = document.getElementById("video_2");
-const remote_video_3 = document.getElementById("video_3");
-const remote_video_4 = document.getElementById("video_4");
-const remote_video_5 = document.getElementById("video_5");
+remote_video_dict = [
+ document.getElementById("video_1"),
+ document.getElementById("video_2"),
+ document.getElementById("video_3"),
+ document.getElementById("video_4"),
+ document.getElementById("video_5")
+]
 const config = {
   iceServers: [
     {
@@ -304,6 +306,7 @@ navigator.mediaDevices
 
 socket.on("watcher", data => {
   const caller = data.caller;
+  count = 0;
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
@@ -319,7 +322,7 @@ socket.on("watcher", data => {
       };
       peerConnection.ontrack = event => {
         socket.emit("log","in caller ontrack");
-        remote_video_3.srcObject = event.streams[0];
+        remote_video_dict[count].srcObject = event.streams[0];
       };
       peerConnection
           .createOffer()
@@ -328,6 +331,7 @@ socket.on("watcher", data => {
             socket.emit("offer", callee, peerConnection.localDescription, caller);
           });
       }
+      count = count + 1;
     }
 });
 
