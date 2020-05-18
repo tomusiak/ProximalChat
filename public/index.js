@@ -290,7 +290,6 @@ const config = {
 
 socket.on("watcher", data => {
   const caller = data.caller;
-  var stream;
   users = data.users;
   placeholder_caller = users[caller];
   local_video_slot = placeholder_caller.room_number;
