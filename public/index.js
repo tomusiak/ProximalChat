@@ -357,10 +357,10 @@ socket.on("offer", (callee, description, caller) => {
     });
   var video = 0;
   for (vid in video_array) {
-    socket.emit("log",vid);
+    socket.emit("log",video_array[vid]);
     socket.emit("log",video_occupancy.vid);
     socket.emit("log",video_occupancy[vid]);
-    if (video_occupancy.vid == false) {
+    if (video_occupancy.video_array[vid] == false) {
       socket.emit("log",vid);
       socket.emit("log",video_occupancy.vid);
       socket.emit("log",video_array[vid]);
