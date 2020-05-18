@@ -299,6 +299,7 @@ socket.on("watcher", data => {
     video.srcObject = stream;
   })
   .catch(error => console.error(error));
+  let stream = video.srcObject;
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
