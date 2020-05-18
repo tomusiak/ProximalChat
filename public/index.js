@@ -383,6 +383,7 @@ socket.on("offer", (callee, description, caller) => {
       socket.emit("candidateCallee", caller, event.candidate, callee);
     }
   };
+  local_video.muted = true;
 });
 
 // caller
