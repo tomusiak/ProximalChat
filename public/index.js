@@ -280,7 +280,7 @@ $(document).ready(function(){
 });
 
 const peerConnections = {};
-const local_video = document.querySelector("video_0");
+const local_video = document.getElementById("video_0");
 const config = {
   iceServers: [
     {
