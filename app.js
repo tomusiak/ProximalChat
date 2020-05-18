@@ -155,7 +155,7 @@ io.on('connection', function(socket) {
     console.log(online_users);
     io.to(socket.id).emit('watcher', {
       users: online_users,
-      me: socket.id});
+      caller: socket.id});
     num_users = num_users + 1;
   });
 

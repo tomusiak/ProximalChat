@@ -307,7 +307,7 @@ socket.on("watcher", data => {
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[id] = peerConnection;
 
-    //  if (id != data.me) {
+      if (id != data.caller) {
 
       let stream = video.srcObject;
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
@@ -324,7 +324,7 @@ socket.on("watcher", data => {
         .then(() => {
           socket.emit("offer", id, peerConnection.localDescription);
         });
-  //    }
+      }
     }
 });
 
