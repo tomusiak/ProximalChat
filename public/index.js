@@ -22,13 +22,20 @@ var constraints = {
 };
 
 const video_array = [
-  "video_0",
-  "video_1",
-  "video_2",
-  "video_3",
-  "video_4",
-  "video_5"
+  "remote_video_1",
+  "remote_video_2",
+  "remote_video_3",
+  "remote_video_4",
+  "remote_video_5"
 ]
+
+var video_occupancy = {
+  "remote_video_1": false,
+  "remote_video_2": false,
+  "remote_video_3": false,
+  "remote_video_4": false,
+  "remote_video_5": false
+}
 
 const peer_connections = {};
 
@@ -354,9 +361,15 @@ socket.on("offer", (callee, description, caller) => {
     .then(() => {
       socket.emit("answer", caller, peerConnection.localDescription, callee);
     });
+  var video = 0;
+  for (vid in video_array) {
+    if (video_occupancy[vid] = false) {
+      video = vid;
+    }
+  }
   peerConnection.ontrack = event => {
     socket.emit("log","in callee ontrack");
-    remote_video_3.srcObject = event.streams[0];
+    video.srcObject = event.streams[0];
   };
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
