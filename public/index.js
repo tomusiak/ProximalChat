@@ -301,7 +301,7 @@ socket.on("watcher", data => {
   })
   .catch(error => console.error(error));
   let stream = video.srcObject;
-  mediaStream.getTracks().forEach(track => peerConnection.addTrack(track, mediaStream));
+  stream.getTracks().forEach(track => peerConnection.addTrack(track, mediaStream));
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
