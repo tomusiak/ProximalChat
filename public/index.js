@@ -390,7 +390,7 @@ socket.on("candidateCallee", (caller, candidate, callee) => {
   socket.emit("log",callee);
   socket.emit("log","Caller is:");
   socket.emit("log",caller);
-  peerConnection[callee]
+  peerConnections[callee]
     .addIceCandidate(new RTCIceCandidate(candidate))
     .catch(e => console.error(e));
 });
