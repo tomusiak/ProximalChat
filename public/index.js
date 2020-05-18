@@ -311,7 +311,6 @@ socket.on("watcher", data => {
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
       let stream = local_video.srcObject;
-      socket.emit("log",stream)
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
@@ -319,7 +318,7 @@ socket.on("watcher", data => {
         }
       };
       peerConnection.ontrack = event => {
-        socket.emit("log","in ontrack");
+        socket.emit("log","in caller ontrack");
         remote_video_3.srcObject = event.streams[0];
       };
       peerConnection
@@ -342,6 +341,8 @@ socket.on("offer", (callee, description, caller) => {
   user_room = online_users_local[callee].room_number;
   peerConnection = new RTCPeerConnection(config);
   peerConnections[caller] = peerConnection;
+  let stream = local_video.srcObject;
+  stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   peerConnection
     .setRemoteDescription(description)
     .then(() => peerConnection.createAnswer())
@@ -350,7 +351,7 @@ socket.on("offer", (callee, description, caller) => {
       socket.emit("answer", caller, peerConnection.localDescription, callee);
     });
   peerConnection.ontrack = event => {
-    socket.emit("log","in ontrack");
+    socket.emit("log","in callee ontrack");
     remote_video_3.srcObject = event.streams[0];
   };
   peerConnection.onicecandidate = event => {
