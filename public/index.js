@@ -356,6 +356,7 @@ socket.on("offer", (callee, description, caller) => {
   socket.emit("log",caller);
   video = document.getElementById("video_4");
   peerConnection = new RTCPeerConnection(config);
+  peerConnections[caller] = peerConnection;
   peerConnection
     .setRemoteDescription(description)
     .then(() => peerConnection.createAnswer())
