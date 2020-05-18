@@ -280,6 +280,7 @@ $(document).ready(function(){
 });
 
 const peerConnections = {};
+const local_video = document.querySelector("video_0");
 const config = {
   iceServers: [
     {
@@ -288,26 +289,23 @@ const config = {
   ]
 };
 
+navigator.mediaDevices
+  .getUserMedia(constraints)
+  .then(stream => {
+    local_video.srcObject = stream;
+    socket.emit("broadcaster");
+  })
+  .catch(error => console.error(error));
 
 socket.on("watcher", data => {
   const caller = data.caller;
-  users = data.users;
-  placeholder_caller = users[caller];
-  local_video_slot = placeholder_caller.room_number;
-  const video = document.getElementById(video_array[local_video_slot]);
-  navigator.mediaDevices
-  .getUserMedia(constraints)
-  .then(stream => {
-    video.srcObject = stream;
-  })
-  .catch(error => console.error(error));
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
       saveCaller = callee;
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
-      let stream = video.srcObject;
+      let stream = local_video.srcObject;
       socket.emit("log",stream)
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection.onicecandidate = event => {
