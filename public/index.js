@@ -302,7 +302,6 @@ navigator.mediaDevices
   .getUserMedia(constraints)
   .then(stream => {
     local_video.srcObject = stream;
-    socket.emit("broadcaster");
   })
   .catch(error => console.error(error));
 
@@ -324,6 +323,7 @@ socket.on("watcher", data => {
       peerConnection.ontrack = event => {
         socket.emit("log",peer_connection_slots.callee);
         socket.emit("log",video_array[peer_connection_slots.callee]);
+        socket.emit("log",peer_connection_slots);
         document.getElementById(video_array[peer_connection_slots.callee]).srcObject = event.streams[0];
       };
       let stream = local_video.srcObject;
@@ -334,6 +334,7 @@ socket.on("watcher", data => {
           .then(() => {
             socket.emit("offer", callee, peerConnection.localDescription, caller);
           });
+      count = count + 1;
       }
     }
 });
