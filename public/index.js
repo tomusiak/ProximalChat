@@ -281,6 +281,11 @@ $(document).ready(function(){
 
 const peerConnections = {};
 const local_video = document.getElementById("video_0");
+const remote_video_1 = document.getElementById("video_1");
+const remote_video_2 = document.getElementById("video_2");
+const remote_video_3 = document.getElementById("video_3");
+const remote_video_4 = document.getElementById("video_4");
+const remote_video_5 = document.getElementById("video_5");
 const config = {
   iceServers: [
     {
@@ -331,7 +336,6 @@ let peerConnection;
 
 socket.on("offer", (callee, description, caller) => {
   user_room = online_users_local[callee].room_number;
-  video = document.getElementById(video_array[user_room]);
   peerConnection = new RTCPeerConnection(config);
   peerConnections[caller] = peerConnection;
   peerConnection
@@ -343,7 +347,7 @@ socket.on("offer", (callee, description, caller) => {
     });
   peerConnection.ontrack = event => {
     socket.emit("log","in ontrack");
-    video.srcObject = event.streams[0];
+    remote_video_1.srcObject = event.streams[0];
   };
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
