@@ -297,9 +297,9 @@ socket.on("watcher", data => {
   navigator.mediaDevices.getUserMedia({audio: true, video: true})
   .then(mediaStream => {
     video.srcObject = mediaStream;
+    let stream = video.srcObject;
+    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   })
-  let stream = video.srcObject;
-  stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
