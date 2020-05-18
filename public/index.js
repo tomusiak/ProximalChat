@@ -305,7 +305,7 @@ navigator.mediaDevices
 socket.on("watcher", data => {
   caller = data.caller;
   for (callee in data.users) {
-      if (id != caller) {
+      if (callee != caller) {
       socket.emit("log","Callee is:");
       socket.emit("log", callee);
       socket.emit("log","Caller is:");
