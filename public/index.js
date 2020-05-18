@@ -358,8 +358,8 @@ socket.on("offer", (callee, description, caller) => {
   var video = 0;
   for (vid in video_array) {
     if (video_occupancy[vid] == false) {
-      socket.emit("log",vid);
-      video = document.getElementById(vid);
+      socket.emit("log",video_array[vid]);
+      video = document.getElementById(video_array[vid]);
       video_occupancy[vid] = true;
     }
   }
