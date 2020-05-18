@@ -288,12 +288,13 @@ const config = {
   ]
 };
 
+
 socket.on("watcher", data => {
   const caller = data.caller;
   users = data.users;
   placeholder_caller = users[caller];
   local_video_slot = placeholder_caller.room_number;
-  video = document.getElementById(video_array[local_video_slot]);
+  const video = document.getElementById(video_array[local_video_slot]);
   navigator.mediaDevices
   .getUserMedia(constraints)
   .then(stream => {
@@ -306,14 +307,14 @@ socket.on("watcher", data => {
       saveCaller = callee;
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
+      let stream = video.srcObject;
+      socket.emit("log",stream)
+      stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
           socket.emit("candidateCaller", callee, event.candidate, caller);
         }
       };
-      let stream = video.srcObject;
-      socket.emit("log",stream)
-      stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection
           .createOffer()
           .then(sdp => peerConnection.setLocalDescription(sdp))
