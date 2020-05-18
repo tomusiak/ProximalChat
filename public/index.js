@@ -368,7 +368,7 @@ socket.on("offer", (callee, description, caller) => {
 // caller
 socket.on("candidateCaller", (callee, candidate, caller) => {
   socket.emit("log","Callee is:");
-  socket.emit("log",id);
+  socket.emit("log",callee);
   socket.emit("log","Caller is:");
   socket.emit("log",caller);
   peerConnections[caller].addIceCandidate(new RTCIceCandidate(candidate));
@@ -379,7 +379,7 @@ socket.on("candidateCallee", (caller, candidate, callee) => {
   socket.emit("log","Callee is:");
   socket.emit("log",callee);
   socket.emit("log","Caller is:");
-  socket.emit("log",id);
+  socket.emit("log",caller);
   peerConnection[callee]
     .addIceCandidate(new RTCIceCandidate(candidate))
     .catch(e => console.error(e));
