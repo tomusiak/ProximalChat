@@ -294,12 +294,14 @@ socket.on("watcher", data => {
   placeholder_caller = users[caller];
   local_video_slot = placeholder_caller.room_number;
   video = document.getElementById(video_array[local_video_slot]);
-  navigator.mediaDevices.getUserMedia({audio: true, video: true})
-  .then(mediaStream => {
-    video.srcObject = mediaStream;
-    let stream = video.srcObject;
-    mediaStream.getTracks().forEach(track => peerConnection.addTrack(track, mediaStream));
+  navigator.mediaDevices
+  .getUserMedia(constraints)
+  .then(stream => {
+    video.srcObject = stream;
   })
+  .catch(error => console.error(error));
+  let stream = video.srcObject;
+  mediaStream.getTracks().forEach(track => peerConnection.addTrack(track, mediaStream));
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
