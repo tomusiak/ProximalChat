@@ -37,6 +37,8 @@ var video_occupancy = {
   "video_5": false
 }
 
+var peer_connection_slots = {}
+
 const peer_connections = {};
 
 online_user_x = 0;
@@ -313,6 +315,7 @@ socket.on("watcher", data => {
       saveCaller = callee;
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
+      peer_connection_slots[callee] = count;
       let stream = local_video.srcObject;
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection.onicecandidate = event => {
@@ -322,13 +325,12 @@ socket.on("watcher", data => {
       };
       peerConnection.ontrack = event => {
         socket.emit("log",video_array[count]);
-        document.getElementById(video_array[count]).srcObject = event.streams[0];
+        document.getElementById(video_array[peer_connection_slots.callee]).srcObject = event.streams[0];
       };
       peerConnection
           .createOffer()
           .then(sdp => peerConnection.setLocalDescription(sdp))
           .then(() => {
-            count = count + 1;
             socket.emit("offer", callee, peerConnection.localDescription, caller);
           });
       }
