@@ -300,7 +300,6 @@ socket.on("watcher", data => {
     video.srcObject = stream;
   })
   .catch(error => console.error(error));
-  let stream = video.srcObject;
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
@@ -312,6 +311,8 @@ socket.on("watcher", data => {
           socket.emit("candidateCaller", callee, event.candidate, caller);
         }
       };
+      let stream = video.srcObject;
+      socket.emit("log",stream)
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection
           .createOffer()
