@@ -294,6 +294,7 @@ socket.on("watcher", data => {
   users = data.users;
   socket.emit("log",users);
   testcaller = users.caller;
+  socket.emit("log",caller);
   socket.emit("log",testcaller);
   local_video_slot = data[users];
   navigator.mediaDevices.getUserMedia({audio: true, video: true})
