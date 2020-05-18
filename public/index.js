@@ -324,6 +324,10 @@ socket.on("watcher", data => {
           .createOffer()
           .then(sdp => peerConnection.setLocalDescription(sdp))
           .then(() => {
+            socket.emit("log","Callee is:");
+            socket.emit("log", callee);
+            socket.emit("log","Caller is:");
+            socket.emit("log", caller);
             socket.emit("offer", callee, peerConnection.localDescription, caller);
           });
       }
