@@ -321,7 +321,7 @@ socket.on("watcher", data => {
         }
       };
       peerConnection.ontrack = event => {
-        socket.emit("log",peer_connection_slots.callee);
+        socket.emit("log",peer_connection_slots[callee]);
         socket.emit("log",video_array[peer_connection_slots.callee]);
         socket.emit("log",peer_connection_slots);
         document.getElementById(video_array[peer_connection_slots.callee]).srcObject = event.streams[0];
