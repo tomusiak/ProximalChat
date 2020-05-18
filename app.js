@@ -188,11 +188,11 @@ io.on('connection', function(socket) {
   });
 
   socket.on("candidateCallee", (id, message) => {
-    io.to(id).emit("candidateCallee", socket.id, message);
+    io.to(id).emit("candidateCaller", socket.id, message);
   });
 
   socket.on("candidateCaller", (id, message) => {
-    io.to(id).emit("candidateCaller", socket.id, message);
+    io.to(id).emit("candidateCallee", socket.id, message);
   });
 });
 
