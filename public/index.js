@@ -297,9 +297,9 @@ socket.on("watcher", data => {
   .getUserMedia(constraints)
   .then(stream => {
     video.srcObject = stream;
+    let stream = video.srcObject;
   })
   .catch(error => console.error(error));
-  let stream = video.srcObject;
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
