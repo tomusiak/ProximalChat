@@ -330,8 +330,8 @@ socket.on("watcher", data => {
           .then(() => {
             socket.emit("offer", callee, peerConnection.localDescription, caller);
           });
-      }
       count = count + 1;
+      }
     }
 });
 
