@@ -305,7 +305,6 @@ navigator.mediaDevices
   })
   .catch(error => console.error(error));
 
-//local_video.muted = true;
 
 socket.on("watcher", data => {
   const caller = data.caller;
@@ -342,6 +341,7 @@ socket.on("watcher", data => {
             socket.emit("offer", callee, peerConnection.localDescription, caller);
           });
       count = count + 1;
+      local_video.muted = true;
       }
     }
 });
