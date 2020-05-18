@@ -298,7 +298,7 @@ socket.on("watcher", data => {
   .then(mediaStream => {
     video.srcObject = mediaStream;
     let stream = video.srcObject;
-    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+    mediaStream.getTracks().forEach(track => peerConnection.addTrack(track, mediaStream));
   })
   for (id in data.users) {
     const callee = id;
