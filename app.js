@@ -191,7 +191,7 @@ io.on('connection', function(socket) {
     io.to(id).emit("candidateCallee", socket.id, message, callee);
   });
 
-  socket.on("candidateCaller", (id, message) => {
+  socket.on("candidateCaller", (id, message, caller) => {
     io.to(id).emit("candidateCaller", socket.id, message, caller);
   });
 });
