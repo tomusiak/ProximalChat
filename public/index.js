@@ -295,6 +295,8 @@ navigator.mediaDevices
     local_video.srcObject = stream;
   })
   .catch(error => console.error(error));
+  
+local_video.muted = true;
 
 socket.on("watcher", data => {
   const caller = data.caller;
