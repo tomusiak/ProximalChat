@@ -21,25 +21,16 @@ var constraints = {
     audio: true,
 };
 
-const video_array = [
-  "video_1",
-  "video_2",
-  "video_3",
-  "video_4",
-  "video_5"
-]
-
-var video_occupancy = {
-  "video_1": false,
-  "video_2": false,
-  "video_3": false,
-  "video_4": false,
-  "video_5": false
+const peer_rooms = {};
+const room_occ = {
+  1: false,
+  2: false,
+  3: false,
+  4: false,
+  5: false
 }
 
-var peer_connection_slots = {}
-
-const peer_connections = {};
+video_array = ["video_1", "video_2", "video_3", "video_4", "video_5"];
 
 online_user_x = 0;
 online_user_y = 0;
@@ -314,14 +305,15 @@ socket.on("watcher", data => {
       saveCaller = callee;
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
-      peer_connection_slots[callee] = count;
+      peer_rooms[callee] = count;
+      room_occ[count] = true;
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
           socket.emit("candidateCaller", callee, event.candidate, caller);
         }
       };
       peerConnection.ontrack = event => {
-        document.getElementById(video_array[peer_connection_slots[callee]]).srcObject = event.streams[0];
+        document.getElementById(video_array[peer_rooms[callee]]).srcObject = event.streams[0];
       };
       let stream = local_video.srcObject;
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
@@ -348,6 +340,16 @@ socket.on("offer", (callee, description, caller) => {
   peerConnections[caller] = peerConnection;
   let stream = local_video.srcObject;
   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+  first_open_room = 5;
+  for (i = 0; i < 6; i++) {
+    if (room_occ[i] == false) {
+      first_open_room = i;
+      room_occ[i] = true;
+      break;
+    }
+  }
+  peer_rooms[caller] = first_open_room;
+  video = document.getElementById(video_array[first_open_room]);
   peerConnection
     .setRemoteDescription(description)
     .then(() => peerConnection.createAnswer())
@@ -355,19 +357,6 @@ socket.on("offer", (callee, description, caller) => {
     .then(() => {
       socket.emit("answer", caller, peerConnection.localDescription, callee);
     });
-  var video = 0;
-  for (vid in video_array) {
-    socket.emit("log",video_array[vid]);
-    socket.emit("log",video_occupancy.vid);
-    socket.emit("log",video_occupancy[vid]);
-    if (video_occupancy[video_array[vid]] == false) {
-      socket.emit("log",vid);
-      socket.emit("log",video_occupancy.vid);
-      socket.emit("log",video_array[vid]);
-      video = document.getElementById(video_array[vid]);
-      video_occupancy.vid = true;
-    }
-  }
   peerConnection.ontrack = event => {
     video.srcObject = event.streams[0];
   };
