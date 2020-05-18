@@ -318,6 +318,10 @@ socket.on("watcher", data => {
           socket.emit("candidateCaller", callee, event.candidate, caller);
         }
       };
+      peerConnection.ontrack = event => {
+        socket.emit("log","in ontrack");
+        remote_video_3.srcObject = event.streams[0];
+      };
       peerConnection
           .createOffer()
           .then(sdp => peerConnection.setLocalDescription(sdp))
@@ -347,7 +351,7 @@ socket.on("offer", (callee, description, caller) => {
     });
   peerConnection.ontrack = event => {
     socket.emit("log","in ontrack");
-    remote_video_1.srcObject = event.streams[0];
+    remote_video_3.srcObject = event.streams[0];
   };
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
