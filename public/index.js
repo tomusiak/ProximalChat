@@ -314,7 +314,7 @@ socket.on("watcher", data => {
 
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
-          socket.emit("candidateCaller", id, event.candidate);
+          socket.emit("candidateCaller", id, event.candidate, data.caller);
         }
       };
 
@@ -322,13 +322,13 @@ socket.on("watcher", data => {
         .createOffer()
         .then(sdp => peerConnection.setLocalDescription(sdp))
         .then(() => {
-          socket.emit("offer", id, peerConnection.localDescription);
+          socket.emit("offer", id, peerConnection.localDescription, data.caller);
         });
       }
     }
 });
 
-socket.on("answer", (id, description) => {
+socket.on("answer", (id, description, callee) => {
   //socket.emit("log", peerConnections);
   //socket.emit("log", id)
 
@@ -336,12 +336,13 @@ socket.on("answer", (id, description) => {
   socket.emit("log","connections");
   socket.emit("log",peerConnections);
 
-  peerConnections[id].setRemoteDescription(description);
+  peerConnections[callee].setRemoteDescription(description);
 });
 
 let peerConnection;
 
-socket.on("offer", (id, description) => {
+socket.on("offer", (id, description, caller) => {
+  var callee = id;
   socket.emit("log","in offer");
   video = document.getElementById("video_4");
   peerConnection = new RTCPeerConnection(config);
@@ -350,7 +351,7 @@ socket.on("offer", (id, description) => {
     .then(() => peerConnection.createAnswer())
     .then(sdp => peerConnection.setLocalDescription(sdp))
     .then(() => {
-      socket.emit("answer", id, peerConnection.localDescription);
+      socket.emit("answer", caller, peerConnection.localDescription, callee);
     });
   peerConnection.ontrack = event => {
     socket.emit("log","in ontrack");
@@ -358,19 +359,19 @@ socket.on("offer", (id, description) => {
   };
   peerConnection.onicecandidate = event => {
     if (event.candidate) {
-      socket.emit("candidateCallee", id, event.candidate);
+      socket.emit("candidateCallee", caller, event.candidate, callee);
     }
   };
 });
 
 // caller
-socket.on("candidateCaller", (id, candidate) => {
-  peerConnections[id].addIceCandidate(new RTCIceCandidate(candidate));
+socket.on("candidateCaller", (id, candidate, caller) => {
+  peerConnections[caller].addIceCandidate(new RTCIceCandidate(candidate));
 });
 
 //callee
-socket.on("candidateCallee", (id, candidate) => {
-  peerConnection
+socket.on("candidateCallee", (id, candidate, callee) => {
+  peerConnection[callee]
     .addIceCandidate(new RTCIceCandidate(candidate))
     .catch(e => console.error(e));
 });
