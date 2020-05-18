@@ -293,7 +293,7 @@ socket.on("watcher", data => {
   var stream;
   users = data.users;
   socket.emit("log",users);
-  testcaller = users.caller;
+  testcaller = users[caller];
   socket.emit("log",caller);
   socket.emit("log",testcaller);
   local_video_slot = data[users];
