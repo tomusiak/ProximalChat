@@ -32,8 +32,6 @@ const video_array = [
 
 const peer_connections = {};
 
-var local_video_slot = 0;
-
 online_user_x = 0;
 online_user_y = 0;
 
@@ -293,6 +291,8 @@ const config = {
 socket.on("watcher", data => {
   const caller = data.caller;
   var stream;
+  local_video_slot = data.caller.room_number
+  socket.emit("log",local_video_slot);
   navigator.mediaDevices.getUserMedia({audio: true, video: true})
   .then(mediaStream => {
     document.querySelector(video_array[local_video_slot]).srcObject = mediaStream;
@@ -301,20 +301,12 @@ socket.on("watcher", data => {
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
-      socket.emit("log","Callee is:");
-      socket.emit("log", callee);
-      socket.emit("log","Caller is:");
-      socket.emit("log", caller);
       saveCaller = callee;
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
-          socket.emit("log","pre-candidate Callee is:");
-          socket.emit("log", callee);
-          socket.emit("log","pre-candidate Caller is:");
-          socket.emit("log", caller);
           socket.emit("candidateCaller", callee, event.candidate, caller);
         }
       };
@@ -322,10 +314,6 @@ socket.on("watcher", data => {
           .createOffer()
           .then(sdp => peerConnection.setLocalDescription(sdp))
           .then(() => {
-            socket.emit("log","pre-offer Callee is:");
-            socket.emit("log", callee);
-            socket.emit("log","pre-offer Caller is:");
-            socket.emit("log", caller);
             socket.emit("offer", callee, peerConnection.localDescription, caller);
           });
       }
@@ -333,10 +321,6 @@ socket.on("watcher", data => {
 });
 
 socket.on("answer", (caller, description, callee) => {
-  socket.emit("log","Callee is:");
-  socket.emit("log", callee);
-  socket.emit("log","Caller is:");
-  socket.emit("log", caller);
   peerConnections[callee].setRemoteDescription(description);
 });
 
@@ -345,10 +329,6 @@ let peerConnection;
 socket.on("offer", (callee, description, caller) => {
   user_room = online_users_local[callee].room_number;
   video = document.getElementById(video_array[user_room]);
-  socket.emit("log","Callee is:");
-  socket.emit("log", callee);
-  socket.emit("log","Caller is:");
-  socket.emit("log",caller);
   peerConnection = new RTCPeerConnection(config);
   peerConnections[caller] = peerConnection;
   peerConnection
@@ -371,19 +351,11 @@ socket.on("offer", (callee, description, caller) => {
 
 // caller
 socket.on("candidateCaller", (callee, candidate, caller) => {
-  socket.emit("log","Callee is:");
-  socket.emit("log",callee);
-  socket.emit("log","Caller is:");
-  socket.emit("log",caller);
   peerConnections[caller].addIceCandidate(new RTCIceCandidate(candidate));
 });
 
 //callee
 socket.on("candidateCallee", (caller, candidate, callee) => {
-  socket.emit("log","Callee is:");
-  socket.emit("log",callee);
-  socket.emit("log","Caller is:");
-  socket.emit("log",caller);
   peerConnections[callee]
     .addIceCandidate(new RTCIceCandidate(candidate))
     .catch(e => console.error(e));

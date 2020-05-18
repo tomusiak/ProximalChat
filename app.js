@@ -172,11 +172,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on("offer", (callee, message, caller) => {
-    console.log("...");
-    console.log(callee);
-    console.log(caller);
-    console.log("...")
-    io.to(callee).emit("offer", callee, message, caller, online_users);
+    io.to(callee).emit("offer", callee, message, caller);
   });
 
   socket.on("answer", (caller, message, callee) => {
