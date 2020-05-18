@@ -305,7 +305,7 @@ navigator.mediaDevices
   })
   .catch(error => console.error(error));
 
-local_video.muted = true;
+//local_video.muted = true;
 
 socket.on("watcher", data => {
   const caller = data.caller;
