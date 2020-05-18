@@ -307,6 +307,9 @@ socket.on("watcher", data => {
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
       video = document.getElementById(video_array[local_video_slot]);
+      navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
+        video.srcObject = mediaStream;
+      })
       let stream = video.srcObject;
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection.onicecandidate = event => {
