@@ -322,7 +322,7 @@ socket.on("watcher", data => {
       };
       peerConnection.ontrack = event => {
         socket.emit("log","in caller ontrack");
-        document.getElementById(video_array[count]).srcObject = event.streams[count];
+        document.getElementById(video_array[count]).srcObject = event.streams[0];
       };
       peerConnection
           .createOffer()
