@@ -171,15 +171,11 @@ io.on('connection', function(socket) {
     console.log(msg);
   });
 
-    socket.on("watcher", () => {
-      socket.emit("watcher", socket.id);
-    });
-
-    socket.on("disconnect", () => {
-      socket.emit("disconnectPeer", socket.id);
-    });
-
   socket.on("offer", (callee, message, caller) => {
+    console.log("...");
+    console.log(callee);
+    console.log(caller);
+    console.log("...")
       io.to(callee).emit("offer", callee, message, caller);
   });
 
