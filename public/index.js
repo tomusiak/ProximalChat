@@ -294,11 +294,10 @@ socket.on("watcher", data => {
   users = data.users;
   placeholder_caller = users[caller];
   local_video_slot = placeholder_caller.room_number;
-  socket.emit("log",local_video_slot);
-  socket.emit("log",video_array[local_video_slot]);
+  video = document.getElementById(video_array[local_video_slot]);
   navigator.mediaDevices.getUserMedia({audio: true, video: true})
   .then(mediaStream => {
-    document.querySelector(video_array[local_video_slot]).srcObject = mediaStream;
+    video.srcObject = mediaStream;
     stream = mediaStream;
   })
   for (id in data.users) {
