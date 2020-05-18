@@ -236,7 +236,7 @@ socket.on('usersChanged', function(online_users, socket_id, disconnect) {
   if (disconnect) {
     online_users_local = online_users;
     room = peer_rooms[socket_id];
-    peer_rooms[socket_id] = false;
+    room_occ[socket_id] = false;
     delete peer_rooms[socket_id];
     peer = peerConnections[socket_id]
     if (peer) {
