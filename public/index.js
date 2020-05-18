@@ -305,8 +305,15 @@ socket.on("watcher", data => {
       saveCaller = callee;
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[callee] = peerConnection;
-      peer_rooms[callee] = count;
-      room_occ[count] = true;
+      for (i = 0; i < 6; i++) {
+        if (room_occ[i] == false) {
+          first_open_room = i;
+          room_occ[i] = true;
+          break;
+        }
+      }
+      peer_rooms[callee] = first_open_room;
+      room_occ[first_open_room] = true;
       peerConnection.onicecandidate = event => {
         if (event.candidate) {
           socket.emit("candidateCaller", callee, event.candidate, caller);
