@@ -306,30 +306,33 @@ socket.on("watcher", data => {
   caller = data.caller;
   for (callee in data.users) {
       if (callee != caller) {
-      socket.emit("log","Callee is:");
-      socket.emit("log", callee);
-      socket.emit("log","Caller is:");
-      socket.emit("log", caller);
-      const peerConnection = new RTCPeerConnection(config);
-      peerConnections[callee] = peerConnection;
+        socket.emit("log","Callee is:");
+        socket.emit("log", callee);
+        socket.emit("log","Caller is:");
+        socket.emit("log", caller);
+        const peerConnection = new RTCPeerConnection(config);
+        peerConnections[callee] = peerConnection;
         let stream = video.srcObject;
         stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
         peerConnection.onicecandidate = event => {
           if (event.candidate) {
+            socket.emit("log","pre-candidate Callee is:");
+            socket.emit("log", callee);
+            socket.emit("log","pre-candidate Caller is:");
+            socket.emit("log", caller);
             socket.emit("candidateCaller", callee, event.candidate, caller);
           }
         };
-
         peerConnection
-          .createOffer()
-          .then(sdp => peerConnection.setLocalDescription(sdp))
-          .then(() => {
-            socket.emit("log","pre-offer Callee is:");
-            socket.emit("log", callee);
-            socket.emit("log","pre-offer Caller is:");
-            socket.emit("log", caller);
-            socket.emit("offer", callee, peerConnection.localDescription, caller);
-          });
+            .createOffer()
+            .then(sdp => peerConnection.setLocalDescription(sdp))
+            .then(() => {
+              socket.emit("log","pre-offer Callee is:");
+              socket.emit("log", callee);
+              socket.emit("log","pre-offer Caller is:");
+              socket.emit("log", caller);
+              socket.emit("offer", callee, peerConnection.localDescription, caller);
+            });
       }
     }
 });
