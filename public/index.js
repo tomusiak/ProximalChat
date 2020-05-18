@@ -292,11 +292,8 @@ socket.on("watcher", data => {
   const caller = data.caller;
   var stream;
   users = data.users;
-  socket.emit("log",users);
-  testcaller = users[caller];
-  socket.emit("log",caller);
-  socket.emit("log",testcaller);
-  local_video_slot = data[users];
+  placeholder_caller = users[caller];
+  local_video_slot = placeholder_caller.room_number;
   navigator.mediaDevices.getUserMedia({audio: true, video: true})
   .then(mediaStream => {
     document.querySelector(video_array[local_video_slot]).srcObject = mediaStream;
