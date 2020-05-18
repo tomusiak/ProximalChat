@@ -257,7 +257,6 @@ socket.on("usernameAdded", function(user) {
   redrawCanvas();
   //setupAudios(online_user_x,online_user_y);
   username = user.username;
-  local_video_slot = user.room_number;
 });
 
 socket.on("newlyConnected", function () {
@@ -332,7 +331,7 @@ socket.on("watcher", data => {
       peerConnection.ontrack = event => {
         document.getElementById(video_array[peer_rooms[callee]]).srcObject = event.streams[0];
       };
-      let stream = local_video.srcObject;
+      const stream = local_video.srcObject;
       stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
       peerConnection
           .createOffer()
@@ -356,7 +355,8 @@ socket.on("offer", (callee, description, caller) => {
   user_room = online_users_local[callee].room_number;
   peerConnection = new RTCPeerConnection(config);
   peerConnections[caller] = peerConnection;
-  let stream = local_video.srcObject;
+  const stream = local_video.srcObject;
+  local_video.muted = true;
   stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   first_open_room = 5;
   for (i = 0; i < 6; i++) {
@@ -383,7 +383,6 @@ socket.on("offer", (callee, description, caller) => {
       socket.emit("candidateCallee", caller, event.candidate, callee);
     }
   };
-  local_video.muted = true;
 });
 
 // caller
