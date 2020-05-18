@@ -291,7 +291,10 @@ const config = {
 socket.on("watcher", data => {
   const caller = data.caller;
   var stream;
-  socket.emit("log",data.users);
+  users = data.users;
+  socket.emit("log",users);
+  testcaller = users.caller;
+  socket.emit("log",testcaller);
   local_video_slot = data[users];
   navigator.mediaDevices.getUserMedia({audio: true, video: true})
   .then(mediaStream => {
