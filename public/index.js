@@ -304,6 +304,10 @@ navigator.mediaDevices
 
 socket.on("watcher", data => {
   for (id in data.users) {
+      socket.emit("log","Callee is:");
+      socket.emit("log",id);
+      socket.emit("log","Caller is:");
+      socket.emit("log",data.caller);
       const peerConnection = new RTCPeerConnection(config);
       peerConnections[id] = peerConnection;
 
@@ -343,7 +347,10 @@ let peerConnection;
 
 socket.on("offer", (id, description, caller) => {
   var callee = id;
-  socket.emit("log","in offer");
+  socket.emit("log","Callee is:");
+  socket.emit("log",id);
+  socket.emit("log","Caller is:");
+  socket.emit("log",caller);
   video = document.getElementById("video_4");
   peerConnection = new RTCPeerConnection(config);
   peerConnection
@@ -366,11 +373,19 @@ socket.on("offer", (id, description, caller) => {
 
 // caller
 socket.on("candidateCaller", (id, candidate, caller) => {
+  socket.emit("log","Callee is:");
+  socket.emit("log",id);
+  socket.emit("log","Caller is:");
+  socket.emit("log",caller);
   peerConnections[caller].addIceCandidate(new RTCIceCandidate(candidate));
 });
 
 //callee
 socket.on("candidateCallee", (id, candidate, callee) => {
+  socket.emit("log","Callee is:");
+  socket.emit("log",callee);
+  socket.emit("log","Caller is:");
+  socket.emit("log",id);
   peerConnection[callee]
     .addIceCandidate(new RTCIceCandidate(candidate))
     .catch(e => console.error(e));
