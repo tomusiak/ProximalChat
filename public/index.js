@@ -360,7 +360,7 @@ socket.on("offer", (callee, description, caller) => {
     socket.emit("log",video_array[vid]);
     socket.emit("log",video_occupancy.vid);
     socket.emit("log",video_occupancy[vid]);
-    if (video_occupancy.video_array[vid] == false) {
+    if (video_occupancy[video_array[vid]] == false) {
       socket.emit("log",vid);
       socket.emit("log",video_occupancy.vid);
       socket.emit("log",video_array[vid]);
