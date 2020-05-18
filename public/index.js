@@ -389,12 +389,4 @@ socket.on("connect", () => {
   socket.emit("watcher");
 });
 
-socket.on("disconnectPeer", () => {
-  peerConnection.close();
-});
-
-window.onunload = window.onbeforeunload = () => {
-  socket.close();
-};
-
 init();

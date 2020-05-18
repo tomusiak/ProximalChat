@@ -184,11 +184,11 @@ io.on('connection', function(socket) {
   });
 
   socket.on("answer", (caller, message, callee) => {
-    io.to(id).emit("answer", caller, message, callee);
+    io.to(caller).emit("answer", caller, message, callee);
   });
 
   socket.on("candidateCallee", (caller, message, callee) => {
-    io.to(id).emit("candidateCallee", caller, message, callee);
+    io.to(caller).emit("candidateCallee", caller, message, callee);
   });
 
   socket.on("candidateCaller", (callee, message, caller) => {
