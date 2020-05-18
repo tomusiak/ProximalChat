@@ -298,13 +298,13 @@ socket.on("watcher", data => {
        const video = document.getElementById(video_array[local_video_slot]);
        if (video) {
          video.srcObject = stream;
+         let stream = video.srcObject;
        }
      },
      error => {
        console.warn(error.message);
      }
   );
-  let stream = video.srcObject;
   for (id in data.users) {
     const callee = id;
     if (callee != caller) {
